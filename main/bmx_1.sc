@@ -599,14 +599,12 @@ IF counter_laps = 2
 			flag_new_bmx_record_set	= 1
 			++ counter_bmx_1_reward
 			GOSUB timing_malarkey
-		ELSE
-			flag_new_bmx_record_set = 0
 		ENDIF
 	ENDIF
 
 	IF flag_new_bmx_record_set = 1
 		//set_record_bmx_1 = record_bmx_1 * 1000
-		REGISTER_FASTEST_TIME 17 record_bmx_1
+		REGISTER_FASTEST_TIME 17 record_bmx_2
 		GOTO mission_bmx_1_passed
 	ENDIF
 ENDIF 
@@ -616,7 +614,7 @@ ENDIF
 mission_bmx_1_failed:
 
 
-PRINT_BIG ( M_FAIL ) 2000 1
+PRINT_BIG ( M_FAIL ) 5000 1
 PRINT_NOW ( BMXFAIL ) 5000 1
 
 RETURN

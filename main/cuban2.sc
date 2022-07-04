@@ -899,6 +899,7 @@ GOTO awaiting_player_arrival_loop1
 
 player1_arrived1:
 REMOVE_BLIP drop_off_point1
+REMOVE_BLIP radar_blip_cuban_carry_car
 
 // ****************************************START OF CUTSCENE -telling player what to do********************************
 SET_PLAYER_CONTROL player1 OFF
@@ -989,9 +990,16 @@ IF NOT IS_CHAR_DEAD cuban_pickup3
 	SET_CHAR_THREAT_SEARCH cuban_pickup3 THREAT_EMERGENCY
 ENDIF
 
+timera = 0
+
 WHILE NOT IS_CHAR_OBJECTIVE_PASSED scplayer
 	WAIT 0 
+	IF timera > 5000
+		GOTO fudgelips
+	ENDIF
 ENDWHILE 
+
+fudgelips:
 
 IF NOT IS_CHAR_DEAD cuban_attacker2 
 	TURN_CHAR_TO_FACE_PLAYER cuban_attacker2 player1
@@ -1835,7 +1843,7 @@ GOSUB player_killing_cubans
 
 IF NOT IS_CHAR_DEAD target2
 	IF NOT IS_PLAYER_IN_ANY_CAR player1 
-		IF IS_PLAYER_IN_AREA_2D player1 -1133.3 59.9 -1158.1 78.6 FALSE
+		IF IS_PLAYER_IN_AREA_2D player1 -1136.4 61.1 -1158.1 78.6 FALSE
 			LOAD_MISSION_AUDIO 2 sniper
 			WHILE NOT HAS_MISSION_AUDIO_LOADED 2
 				WAIT 0
@@ -2054,7 +2062,11 @@ GOSUB creating_new_haitians
 
 WAIT 2000
 
-SET_PLAYER_COORDINATES player1 -1149.2 71.3 11.2
+IF NOT IS_PLAYER_IN_ANY_CAR player1 
+	SET_PLAYER_COORDINATES player1 -1149.2 71.3 11.2
+ELSE
+	WARP_PLAYER_FROM_CAR_TO_COORD player1 -1149.2 71.3 11.2
+ENDIF 	
 
 SET_FIXED_CAMERA_POSITION -1149.2 71.3 13.7 0.0 0.0 0.0 
 POINT_CAMERA_AT_POINT -1163.7 73.3 10.7 JUMP_CUT

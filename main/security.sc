@@ -660,10 +660,10 @@ RETURN
 
 radial_malarkey:
 	SIN theta_security pickup_x
-	pickup_x = pickup_x * 35.0
+	pickup_x = pickup_x * 34.5
 	pickup_x = pickup_x + cent_x
 	COS theta_security pickup_y
-	pickup_y = pickup_y * 35.0
+	pickup_y = pickup_y * 34.5
 	pickup_y = pickup_y + cent_y
 RETURN
 

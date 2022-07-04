@@ -57,6 +57,8 @@ VAR_INT jobby_1 jobby_2 jobby_3 jobby_4
 VAR_INT jobby_5 jobby_6 jobby_7 jobby_8
 VAR_INT jobby_9 stroop weapon_strip
 
+VAR_INT flag_player_on_rc_mission //enables interiors to handle RC vehicles
+
 //VAR_INT testblip_1 testblip_2 testblip_3 testblip_4
 //VAR_INT testblip_5 testblip_6 testblip_7 testblip_8
 
@@ -77,6 +79,7 @@ VAR_INT counter_private_dancer
 //VAR_FLOAT dancefloor_x dancefloor_y dancefloor_z
 VAR_FLOAT dancer_x dancer_y dancer_z
 VAR_FLOAT radial_float radius	//radial_step radius_increment
+VAR_FLOAT float_heading
 
 //VAR_INT flag_shooting_range_blob
 //VAR_FLOAT 
@@ -150,6 +153,8 @@ flag_strip_asset_cutscene = 0
 pooz_counter = 0
 counter_private_dancer = 0
 
+flag_player_on_rc_mission = 0
+
 
 // ********** MAIN SCRIPT *******************************************
 
@@ -196,6 +201,7 @@ interiors_inner:
 			flag_interiors_cleanup = 0
 			IF pooz_counter = 1
 				IF IS_PLAYER_IN_ZONE player1 BEACH1
+				OR flag_player_on_rc_mission = 1
 					IF flag_membership = 1 
 						IF flag_player_on_mission = 0
 							IF flag_strip_doors_open = 0
@@ -229,6 +235,7 @@ interiors_inner:
 
 										IF IS_PLAYER_IN_ANY_CAR player1
 										AND NOT IS_PLAYER_ON_ANY_BIKE player1
+										AND NOT IS_PLAYER_IN_MODEL player1 CADDY
 											GOTO interiors_inner
 										ENDIF
 										flag_player_in_stripclub = 1
@@ -236,6 +243,7 @@ interiors_inner:
 										GOSUB transition_1
 										IF IS_PLAYER_PLAYING player1
 											IF IS_PLAYER_ON_ANY_BIKE player1
+											OR IS_PLAYER_IN_MODEL player1 CADDY
 												STORE_CAR_PLAYER_IS_IN_NO_SAVE player1 player_car_interiors
 												WARP_PLAYER_FROM_CAR_TO_COORD player1 91.2 -1460.9 10.0
 												DELETE_CAR player_car_interiors
@@ -393,6 +401,7 @@ interiors_inner:
 			flag_interiors_cleanup = 0
 			IF pooz_counter = 2
 				IF IS_PLAYER_IN_ZONE player1 BEACH1
+				OR flag_player_on_rc_mission = 1
 					IF flag_player_in_hotel = 0
 						IF IS_PLAYER_IN_REMOTE_MODE player1
 							GET_REMOTE_CONTROLLED_CAR player1 player_car_interiors
@@ -465,8 +474,9 @@ interiors_inner:
 		// ******************************* SCAR FACE **************************************************
 		IF IS_PLAYER_PLAYING player1
 			flag_interiors_cleanup = 0
-			IF pooz_counter = 3
+			IF pooz_counter = 1
 				IF IS_PLAYER_IN_ZONE player1 BEACH1
+				OR flag_player_on_rc_mission = 1
 					IF flag_player_in_apartment3c = 0
 						IF IS_PLAYER_IN_REMOTE_MODE player1
 							GET_REMOTE_CONTROLLED_CAR player1 player_car_interiors
@@ -477,6 +487,14 @@ interiors_inner:
 							ENDIF
 						ELSE
 							IF LOCATE_PLAYER_ANY_MEANS_3D	player1 26.95 -1328.3 13.0 1.0 1.0 2.0 FALSE
+								IF IS_PLAYER_PLAYING player1
+									IF IS_PLAYER_ON_ANY_BIKE player1
+									//OR IS_PLAYER_IN_MODEL player1 CADDY
+										STORE_CAR_PLAYER_IS_IN_NO_SAVE player1 player_car_interiors
+										WARP_PLAYER_FROM_CAR_TO_COORD player1 27.19 -1327.0 12.0
+										DELETE_CAR player_car_interiors
+									ENDIF
+								ENDIF
 								IF IS_PLAYER_IN_ANY_CAR player1
 									GOTO interiors_inner
 								ENDIF
@@ -531,106 +549,108 @@ interiors_inner:
 		IF IS_PLAYER_PLAYING player1
 			flag_interiors_cleanup = 0
 			IF IS_PLAYER_IN_ZONE player1 BEACH2
-			AND pooz_counter = 1
-				IF flag_player_on_mission = 0
-				OR flag_player_on_bank1_mission = 1
-				OR flag_player_on_colonel1_mission = 1
-					IF flag_cop_doors_open = 0
-						DELETE_OBJECT cop_doors
-						CREATE_OBJECT_NO_OFFSET cop_dr_open 396.458 -473.047 12.6 cop_doors
-						DONT_REMOVE_OBJECT cop_doors
-						flag_cop_doors_open = 1
-						flag_cop_doors_closed = 0
-					ENDIF
-				ELSE
-					IF flag_cop_doors_closed = 0
-						DELETE_OBJECT cop_doors
-						CREATE_OBJECT_NO_OFFSET cop_dr_closed 396.545 -472.883 12.6 cop_doors
-						DONT_REMOVE_OBJECT cop_doors
-						flag_cop_doors_closed = 1
-						flag_cop_doors_open = 0
-					ENDIF
-				ENDIF
-				IF IS_PLAYER_PLAYING player1
+			OR flag_player_on_rc_mission = 1
+				IF pooz_counter = 1
 					IF flag_player_on_mission = 0
 					OR flag_player_on_bank1_mission = 1
 					OR flag_player_on_colonel1_mission = 1
-						IF flag_player_in_cop_shop = 0
-							IF IS_PLAYER_IN_REMOTE_MODE player1
-								GET_REMOTE_CONTROLLED_CAR player1 player_car_interiors
-								IF NOT IS_CAR_DEAD player_car_interiors
-									IF LOCATE_CAR_3D player_car_interiors 397.0 -472.0 12.0 1.5 1.5 3.0 FALSE
-										BLOW_UP_RC_BUGGY
-									ENDIF
-								ENDIF
-							ELSE
-								IF IS_PLAYER_IN_ANGLED_AREA_3D player1 399.3 -472.9 11.0 394.8 -469.3 14.5 1.5 FALSE
-									IF IS_PLAYER_IN_ANY_CAR player1
-									AND NOT IS_PLAYER_ON_ANY_BIKE player1
-										GOTO interiors_inner
-									ENDIF
-									PRINT_BIG ( POL_HQ ) 3000 2 //"Diaz's Mansion"
-									GOSUB transition_1
-									IF IS_PLAYER_PLAYING player1
-										IF IS_PLAYER_ON_ANY_BIKE player1
-											STORE_CAR_PLAYER_IS_IN_NO_SAVE player1 player_car_interiors
-											WARP_PLAYER_FROM_CAR_TO_COORD player1 393.8 -475.8 11.4
-											DELETE_CAR player_car_interiors
+						IF flag_cop_doors_open = 0
+							DELETE_OBJECT cop_doors
+							CREATE_OBJECT_NO_OFFSET cop_dr_open 396.458 -473.047 12.6 cop_doors
+							DONT_REMOVE_OBJECT cop_doors
+							flag_cop_doors_open = 1
+							flag_cop_doors_closed = 0
+						ENDIF
+					ELSE
+						IF flag_cop_doors_closed = 0
+							DELETE_OBJECT cop_doors
+							CREATE_OBJECT_NO_OFFSET cop_dr_closed 396.545 -472.883 12.6 cop_doors
+							DONT_REMOVE_OBJECT cop_doors
+							flag_cop_doors_closed = 1
+							flag_cop_doors_open = 0
+						ENDIF
+					ENDIF
+					IF IS_PLAYER_PLAYING player1
+						IF flag_player_on_mission = 0
+						OR flag_player_on_bank1_mission = 1
+						OR flag_player_on_colonel1_mission = 1
+							IF flag_player_in_cop_shop = 0
+								IF IS_PLAYER_IN_REMOTE_MODE player1
+									GET_REMOTE_CONTROLLED_CAR player1 player_car_interiors
+									IF NOT IS_CAR_DEAD player_car_interiors
+										IF LOCATE_CAR_3D player_car_interiors 397.0 -472.0 12.0 1.5 1.5 3.0 FALSE
+											BLOW_UP_RC_BUGGY
 										ENDIF
 									ENDIF
-									IF flag_eject = 0
-										SET_AREA_VISIBLE VIS_POLICE_STATION
-										flag_player_in_cop_shop = 1
-										IF flag_player_on_bank1_mission = 0
-											SET_ZONE_PED_INFO STREET2 DAY   (14) 0 0 0 0 0 0 0 0 0 1000   
-											SET_ZONE_PED_INFO STREET2 NIGHT (16) 0 0 0 0 0 0 0 0 0 1000
-											SWITCH_PED_ROADS_ON 354.9 -483.1 21.0 406.0 -490.0 0.0
-											SWITCH_PED_ROADS_ON 376.66 -453.85 -10.0 328.91 -504.02 30.0 //Cop Shop (Used in bank1)
-											CLEAR_AREA 400.0 -486.5 10.0 5.0 TRUE
+								ELSE
+									IF IS_PLAYER_IN_ANGLED_AREA_3D player1 399.0 -474.5 11.0 394.3 -470.8 14.5 2.5 FALSE
+										IF IS_PLAYER_IN_ANY_CAR player1
+										AND NOT IS_PLAYER_ON_ANY_BIKE player1
+											GOTO interiors_inner
 										ENDIF
-										SWITCH_RUBBISH OFF
-										LOAD_SCENE 393.8 -475.8 11.4
-										SET_PLAYER_COORDINATES player1 393.8 -475.8 11.4
-										SET_PLAYER_HEADING player1 137.0
-										SET_EXTRA_COLOURS 5 FALSE
-										//SET_CAMERA_IN_FRONT_OF_PLAYER
-									ELSE
-										GOTO interiors_inner
+										PRINT_BIG ( POL_HQ ) 3000 2 //"Diaz's Mansion"
+										GOSUB transition_1
+										IF IS_PLAYER_PLAYING player1
+											IF IS_PLAYER_ON_ANY_BIKE player1
+												STORE_CAR_PLAYER_IS_IN_NO_SAVE player1 player_car_interiors
+												WARP_PLAYER_FROM_CAR_TO_COORD player1 393.8 -475.8 11.4
+												DELETE_CAR player_car_interiors
+											ENDIF
+										ENDIF
+										IF flag_eject = 0
+											SET_AREA_VISIBLE VIS_POLICE_STATION
+											flag_player_in_cop_shop = 1
+											IF flag_player_on_bank1_mission = 0
+												SET_ZONE_PED_INFO STREET2 DAY   (14) 0 0 0 0 0 0 0 0 0 1000   
+											    SET_ZONE_PED_INFO STREET2 NIGHT (16) 0 0 0 0 0 0 0 0 0 1000
+												SWITCH_PED_ROADS_ON 354.9 -483.1 21.0 406.0 -490.0 0.0
+												SWITCH_PED_ROADS_ON 376.66 -453.85 -10.0 328.91 -504.02 30.0 //Cop Shop (Used in bank1)
+												CLEAR_AREA 400.0 -486.5 10.0 5.0 TRUE
+											ENDIF
+											SWITCH_RUBBISH OFF
+											LOAD_SCENE 393.8 -475.8 11.4
+											SET_PLAYER_COORDINATES player1 393.8 -475.8 11.4
+											SET_PLAYER_HEADING player1 137.0
+											SET_EXTRA_COLOURS 5 FALSE
+											//SET_CAMERA_IN_FRONT_OF_PLAYER
+										ELSE
+											GOTO interiors_inner
+										ENDIF
+										GOSUB transition_2
 									ENDIF
-									GOSUB transition_2
 								ENDIF
 							ENDIF
 						ENDIF
-					ENDIF
 
-					IF flag_player_in_cop_shop = 1
-						IF IS_PLAYER_IN_ANGLED_AREA_3D player1 399.0 -474.5 11.0 394.3 -470.8 14.5 2.5 FALSE
-							IF IS_PLAYER_IN_ANY_CAR player1
-							AND NOT IS_PLAYER_ON_ANY_BIKE player1
-								GOTO interiors_inner
-							ENDIF
-							PRINT_BIG ( BEACH2 ) 3000 2 //"Diaz's Mansion"
-							GOSUB transition_1
-							IF flag_eject = 0
-								GOSUB outgoing
-								SWITCH_PED_ROADS_OFF 354.9 -483.1 21.0 406.0 -490.0 10.0 // LOWER FLOOR
-								CLEAR_AREA 399.38 -468.6 10.7 1.0 FALSE
-								flag_player_in_cop_shop = 0
-								//CLEAR_AREA_OF_CHARS MinX MinY MinZ MaxX MaxY MaxZ
-								IF flag_player_on_bank1_mission = 0
-									SET_ZONE_PED_INFO STREET2 DAY   (14) 0 0 0 0 0 0 0 0 0 20 //POLICE STATION  
-									SET_ZONE_PED_INFO STREET2 NIGHT (16) 0 0 0 0 0 0 0 0 0 10
-									SWITCH_PED_ROADS_OFF 354.9 -483.1 21.0 406.0 -490.0 0.0
-									SWITCH_PED_ROADS_OFF 376.66 -453.85 -10.00 328.91 -504.02 30.0 //Cop Shop (Used in bank1)
+						IF flag_player_in_cop_shop = 1
+							IF IS_PLAYER_IN_ANGLED_AREA_3D player1 399.3 -472.9 11.0 394.8 -469.3 14.5 1.5 FALSE
+								IF IS_PLAYER_IN_ANY_CAR player1
+								AND NOT IS_PLAYER_ON_ANY_BIKE player1
+									GOTO interiors_inner
 								ENDIF
-								LOAD_SCENE 399.38 -468.6 10.7
-								SET_PLAYER_COORDINATES player1 399.38 -468.6 10.7
-								SET_PLAYER_HEADING player1 330.0
-								//SET_CAMERA_IN_FRONT_OF_PLAYER
-							ELSE
-								GOTO interiors_inner
+								PRINT_BIG ( BEACH2 ) 3000 2 //"Diaz's Mansion"
+								GOSUB transition_1
+								IF flag_eject = 0
+									GOSUB outgoing
+									SWITCH_PED_ROADS_OFF 354.9 -483.1 21.0 406.0 -490.0 10.0 // LOWER FLOOR
+									CLEAR_AREA 399.38 -468.6 10.7 1.0 FALSE
+									flag_player_in_cop_shop = 0
+									//CLEAR_AREA_OF_CHARS MinX MinY MinZ MaxX MaxY MaxZ
+									IF flag_player_on_bank1_mission = 0
+										SET_ZONE_PED_INFO STREET2 DAY   (14) 0 0 0 0 0 0 0 0 0 20 //POLICE STATION  
+									    SET_ZONE_PED_INFO STREET2 NIGHT (16) 0 0 0 0 0 0 0 0 0 10
+										SWITCH_PED_ROADS_OFF 354.9 -483.1 21.0 406.0 -490.0 0.0
+										SWITCH_PED_ROADS_OFF 376.66 -453.85 -10.00 328.91 -504.02 30.0 //Cop Shop (Used in bank1)
+									ENDIF
+									LOAD_SCENE 399.38 -468.6 10.7
+									SET_PLAYER_COORDINATES player1 399.38 -468.6 10.7
+									SET_PLAYER_HEADING player1 330.0
+									//SET_CAMERA_IN_FRONT_OF_PLAYER
+								ELSE
+									GOTO interiors_inner
+								ENDIF
+								GOSUB transition_2
 							ENDIF
-							GOSUB transition_2
 						ENDIF
 					ENDIF
 				ENDIF
@@ -644,6 +664,7 @@ interiors_inner:
 			flag_interiors_cleanup = 0
 			IF pooz_counter = 1
 				IF IS_PLAYER_IN_ZONE player1 BEACH3
+				OR flag_player_on_rc_mission = 1
 					
 					IF flag_player_on_mission = 0
 					//AND flag_kent_mission_active = 0
@@ -747,6 +768,7 @@ interiors_inner:
 										GOSUB transition_1
 										IF IS_PLAYER_PLAYING player1
 											IF IS_PLAYER_ON_ANY_BIKE player1
+											OR IS_PLAYER_IN_MODEL player1 CADDY
 												STORE_CAR_PLAYER_IS_IN_NO_SAVE player1 player_car_interiors
 												WARP_PLAYER_FROM_CAR_TO_COORD player1 484.2 -72.5 9.5
 												DELETE_CAR player_car_interiors
@@ -817,69 +839,71 @@ interiors_inner:
 		IF IS_PLAYER_PLAYING player1
 			flag_interiors_cleanup = 0
 			IF IS_PLAYER_IN_ZONE player1 HAVANA
-			AND pooz_counter = 3
-				IF IS_PLAYER_IN_REMOTE_MODE player1
-					GET_REMOTE_CONTROLLED_CAR player1 player_car_interiors
-					IF NOT IS_CAR_DEAD player_car_interiors
-						IF LOCATE_CAR_3D player_car_interiors -1170.0 -609.0 11.0 1.5 1.5 3.0 FALSE
-							BLOW_UP_RC_BUGGY
+			OR flag_player_on_rc_mission = 1
+				IF pooz_counter = 2
+					IF IS_PLAYER_IN_REMOTE_MODE player1
+						GET_REMOTE_CONTROLLED_CAR player1 player_car_interiors
+						IF NOT IS_CAR_DEAD player_car_interiors
+							IF LOCATE_CAR_3D player_car_interiors -1170.0 -609.0 11.0 1.5 1.5 3.0 FALSE
+								BLOW_UP_RC_BUGGY
+							ENDIF
+						ENDIF
+					ELSE
+						IF flag_player_in_cafe = 0
+							IF LOCATE_PLAYER_ANY_MEANS_3D player1 -1170.0 -609.0 11.0 1.5 1.5 3.0 FALSE
+								IF IS_PLAYER_IN_ANY_CAR player1
+								AND NOT IS_PLAYER_ON_ANY_BIKE player1
+									GOTO interiors_inner
+								ENDIF
+								PRINT_BIG ( UMBERTO ) 3000 2 //Cafe Robina
+								GOSUB transition_1
+								IF IS_PLAYER_PLAYING player1
+									IF IS_PLAYER_ON_ANY_BIKE player1
+										STORE_CAR_PLAYER_IS_IN_NO_SAVE player1 player_car_interiors
+										WARP_PLAYER_FROM_CAR_TO_COORD player1 -1170.0 -611.0 11.0
+										DELETE_CAR player_car_interiors
+									ENDIF
+								ENDIF
+								IF flag_eject = 0
+									flag_player_in_cafe = 1
+									SET_AREA_VISIBLE VIS_COFFEE_SHOP
+									LOAD_SCENE -1170.0 -611.0 11.0
+									CLEAR_AREA -1170.0 -611.0 11.0 1.0 FALSE
+									SWITCH_RUBBISH OFF
+									SET_PLAYER_COORDINATES player1 -1170.0 -611.5 11.0
+									SET_PLAYER_HEADING player1 180.0
+									//SET_EXTRA_COLOURS 6 FALSE
+									//SET_CAR_DENSITY_MULTIPLIER 0.1
+									//SET_CAMERA_IN_FRONT_OF_PLAYER
+								ELSE
+									GOTO interiors_inner
+								ENDIF
+								GOSUB transition_2
+							ENDIF
 						ENDIF
 					ENDIF
-				ELSE
-					IF flag_player_in_cafe = 0
-						IF LOCATE_PLAYER_ANY_MEANS_3D player1 -1170.0 -609.0 11.0 1.5 1.5 3.0 FALSE
+
+					IF flag_player_in_cafe = 1
+						IF LOCATE_PLAYER_ANY_MEANS_3D player1 -1170.0 -606.5 11.0 1.5 1.5 3.0 FALSE
 							IF IS_PLAYER_IN_ANY_CAR player1
 							AND NOT IS_PLAYER_ON_ANY_BIKE player1
 								GOTO interiors_inner
 							ENDIF
-							PRINT_BIG ( UMBERTO ) 3000 2 //Cafe Robina
+							PRINT_BIG ( HAVANA ) 3000 2 //
 							GOSUB transition_1
-							IF IS_PLAYER_PLAYING player1
-								IF IS_PLAYER_ON_ANY_BIKE player1
-									STORE_CAR_PLAYER_IS_IN_NO_SAVE player1 player_car_interiors
-									WARP_PLAYER_FROM_CAR_TO_COORD player1 -1170.0 -611.0 11.0
-									DELETE_CAR player_car_interiors
-								ENDIF
-							ENDIF
 							IF flag_eject = 0
-								flag_player_in_cafe = 1
-								SET_AREA_VISIBLE VIS_COFFEE_SHOP
-								LOAD_SCENE -1170.0 -611.0 11.0
-								CLEAR_AREA -1170.0 -611.0 11.0 1.0 FALSE
-								SWITCH_RUBBISH OFF
-								SET_PLAYER_COORDINATES player1 -1170.0 -611.5 11.0
-								SET_PLAYER_HEADING player1 180.0
-								//SET_EXTRA_COLOURS 6 FALSE
-								//SET_CAR_DENSITY_MULTIPLIER 0.1
-								//SET_CAMERA_IN_FRONT_OF_PLAYER
+								flag_player_in_cafe = 0
+								GOSUB outgoing
+								CLEAR_AREA -1170.0 -605.0 11.0 1.0 FALSE
+								LOAD_SCENE -1170.0 -605.0 11.0
+								SET_PLAYER_COORDINATES player1 -1170.0 -605.0 11.0
+								SET_PLAYER_HEADING player1 0.0
+								SET_CAMERA_IN_FRONT_OF_PLAYER
 							ELSE
 								GOTO interiors_inner
 							ENDIF
 							GOSUB transition_2
 						ENDIF
-					ENDIF
-				ENDIF
-
-				IF flag_player_in_cafe = 1
-					IF LOCATE_PLAYER_ANY_MEANS_3D player1 -1170.0 -606.5 11.0 1.5 1.5 3.0 FALSE
-						IF IS_PLAYER_IN_ANY_CAR player1
-						AND NOT IS_PLAYER_ON_ANY_BIKE player1
-							GOTO interiors_inner
-						ENDIF
-						PRINT_BIG ( HAVANA ) 3000 2 //
-						GOSUB transition_1
-						IF flag_eject = 0
-							flag_player_in_cafe = 0
-							GOSUB outgoing
-							CLEAR_AREA -1170.0 -605.0 11.0 1.0 FALSE
-							LOAD_SCENE -1170.0 -605.0 11.0
-							SET_PLAYER_COORDINATES player1 -1170.0 -605.0 11.0
-							SET_PLAYER_HEADING player1 0.0
-							SET_CAMERA_IN_FRONT_OF_PLAYER
-						ELSE
-							GOTO interiors_inner
-						ENDIF
-						GOSUB transition_2
 					ENDIF
 				ENDIF
 			ENDIF
@@ -894,63 +918,70 @@ interiors_inner:
 		IF IS_PLAYER_PLAYING player1
 			flag_interiors_cleanup = 0
 			IF IS_PLAYER_IN_ZONE player1 BEACH3
-			AND pooz_counter = 2
-				IF flag_player_in_mall = 0
-					IF IS_PLAYER_IN_REMOTE_MODE player1
-						GET_REMOTE_CONTROLLED_CAR player1 player_car_interiors
-						IF NOT IS_CAR_DEAD player_car_interiors
-							IF LOCATE_CAR_3D player_car_interiors 449.76 996.22 18.4 1.5 1.5 3.0 FALSE
-								BLOW_UP_RC_BUGGY
+			OR flag_player_on_rc_mission = 1
+				IF pooz_counter = 2
+					IF flag_player_in_mall = 0
+						IF IS_PLAYER_IN_REMOTE_MODE player1
+							GET_REMOTE_CONTROLLED_CAR player1 player_car_interiors
+							IF NOT IS_CAR_DEAD player_car_interiors
+								IF LOCATE_CAR_3D player_car_interiors 449.76 996.22 18.4 1.5 1.5 3.0 FALSE
+									BLOW_UP_RC_BUGGY
+								ENDIF
+							ENDIF
+						ELSE
+							IF LOCATE_PLAYER_ANY_MEANS_3D player1 448.8 999.9 18.4 3.5 3.5 3.0 FALSE
+								IF IS_PLAYER_IN_ANY_CAR player1
+								AND NOT IS_PLAYER_ON_ANY_BIKE player1
+								AND NOT IS_PLAYER_IN_MODEL player1 CADDY
+									GOTO interiors_inner
+								ENDIF
+								PRINT_BIG ( MALL1 ) 3000 2 //"Diaz's Mansion"
+								GOSUB transition_1
+								IF flag_eject = 0
+									flag_player_in_mall = 1
+									SET_AREA_VISIBLE VIS_MALL
+									SWITCH_PED_ROADS_ON 474.0 1250.0 17.0 356.0 1003.0 32.0 // LOWER FLOOR
+									SWITCH_RUBBISH OFF
+									LOAD_SCENE 448.3 1030.0 18.0
+									SET_PLAYER_COORDINATES player1 448.3 1006.0 18.0
+									float_heading = 0.0
+									GOSUB vehicle_heading
+									SET_EXTRA_COLOURS 6 FALSE
+									SET_CAR_DENSITY_MULTIPLIER 0.1
+									//SET_CAMERA_IN_FRONT_OF_PLAYER
+								ELSE
+									GOTO interiors_inner
+								ENDIF
+								GOSUB transition_2
 							ENDIF
 						ENDIF
-					ELSE
+					ENDIF
+
+					IF flag_player_in_mall = 1
 						IF LOCATE_PLAYER_ANY_MEANS_3D player1 448.8 999.9 18.4 3.5 3.5 3.0 FALSE
 							IF IS_PLAYER_IN_ANY_CAR player1
 							AND NOT IS_PLAYER_ON_ANY_BIKE player1
+							AND NOT IS_PLAYER_IN_MODEL player1 CADDY
 								GOTO interiors_inner
 							ENDIF
-							PRINT_BIG ( MALL1 ) 3000 2 //"Diaz's Mansion"
+							PRINT_BIG ( BEACH3 ) 3000 2 //
 							GOSUB transition_1
 							IF flag_eject = 0
-								flag_player_in_mall = 1
-								SET_AREA_VISIBLE VIS_MALL
-								SWITCH_PED_ROADS_ON 474.0 1250.0 17.0 356.0 1003.0 32.0 // LOWER FLOOR
-								SWITCH_RUBBISH OFF
-								LOAD_SCENE 448.3 1030.0 18.0
-								SET_PLAYER_COORDINATES player1 448.3 1006.0 18.0
-								SET_PLAYER_HEADING player1 0.0
-								SET_EXTRA_COLOURS 6 FALSE
-								SET_CAR_DENSITY_MULTIPLIER 0.1
+								flag_player_in_mall = 0
+								GOSUB outgoing
+								SWITCH_PED_ROADS_OFF 474.0 1250.0 17.0 356.0 1003.0 32.0 // LOWER FLOOR
+								CLEAR_AREA 449.7 992.2 17.0 1.0 FALSE
+								LOAD_SCENE 449.7 992.2 17.0
+								SET_PLAYER_COORDINATES player1 449.7 992.2 17.0
+								float_heading = 180.0
+								GOSUB vehicle_heading
+								//SET_PLAYER_HEADING player1 180.0
 								//SET_CAMERA_IN_FRONT_OF_PLAYER
 							ELSE
 								GOTO interiors_inner
 							ENDIF
 							GOSUB transition_2
 						ENDIF
-					ENDIF
-				ENDIF
-
-				IF flag_player_in_mall = 1
-					IF LOCATE_PLAYER_ANY_MEANS_3D player1 448.8 999.9 18.4 3.5 3.5 3.0 FALSE
-						IF IS_PLAYER_IN_ANY_CAR player1
-						AND NOT IS_PLAYER_ON_ANY_BIKE player1
-							GOTO interiors_inner
-						ENDIF
-						PRINT_BIG ( BEACH3 ) 3000 2 //
-						GOSUB transition_1
-						IF flag_eject = 0
-							flag_player_in_mall = 0
-							GOSUB outgoing
-							SWITCH_PED_ROADS_OFF 474.0 1250.0 17.0 356.0 1003.0 32.0 // LOWER FLOOR
-							CLEAR_AREA 449.7 992.2 17.0 1.0 FALSE
-							LOAD_SCENE 449.7 992.2 17.0
-							SET_PLAYER_COORDINATES player1 449.7 992.2 17.0
-							SET_PLAYER_HEADING player1 180.0
-							//SET_CAMERA_IN_FRONT_OF_PLAYER
-						ELSE
-							GOTO interiors_inner
-						ENDIF
-						GOSUB transition_2
 					ENDIF
 				ENDIF
 			ENDIF
@@ -962,59 +993,71 @@ interiors_inner:
 		IF IS_PLAYER_PLAYING player1
 			flag_interiors_cleanup = 0
 			IF IS_PLAYER_IN_ZONE player1 BEACH3
-			AND pooz_counter = 3
-				IF flag_player_in_mall = 0
-					IF IS_PLAYER_IN_REMOTE_MODE player1
-						GET_REMOTE_CONTROLLED_CAR player1 player_car_interiors
-						IF NOT IS_CAR_DEAD player_car_interiors
-							IF LOCATE_CAR_3D player_car_interiors 379.1 995.16 17.4 1.5 1.5 3.0 FALSE
-								BLOW_UP_RC_BUGGY
+			OR flag_player_on_rc_mission = 1
+				IF pooz_counter = 1
+					IF flag_player_in_mall = 0
+						IF IS_PLAYER_IN_REMOTE_MODE player1
+							GET_REMOTE_CONTROLLED_CAR player1 player_car_interiors
+							IF NOT IS_CAR_DEAD player_car_interiors
+								IF LOCATE_CAR_3D player_car_interiors 379.1 995.16 17.4 1.5 1.5 3.0 FALSE
+									BLOW_UP_RC_BUGGY
+								ENDIF
+							ENDIF
+						ELSE
+							IF LOCATE_PLAYER_ANY_MEANS_3D player1 380.1 999.0 19.4 3.5 3.5 3.0 FALSE
+								IF IS_PLAYER_IN_ANY_CAR player1
+								AND NOT IS_PLAYER_ON_ANY_BIKE player1
+								AND NOT IS_PLAYER_IN_MODEL player1 CADDY
+									GOTO interiors_inner
+								ENDIF
+								PRINT_BIG ( MALL1 ) 3000 2 //"Diaz's Mansion"
+								GOSUB transition_1
+								IF flag_eject = 0
+									flag_player_in_mall = 1
+									SET_AREA_VISIBLE VIS_MALL
+									SWITCH_PED_ROADS_ON 474.0 1250.0 17.0 356.0 1003.0 32.0 // LOWER FLOOR
+									SWITCH_RUBBISH OFF
+									LOAD_SCENE 380.0 1026.4 18.2
+									SET_PLAYER_COORDINATES player1 380.0 1006.4 18.2
+									float_heading = 0.0
+									GOSUB vehicle_heading
+									//SET_PLAYER_HEADING player1 0.0
+									SET_EXTRA_COLOURS 6 FALSE
+									SET_CAR_DENSITY_MULTIPLIER 0.1
+									//SET_CAMERA_IN_FRONT_OF_PLAYER
+								ELSE
+									GOTO interiors_inner
+								ENDIF
+								GOSUB transition_2
 							ENDIF
 						ENDIF
-					ELSE
-						IF LOCATE_PLAYER_ANY_MEANS_3D player1 380.1 999.0 19.4 3.5 3.5 3.0 FALSE
+					ENDIF
+
+					IF flag_player_in_mall = 1
+						IF LOCATE_PLAYER_ANY_MEANS_3D	player1 380.1 999.0 19.4 3.5 3.5 3.0 FALSE
 							IF IS_PLAYER_IN_ANY_CAR player1
 							AND NOT IS_PLAYER_ON_ANY_BIKE player1
+							AND NOT IS_PLAYER_IN_MODEL player1 CADDY
 								GOTO interiors_inner
 							ENDIF
-							PRINT_BIG ( MALL1 ) 3000 2 //"Diaz's Mansion"
+							PRINT_BIG ( BEACH3 ) 3000 2 //
 							GOSUB transition_1
 							IF flag_eject = 0
-								flag_player_in_mall = 1
-								SET_AREA_VISIBLE VIS_MALL
-								SWITCH_PED_ROADS_ON 474.0 1250.0 17.0 356.0 1003.0 32.0 // LOWER FLOOR
-								SWITCH_RUBBISH OFF
-								LOAD_SCENE 380.0 1026.4 18.2
-								SET_PLAYER_COORDINATES player1 380.0 1006.4 18.2
-								SET_PLAYER_HEADING player1 0.0
-								SET_EXTRA_COLOURS 6 FALSE
-								SET_CAR_DENSITY_MULTIPLIER 0.1
+								flag_player_in_mall = 0
+								GOSUB outgoing
+								SWITCH_PED_ROADS_OFF 474.0 1250.0 17.0 356.0 1003.0 32.0 // LOWER FLOOR
+								CLEAR_AREA 379.3 991.4 17.2 1.0 FALSE
+								LOAD_SCENE 379.3 991.4 17.2
+								SET_PLAYER_COORDINATES player1 379.3 991.4 17.0
+								float_heading = 180.0
+								GOSUB vehicle_heading
+								//SET_PLAYER_HEADING player1 180.0
 								//SET_CAMERA_IN_FRONT_OF_PLAYER
 							ELSE
 								GOTO interiors_inner
 							ENDIF
 							GOSUB transition_2
 						ENDIF
-					ENDIF
-				ENDIF
-
-				IF flag_player_in_mall = 1
-					IF LOCATE_PLAYER_ANY_MEANS_3D	player1 380.1 999.0 19.4 3.5 3.5 3.0 FALSE
-						PRINT_BIG ( BEACH3 ) 3000 2 //
-						GOSUB transition_1
-						IF flag_eject = 0
-							flag_player_in_mall = 0
-							GOSUB outgoing
-							SWITCH_PED_ROADS_OFF 474.0 1250.0 17.0 356.0 1003.0 32.0 // LOWER FLOOR
-							CLEAR_AREA 379.3 991.4 17.2 1.0 FALSE
-							LOAD_SCENE 379.3 991.4 17.2
-							SET_PLAYER_COORDINATES player1 379.3 991.4 17.0
-							SET_PLAYER_HEADING player1 180.0
-							//SET_CAMERA_IN_FRONT_OF_PLAYER
-						ELSE
-							GOTO interiors_inner
-						ENDIF
-						GOSUB transition_2
 					ENDIF
 				ENDIF
 			ENDIF
@@ -1027,63 +1070,71 @@ interiors_inner:
 		IF IS_PLAYER_PLAYING player1
 			flag_interiors_cleanup = 0
 			IF IS_PLAYER_IN_ZONE player1 BEACH3
-			AND pooz_counter = 1
-				IF flag_player_in_mall = 0
-					IF IS_PLAYER_IN_REMOTE_MODE player1
-						GET_REMOTE_CONTROLLED_CAR player1 player_car_interiors
-						IF NOT IS_CAR_DEAD player_car_interiors
-							IF LOCATE_CAR_3D player_car_interiors 350.3 1124.0 17.4 1.5 1.5 3.0 FALSE
-								BLOW_UP_RC_BUGGY
+			OR flag_player_on_rc_mission = 1
+				IF pooz_counter = 1
+					IF flag_player_in_mall = 0
+						IF IS_PLAYER_IN_REMOTE_MODE player1
+							GET_REMOTE_CONTROLLED_CAR player1 player_car_interiors
+							IF NOT IS_CAR_DEAD player_car_interiors
+								IF LOCATE_CAR_3D player_car_interiors 350.3 1124.0 17.4 1.5 1.5 3.0 FALSE
+									BLOW_UP_RC_BUGGY
+								ENDIF
+							ENDIF
+						ELSE
+							IF LOCATE_PLAYER_ANY_MEANS_3D player1 353.3 1124.5 19.4 3.2 3.2 3.0 FALSE
+								IF IS_PLAYER_IN_ANY_CAR player1
+								AND NOT IS_PLAYER_ON_ANY_BIKE player1
+								AND NOT IS_PLAYER_IN_MODEL player1 CADDY
+									GOTO interiors_inner
+								ENDIF
+								PRINT_BIG ( MALL1 ) 3000 2 //"Diaz's Mansion"
+								GOSUB transition_1
+								IF flag_eject = 0
+									flag_player_in_mall = 1
+									SET_AREA_VISIBLE VIS_MALL
+									SWITCH_PED_ROADS_ON 474.0 1250.0 17.0 356.0 1003.0 32.0 // LOWER FLOOR
+									SWITCH_RUBBISH OFF
+									LOAD_SCENE 390.0 1124.4 17.5
+									SET_PLAYER_COORDINATES player1 363.0 1124.4 17.5
+									float_heading = 270.0
+									GOSUB vehicle_heading
+									//SET_PLAYER_HEADING player1 270.0
+									SET_EXTRA_COLOURS 6 FALSE
+									SET_CAR_DENSITY_MULTIPLIER 0.1
+									//SET_CAMERA_IN_FRONT_OF_PLAYER
+								ELSE
+									GOTO interiors_inner
+								ENDIF
+								GOSUB transition_2
 							ENDIF
 						ENDIF
-					ELSE
+					ENDIF
+
+					IF flag_player_in_mall = 1
 						IF LOCATE_PLAYER_ANY_MEANS_3D player1 353.3 1124.5 19.4 3.2 3.2 3.0 FALSE
 							IF IS_PLAYER_IN_ANY_CAR player1
 							AND NOT IS_PLAYER_ON_ANY_BIKE player1
+							AND NOT IS_PLAYER_IN_MODEL player1 CADDY
 								GOTO interiors_inner
 							ENDIF
-							PRINT_BIG ( MALL1 ) 3000 2 //"Diaz's Mansion"
+							PRINT_BIG ( BEACH3 ) 3000 2 //
 							GOSUB transition_1
 							IF flag_eject = 0
-								flag_player_in_mall = 1
-								SET_AREA_VISIBLE VIS_MALL
-								SWITCH_PED_ROADS_ON 474.0 1250.0 17.0 356.0 1003.0 32.0 // LOWER FLOOR
-								SWITCH_RUBBISH OFF
-								LOAD_SCENE 390.0 1124.4 17.5
-								SET_PLAYER_COORDINATES player1 363.0 1124.4 17.5
-								SET_PLAYER_HEADING player1 270.0
-								SET_EXTRA_COLOURS 6 FALSE
-								SET_CAR_DENSITY_MULTIPLIER 0.1
+								flag_player_in_mall = 0
+								GOSUB outgoing
+								SWITCH_PED_ROADS_OFF 474.0 1250.0 17.0 356.0 1003.0 32.0 // LOWER FLOOR
+								CLEAR_AREA 344.5 1123.5 17.0 1.0 FALSE
+								LOAD_SCENE 344.5 1123.5 17.0
+								SET_PLAYER_COORDINATES player1 344.5 1123.5 17.0
+								float_heading = 90.0
+								GOSUB vehicle_heading
+								//SET_PLAYER_HEADING player1 90.0
 								//SET_CAMERA_IN_FRONT_OF_PLAYER
 							ELSE
 								GOTO interiors_inner
 							ENDIF
 							GOSUB transition_2
 						ENDIF
-					ENDIF
-				ENDIF
-
-				IF flag_player_in_mall = 1
-					IF LOCATE_PLAYER_ANY_MEANS_3D player1 353.3 1124.5 19.4 3.2 3.2 3.0 FALSE
-						IF IS_PLAYER_IN_ANY_CAR player1
-						AND NOT IS_PLAYER_ON_ANY_BIKE player1
-							GOTO interiors_inner
-						ENDIF
-						PRINT_BIG ( BEACH3 ) 3000 2 //
-						GOSUB transition_1
-						IF flag_eject = 0
-							flag_player_in_mall = 0
-							GOSUB outgoing
-							SWITCH_PED_ROADS_OFF 474.0 1250.0 17.0 356.0 1003.0 32.0 // LOWER FLOOR
-							CLEAR_AREA 344.5 1123.5 17.0 1.0 FALSE
-							LOAD_SCENE 344.5 1123.5 17.0
-							SET_PLAYER_COORDINATES player1 344.5 1123.5 17.0
-							SET_PLAYER_HEADING player1 90.0
-							//SET_CAMERA_IN_FRONT_OF_PLAYER
-						ELSE
-							GOTO interiors_inner
-						ENDIF
-						GOSUB transition_2
 					ENDIF
 				ENDIF
 			ENDIF
@@ -1095,63 +1146,71 @@ interiors_inner:
 		IF IS_PLAYER_PLAYING player1
 			flag_interiors_cleanup = 0
 			IF IS_PLAYER_IN_ZONE player1 BEACH3
-			AND pooz_counter = 2
-				IF flag_player_in_mall = 0
-					IF IS_PLAYER_IN_REMOTE_MODE player1
-						GET_REMOTE_CONTROLLED_CAR player1 player_car_interiors
-						IF NOT IS_CAR_DEAD player_car_interiors
-							IF LOCATE_CAR_3D player_car_interiors 364.0 1210.0 24.0 1.5 1.5 3.0 FALSE
-								BLOW_UP_RC_BUGGY
+			OR flag_player_on_rc_mission = 1
+				IF pooz_counter = 2
+					IF flag_player_in_mall = 0
+						IF IS_PLAYER_IN_REMOTE_MODE player1
+							GET_REMOTE_CONTROLLED_CAR player1 player_car_interiors
+							IF NOT IS_CAR_DEAD player_car_interiors
+								IF LOCATE_CAR_3D player_car_interiors 364.0 1210.0 24.0 1.5 1.5 3.0 FALSE
+									BLOW_UP_RC_BUGGY
+								ENDIF
+							ENDIF
+						ELSE
+							IF LOCATE_PLAYER_ANY_MEANS_3D player1 367.8 1210.3 26.0 2.7 2.7 3.0 FALSE
+								IF IS_PLAYER_IN_ANY_CAR player1
+								AND NOT IS_PLAYER_ON_ANY_BIKE player1
+								AND NOT IS_PLAYER_IN_MODEL player1 CADDY
+									GOTO interiors_inner
+								ENDIF
+								PRINT_BIG ( MALL1 ) 3000 2 //"Diaz's Mansion"
+								GOSUB transition_1
+								IF flag_eject = 0
+									flag_player_in_mall = 1
+									SET_AREA_VISIBLE VIS_MALL
+									SWITCH_PED_ROADS_ON 474.0 1250.0 17.0 356.0 1003.0 32.0 // LOWER FLOOR
+									SWITCH_RUBBISH OFF
+									LOAD_SCENE 395.0 1212.0 24.4
+									SET_PLAYER_COORDINATES player1 372.0 1210.0 24.4
+									float_heading = 270.0
+									GOSUB vehicle_heading
+									//SET_PLAYER_HEADING player1 270.0
+									SET_EXTRA_COLOURS 6 FALSE
+									SET_CAR_DENSITY_MULTIPLIER 0.1
+									//SET_CAMERA_IN_FRONT_OF_PLAYER
+								ELSE
+									GOTO interiors_inner
+								ENDIF
+								GOSUB transition_2
 							ENDIF
 						ENDIF
-					ELSE
-						IF LOCATE_PLAYER_ANY_MEANS_3D player1 367.8 1210.3 26.0 2.7 2.7 3.0 FALSE
+					ENDIF
+
+					IF flag_player_in_mall = 1
+						IF LOCATE_PLAYER_ANY_MEANS_3D player1 367.8 1210.3 26.0 2.7 2.70 3.0 FALSE
 							IF IS_PLAYER_IN_ANY_CAR player1
 							AND NOT IS_PLAYER_ON_ANY_BIKE player1
+							AND NOT IS_PLAYER_IN_MODEL player1 CADDY
 								GOTO interiors_inner
 							ENDIF
-							PRINT_BIG ( MALL1 ) 3000 2 //"Diaz's Mansion"
+							PRINT_BIG ( BEACH3 ) 3000 2 //
 							GOSUB transition_1
 							IF flag_eject = 0
-								flag_player_in_mall = 1
-								SET_AREA_VISIBLE VIS_MALL
-								SWITCH_PED_ROADS_ON 474.0 1250.0 17.0 356.0 1003.0 32.0 // LOWER FLOOR
-								SWITCH_RUBBISH OFF
-								LOAD_SCENE 395.0 1212.0 24.4
-								SET_PLAYER_COORDINATES player1 374.0 1210.0 24.4
-								SET_PLAYER_HEADING player1 270.0
-								SET_EXTRA_COLOURS 6 FALSE
-								SET_CAR_DENSITY_MULTIPLIER 0.1
+								flag_player_in_mall = 0
+								GOSUB outgoing
+								SWITCH_PED_ROADS_OFF 474.0 1250.0 17.0 356.0 1003.0 32.0 // LOWER FLOOR
+								CLEAR_AREA 366.0 1210.0 24.0 1.0 FALSE
+								LOAD_SCENE 343.0 1210.0 24.0
+								SET_PLAYER_COORDINATES player1 364.0 1210.0 24.0
+								float_heading = 90.0
+								GOSUB vehicle_heading
+								//SET_PLAYER_HEADING player1 90.0
 								//SET_CAMERA_IN_FRONT_OF_PLAYER
 							ELSE
 								GOTO interiors_inner
 							ENDIF
 							GOSUB transition_2
 						ENDIF
-					ENDIF
-				ENDIF
-
-				IF flag_player_in_mall = 1
-					IF LOCATE_PLAYER_ANY_MEANS_3D player1 367.8 1210.3 26.0 2.7 2.70 3.0 FALSE
-						IF IS_PLAYER_IN_ANY_CAR player1
-						AND NOT IS_PLAYER_ON_ANY_BIKE player1
-							GOTO interiors_inner
-						ENDIF
-						PRINT_BIG ( BEACH3 ) 3000 2 //
-						GOSUB transition_1
-						IF flag_eject = 0
-							flag_player_in_mall = 0
-							GOSUB outgoing
-							SWITCH_PED_ROADS_OFF 474.0 1250.0 17.0 356.0 1003.0 32.0 // LOWER FLOOR
-							CLEAR_AREA 366.0 1210.0 24.0 1.0 FALSE
-							LOAD_SCENE 343.0 1210.0 24.0
-							SET_PLAYER_COORDINATES player1 364.0 1210.0 24.0
-							SET_PLAYER_HEADING player1 90.0
-							//SET_CAMERA_IN_FRONT_OF_PLAYER
-						ELSE
-							GOTO interiors_inner
-						ENDIF
-						GOSUB transition_2
 					ENDIF
 				ENDIF
 			ENDIF
@@ -1163,63 +1222,71 @@ interiors_inner:
 		IF IS_PLAYER_PLAYING player1
 			flag_interiors_cleanup = 0
 			IF IS_PLAYER_IN_ZONE player1 BEACH3
-			AND pooz_counter = 3
-				IF flag_player_in_mall = 0
-					IF IS_PLAYER_IN_REMOTE_MODE player1
-						GET_REMOTE_CONTROLLED_CAR player1 player_car_interiors
-						IF NOT IS_CAR_DEAD player_car_interiors
-							IF LOCATE_CAR_3D player_car_interiors 378.6 1256.9 17.5 1.5 1.5 3.0 FALSE
-								BLOW_UP_RC_BUGGY
+			OR flag_player_on_rc_mission = 1
+				IF pooz_counter = 2
+					IF flag_player_in_mall = 0
+						IF IS_PLAYER_IN_REMOTE_MODE player1
+							GET_REMOTE_CONTROLLED_CAR player1 player_car_interiors
+							IF NOT IS_CAR_DEAD player_car_interiors
+								IF LOCATE_CAR_3D player_car_interiors 378.6 1256.9 17.5 1.5 1.5 3.0 FALSE
+									BLOW_UP_RC_BUGGY
+								ENDIF
+							ENDIF
+						ELSE
+							IF LOCATE_PLAYER_ANY_MEANS_3D player1 380.6 1253.5 17.5 3.5 3.5 3.0 FALSE
+								IF IS_PLAYER_IN_ANY_CAR player1
+								AND NOT IS_PLAYER_ON_ANY_BIKE player1
+								AND NOT IS_PLAYER_IN_MODEL player1 CADDY
+									GOTO interiors_inner
+								ENDIF
+								PRINT_BIG ( MALL1 ) 3000 2 //"Diaz's Mansion"
+								GOSUB transition_1
+								IF flag_eject = 0
+									flag_player_in_mall = 1
+									SET_AREA_VISIBLE VIS_MALL
+									SWITCH_PED_ROADS_ON 474.0 1250.0 17.0 356.0 1003.0 32.0 // LOWER FLOOR
+									SWITCH_RUBBISH OFF
+									LOAD_SCENE 385.0 1230.7 18.0
+									SET_PLAYER_COORDINATES player1 380.0 1246.7 18.0
+									float_heading = 180.0
+									GOSUB vehicle_heading
+									//SET_PLAYER_HEADING player1 180.0
+									SET_EXTRA_COLOURS 6 FALSE
+									SET_CAR_DENSITY_MULTIPLIER 0.1
+									//SET_CAMERA_IN_FRONT_OF_PLAYER
+								ELSE
+									GOTO interiors_inner
+								ENDIF
+								GOSUB transition_2
 							ENDIF
 						ENDIF
-					ELSE
+					ENDIF
+
+					IF flag_player_in_mall = 1
 						IF LOCATE_PLAYER_ANY_MEANS_3D player1 380.6 1253.5 17.5 3.5 3.5 3.0 FALSE
 							IF IS_PLAYER_IN_ANY_CAR player1
 							AND NOT IS_PLAYER_ON_ANY_BIKE player1
+							AND NOT IS_PLAYER_IN_MODEL player1 CADDY
 								GOTO interiors_inner
 							ENDIF
-							PRINT_BIG ( MALL1 ) 3000 2 //"Diaz's Mansion"
+							PRINT_BIG ( BEACH3 ) 3000 2 //
 							GOSUB transition_1
 							IF flag_eject = 0
-								flag_player_in_mall = 1
-								SET_AREA_VISIBLE VIS_MALL
-								SWITCH_PED_ROADS_ON 474.0 1250.0 17.0 356.0 1003.0 32.0 // LOWER FLOOR
-								SWITCH_RUBBISH OFF
-								LOAD_SCENE 385.0 1230.7 18.0
-								SET_PLAYER_COORDINATES player1 380.0 1246.7 18.0
-								SET_PLAYER_HEADING player1 180.0
-								SET_EXTRA_COLOURS 6 FALSE
-								SET_CAR_DENSITY_MULTIPLIER 0.1
+								flag_player_in_mall = 0
+								GOSUB outgoing
+								SWITCH_PED_ROADS_OFF 474.0 1250.0 17.0 356.0 1003.0 32.0 // LOWER FLOOR
+								CLEAR_AREA 378.0 1263.6 16.5 1.0 FALSE
+								LOAD_SCENE 378.0 1263.6 16.5
+								SET_PLAYER_COORDINATES player1 378.0 1263.6 16.5
+								float_heading = 0.0
+								GOSUB vehicle_heading
+								//SET_PLAYER_HEADING player1 0.0
 								//SET_CAMERA_IN_FRONT_OF_PLAYER
 							ELSE
 								GOTO interiors_inner
 							ENDIF
 							GOSUB transition_2
 						ENDIF
-					ENDIF
-				ENDIF
-
-				IF flag_player_in_mall = 1
-					IF LOCATE_PLAYER_ANY_MEANS_3D player1 380.6 1253.5 17.5 3.5 3.5 3.0 FALSE
-						IF IS_PLAYER_IN_ANY_CAR player1
-						AND NOT IS_PLAYER_ON_ANY_BIKE player1
-							GOTO interiors_inner
-						ENDIF
-						PRINT_BIG ( BEACH3 ) 3000 2 //
-						GOSUB transition_1
-						IF flag_eject = 0
-							flag_player_in_mall = 0
-							GOSUB outgoing
-							SWITCH_PED_ROADS_OFF 474.0 1250.0 17.0 356.0 1003.0 32.0 // LOWER FLOOR
-							CLEAR_AREA 378.0 1263.6 16.5 1.0 FALSE
-							LOAD_SCENE 378.0 1263.6 16.5
-							SET_PLAYER_COORDINATES player1 378.0 1263.6 16.5
-							SET_PLAYER_HEADING player1 0.0
-							//SET_CAMERA_IN_FRONT_OF_PLAYER
-						ELSE
-							GOTO interiors_inner
-						ENDIF
-						GOSUB transition_2
 					ENDIF
 				ENDIF
 			ENDIF
@@ -1231,63 +1298,71 @@ interiors_inner:
 		IF IS_PLAYER_PLAYING player1
 			flag_interiors_cleanup = 0
 			IF IS_PLAYER_IN_ZONE player1 BEACH3
-			AND pooz_counter = 1
-				IF flag_player_in_mall = 0
-					IF IS_PLAYER_IN_REMOTE_MODE player1
-						GET_REMOTE_CONTROLLED_CAR player1 player_car_interiors
-						IF NOT IS_CAR_DEAD player_car_interiors
-							IF LOCATE_CAR_3D player_car_interiors 449.37 1256.2 17.2 1.5 1.5 3.0 FALSE
-								BLOW_UP_RC_BUGGY
+			OR flag_player_on_rc_mission = 1
+				IF pooz_counter = 1
+					IF flag_player_in_mall = 0
+						IF IS_PLAYER_IN_REMOTE_MODE player1
+							GET_REMOTE_CONTROLLED_CAR player1 player_car_interiors
+							IF NOT IS_CAR_DEAD player_car_interiors
+								IF LOCATE_CAR_3D player_car_interiors 449.37 1256.2 17.2 1.5 1.5 3.0 FALSE
+									BLOW_UP_RC_BUGGY
+								ENDIF
+							ENDIF
+						ELSE
+							IF LOCATE_PLAYER_ANY_MEANS_3D player1 448.0 1253.0 19.2 3.0 3.0 3.0 FALSE
+								IF IS_PLAYER_IN_ANY_CAR player1
+								AND NOT IS_PLAYER_ON_ANY_BIKE player1
+								AND NOT IS_PLAYER_IN_MODEL player1 CADDY
+									GOTO interiors_inner
+								ENDIF
+								PRINT_BIG ( MALL1 ) 3000 2 //"Diaz's Mansion"
+								GOSUB transition_1
+								IF flag_eject = 0
+									flag_player_in_mall = 1
+									SET_AREA_VISIBLE VIS_MALL
+									SWITCH_PED_ROADS_ON 474.0 1250.0 17.0 356.0 1003.0 32.0 // LOWER FLOOR
+									SWITCH_RUBBISH OFF
+									LOAD_SCENE 448.5 1230.0 18.0
+									SET_PLAYER_COORDINATES player1 448.5 1245.0 18.0
+									float_heading = 180.0
+									GOSUB vehicle_heading
+									//SET_PLAYER_HEADING player1 180.0
+									SET_EXTRA_COLOURS 6 FALSE
+									SET_CAR_DENSITY_MULTIPLIER 0.1
+									//SET_CAMERA_IN_FRONT_OF_PLAYER
+								ELSE
+									GOTO interiors_inner
+								ENDIF
+								GOSUB transition_2
 							ENDIF
 						ENDIF
-					ELSE
+					ENDIF
+
+					IF flag_player_in_mall = 1
 						IF LOCATE_PLAYER_ANY_MEANS_3D player1 448.0 1253.0 19.2 3.0 3.0 3.0 FALSE
 							IF IS_PLAYER_IN_ANY_CAR player1
 							AND NOT IS_PLAYER_ON_ANY_BIKE player1
+							AND NOT IS_PLAYER_IN_MODEL player1 CADDY
 								GOTO interiors_inner
 							ENDIF
-							PRINT_BIG ( MALL1 ) 3000 2 //"Diaz's Mansion"
+							PRINT_BIG ( BEACH3 ) 3000 2 //
 							GOSUB transition_1
 							IF flag_eject = 0
-								flag_player_in_mall = 1
-								SET_AREA_VISIBLE VIS_MALL
-								SWITCH_PED_ROADS_ON 474.0 1250.0 17.0 356.0 1003.0 32.0 // LOWER FLOOR
-								SWITCH_RUBBISH OFF
-								LOAD_SCENE 448.5 1230.0 18.0
-								SET_PLAYER_COORDINATES player1 448.5 1245.0 18.0
-								SET_PLAYER_HEADING player1 180.0
-								SET_EXTRA_COLOURS 6 FALSE
-								SET_CAR_DENSITY_MULTIPLIER 0.1
+								flag_player_in_mall = 0
+								GOSUB outgoing
+								SWITCH_PED_ROADS_OFF 474.0 1250.0 17.0 356.0 1003.0 32.0 // LOWER FLOOR
+								CLEAR_AREA 449.0 1263.0 16.5 1.0 FALSE
+								LOAD_SCENE 449.0 1263.0 16.5
+								SET_PLAYER_COORDINATES player1 449.0 1263.0 16.5
+								float_heading = 0.0
+								GOSUB vehicle_heading
+								//SET_PLAYER_HEADING player1 0.0
 								//SET_CAMERA_IN_FRONT_OF_PLAYER
 							ELSE
 								GOTO interiors_inner
 							ENDIF
 							GOSUB transition_2
 						ENDIF
-					ENDIF
-				ENDIF
-
-				IF flag_player_in_mall = 1
-					IF LOCATE_PLAYER_ANY_MEANS_3D player1 448.0 1253.0 19.2 3.0 3.0 3.0 FALSE
-						IF IS_PLAYER_IN_ANY_CAR player1
-						AND NOT IS_PLAYER_ON_ANY_BIKE player1
-							GOTO interiors_inner
-						ENDIF
-						PRINT_BIG ( BEACH3 ) 3000 2 //
-						GOSUB transition_1
-						IF flag_eject = 0
-							flag_player_in_mall = 0
-							GOSUB outgoing
-							SWITCH_PED_ROADS_OFF 474.0 1250.0 17.0 356.0 1003.0 32.0 // LOWER FLOOR
-							CLEAR_AREA 449.0 1263.0 16.5 1.0 FALSE
-							LOAD_SCENE 449.0 1263.0 16.5
-							SET_PLAYER_COORDINATES player1 449.0 1263.0 16.5
-							SET_PLAYER_HEADING player1 0.0
-							//SET_CAMERA_IN_FRONT_OF_PLAYER
-						ELSE
-							GOTO interiors_inner
-						ENDIF
-						GOSUB transition_2
 					ENDIF
 				ENDIF
 			ENDIF
@@ -1299,63 +1374,71 @@ interiors_inner:
 		IF IS_PLAYER_PLAYING player1
 			flag_interiors_cleanup = 0
 			IF IS_PLAYER_IN_ZONE player1 BEACH3
-			AND pooz_counter = 2
-				IF flag_player_in_mall = 0
-					IF IS_PLAYER_IN_REMOTE_MODE player1
-						GET_REMOTE_CONTROLLED_CAR player1 player_car_interiors
-						IF NOT IS_CAR_DEAD player_car_interiors
-							IF LOCATE_CAR_3D player_car_interiors 477.6 1124.4 16.3 1.5 1.5 3.0 FALSE
-								BLOW_UP_RC_BUGGY
+			OR flag_player_on_rc_mission = 1
+				IF pooz_counter = 2
+					IF flag_player_in_mall = 0
+						IF IS_PLAYER_IN_REMOTE_MODE player1
+							GET_REMOTE_CONTROLLED_CAR player1 player_car_interiors
+							IF NOT IS_CAR_DEAD player_car_interiors
+								IF LOCATE_CAR_3D player_car_interiors 477.6 1124.4 16.3 1.5 1.5 3.0 FALSE
+									BLOW_UP_RC_BUGGY
+								ENDIF
+							ENDIF
+						ELSE
+							IF LOCATE_PLAYER_ANY_MEANS_3D player1 474.5 1124.0 19.3 3.5 3.5 3.0 FALSE
+								IF IS_PLAYER_IN_ANY_CAR player1
+								AND NOT IS_PLAYER_ON_ANY_BIKE player1
+								AND NOT IS_PLAYER_IN_MODEL player1 CADDY
+									GOTO interiors_inner
+								ENDIF
+								PRINT_BIG ( MALL1 ) 3000 2 //"Diaz's Mansion"
+								GOSUB transition_1
+								IF flag_eject = 0
+									flag_player_in_mall = 1
+									SET_AREA_VISIBLE VIS_MALL
+									SWITCH_PED_ROADS_ON 474.0 1250.0 17.0 356.0 1003.0 32.0 // LOWER FLOOR
+									SWITCH_RUBBISH OFF
+									LOAD_SCENE 444.4 1123.7 17.0
+									SET_PLAYER_COORDINATES player1 467.4 1123.7 17.0
+									float_heading = 90.0
+									GOSUB vehicle_heading
+									//SET_PLAYER_HEADING player1 90.0
+									SET_EXTRA_COLOURS 6 FALSE
+									SET_CAR_DENSITY_MULTIPLIER 0.1
+									//SET_CAMERA_IN_FRONT_OF_PLAYER
+								ELSE
+									GOTO interiors_inner
+								ENDIF
+								GOSUB transition_2
 							ENDIF
 						ENDIF
-					ELSE
+					ENDIF
+
+					IF flag_player_in_mall = 1
 						IF LOCATE_PLAYER_ANY_MEANS_3D player1 474.5 1124.0 19.3 3.5 3.5 3.0 FALSE
 							IF IS_PLAYER_IN_ANY_CAR player1
 							AND NOT IS_PLAYER_ON_ANY_BIKE player1
+							AND NOT IS_PLAYER_IN_MODEL player1 CADDY
 								GOTO interiors_inner
 							ENDIF
-							PRINT_BIG ( MALL1 ) 3000 2 //"Diaz's Mansion"
+							PRINT_BIG ( BEACH3 ) 3000 2 //
 							GOSUB transition_1
 							IF flag_eject = 0
-								flag_player_in_mall = 1
-								SET_AREA_VISIBLE VIS_MALL
-								SWITCH_PED_ROADS_ON 474.0 1250.0 17.0 356.0 1003.0 32.0 // LOWER FLOOR
-								SWITCH_RUBBISH OFF
-								LOAD_SCENE 444.4 1123.7 17.0
-								SET_PLAYER_COORDINATES player1 467.4 1123.7 17.0
-								SET_PLAYER_HEADING player1 90.0
-								SET_EXTRA_COLOURS 6 FALSE
-								SET_CAR_DENSITY_MULTIPLIER 0.1
+								flag_player_in_mall = 0
+								GOSUB outgoing
+								SWITCH_PED_ROADS_OFF 474.0 1250.0 17.0 356.0 1003.0 32.0 // LOWER FLOOR
+								CLEAR_AREA 482.0 1124.5 15.3 1.0 FALSE
+								LOAD_SCENE 482.0 1124.5 15.3
+								SET_PLAYER_COORDINATES player1 482.0 1124.5 15.3
+								float_heading = 0.0
+								GOSUB vehicle_heading
+								//SET_PLAYER_HEADING player1 0.0
 								//SET_CAMERA_IN_FRONT_OF_PLAYER
 							ELSE
 								GOTO interiors_inner
 							ENDIF
 							GOSUB transition_2
 						ENDIF
-					ENDIF
-				ENDIF
-
-				IF flag_player_in_mall = 1
-					IF LOCATE_PLAYER_ANY_MEANS_3D player1 474.5 1124.0 19.3 3.5 3.5 3.0 FALSE
-						IF IS_PLAYER_IN_ANY_CAR player1
-						AND NOT IS_PLAYER_ON_ANY_BIKE player1
-							GOTO interiors_inner
-						ENDIF
-						PRINT_BIG ( BEACH3 ) 3000 2 //
-						GOSUB transition_1
-						IF flag_eject = 0
-							flag_player_in_mall = 0
-							GOSUB outgoing
-							SWITCH_PED_ROADS_OFF 474.0 1250.0 17.0 356.0 1003.0 32.0 // LOWER FLOOR
-							CLEAR_AREA 482.0 1124.5 15.3 1.0 FALSE
-							LOAD_SCENE 482.0 1124.5 15.3
-							SET_PLAYER_COORDINATES player1 482.0 1124.5 15.3
-							SET_PLAYER_HEADING player1 0.0
-							//SET_CAMERA_IN_FRONT_OF_PLAYER
-						ELSE
-							GOTO interiors_inner
-						ENDIF
-						GOSUB transition_2
 					ENDIF
 				ENDIF
 			ENDIF
@@ -1370,66 +1453,68 @@ interiors_inner:
 		IF IS_PLAYER_PLAYING player1
 			flag_interiors_cleanup = 0
 			IF IS_PLAYER_IN_ZONE player1 DTOWN
-			AND pooz_counter = 3
-				IF flag_player_in_shooting_range = 0
-					IF IS_PLAYER_IN_REMOTE_MODE player1
-						GET_REMOTE_CONTROLLED_CAR player1 player_car_interiors
-						IF NOT IS_CAR_DEAD player_car_interiors
-							IF LOCATE_CAR_3D player_car_interiors -667.85 1211.9 11.0 1.5 1.5 3.0 FALSE
-								BLOW_UP_RC_BUGGY
-							ENDIF
-						ENDIF
-					ELSE
-
-						IF LOCATE_PLAYER_ANY_MEANS_3D player1 -667.85 1211.9 11.0 1.5 1.5 3.0 FALSE
-							PRINT_BIG ( RANGE ) 3000 2 //"The Malibu1"
-							GOSUB transition_1
-							IF IS_PLAYER_PLAYING player1
-								IF IS_PLAYER_ON_ANY_BIKE player1
-									STORE_CAR_PLAYER_IS_IN_NO_SAVE player1 player_car_interiors
-									WARP_PLAYER_FROM_CAR_TO_COORD player1 -667.8 1221.0 10.5
-									DELETE_CAR player_car_interiors
+			OR flag_player_on_rc_mission = 1
+				IF pooz_counter = 1
+					IF flag_player_in_shooting_range = 0
+						IF IS_PLAYER_IN_REMOTE_MODE player1
+							GET_REMOTE_CONTROLLED_CAR player1 player_car_interiors
+							IF NOT IS_CAR_DEAD player_car_interiors
+								IF LOCATE_CAR_3D player_car_interiors -667.85 1211.9 11.0 1.5 1.5 3.0 FALSE
+									BLOW_UP_RC_BUGGY
 								ENDIF
 							ENDIF
-							IF flag_eject = 0
-								SET_AREA_VISIBLE VIS_RIFLE_RANGE
-								flag_player_in_shooting_range = 1
-								SWITCH_RUBBISH OFF
-								LOAD_SCENE -667.8 1221.0 11.0
-								SET_PLAYER_COORDINATES player1 -667.8 1221.0 10.3
-								SET_PLAYER_HEADING player1 0.0
-								SET_EXTRA_COLOURS 7 FALSE
-								//SET_CAMERA_IN_FRONT_OF_PLAYER
-							ELSE
-								GOTO interiors_inner
-							ENDIF
-							IF flag_player_on_bank_2 = 0
-								GOSUB transition_2
+						ELSE
+
+							IF LOCATE_PLAYER_ANY_MEANS_3D player1 -667.85 1211.9 11.0 1.5 1.5 3.0 FALSE
+								PRINT_BIG ( RANGE ) 3000 2 //"The Malibu1"
+								GOSUB transition_1
+								IF IS_PLAYER_PLAYING player1
+									IF IS_PLAYER_ON_ANY_BIKE player1
+										STORE_CAR_PLAYER_IS_IN_NO_SAVE player1 player_car_interiors
+										WARP_PLAYER_FROM_CAR_TO_COORD player1 -667.8 1221.0 10.5
+										DELETE_CAR player_car_interiors
+									ENDIF
+								ENDIF
+								IF flag_eject = 0
+									SET_AREA_VISIBLE VIS_RIFLE_RANGE
+									flag_player_in_shooting_range = 1
+									SWITCH_RUBBISH OFF
+									LOAD_SCENE -667.8 1221.0 11.0
+									SET_PLAYER_COORDINATES player1 -667.8 1221.0 10.3
+									SET_PLAYER_HEADING player1 0.0
+									SET_EXTRA_COLOURS 7 FALSE
+									//SET_CAMERA_IN_FRONT_OF_PLAYER
+								ELSE
+									GOTO interiors_inner
+								ENDIF
+								IF flag_player_on_bank_2 = 0
+									GOSUB transition_2
+								ENDIF
 							ENDIF
 						ENDIF
 					ENDIF
-				ENDIF
 
-				IF flag_player_in_shooting_range = 1
-					IF LOCATE_PLAYER_ANY_MEANS_3D player1 -667.8 1217.8 11.0 1.5 1.5 3.0 FALSE
-						//IF IS_PLAYER_IN_ANY_CAR player1
-						//AND NOT IS_PLAYER_ON_ANY_BIKE player1
-							//GOTO interiors_inner
-						//ENDIF
-						PRINT_BIG ( DTOWN ) 3000 2 //"The Malibu1"
-						GOSUB transition_1
-						IF flag_eject = 0
-							flag_player_in_shooting_range = 0
-							GOSUB outgoing
-							CLEAR_AREA -667.8 1210.0 11.0 1.0 FALSE
-							LOAD_SCENE -667.8 1210.0 11.0
-							SET_PLAYER_COORDINATES player1 -667.8 1210.0 10.3
-							SET_PLAYER_HEADING player1 140.0
-							SET_CAMERA_IN_FRONT_OF_PLAYER
-						ELSE
-							GOTO interiors_inner
+					IF flag_player_in_shooting_range = 1
+						IF LOCATE_PLAYER_ANY_MEANS_3D player1 -667.8 1217.8 11.0 1.5 1.5 3.0 FALSE
+							//IF IS_PLAYER_IN_ANY_CAR player1
+							//AND NOT IS_PLAYER_ON_ANY_BIKE player1
+								//GOTO interiors_inner
+							//ENDIF
+							PRINT_BIG ( DTOWN ) 3000 2 //"The Malibu1"
+							GOSUB transition_1
+							IF flag_eject = 0
+								flag_player_in_shooting_range = 0
+								GOSUB outgoing
+								CLEAR_AREA -667.8 1210.0 11.0 1.0 FALSE
+								LOAD_SCENE -667.8 1210.0 11.0
+								SET_PLAYER_COORDINATES player1 -667.8 1210.0 10.3
+								SET_PLAYER_HEADING player1 140.0
+								SET_CAMERA_IN_FRONT_OF_PLAYER
+							ELSE
+								GOTO interiors_inner
+							ENDIF
+							GOSUB transition_2
 						ENDIF
-						GOSUB transition_2
 					ENDIF
 				ENDIF
 			ENDIF
@@ -1446,20 +1531,100 @@ interiors_inner:
 		IF IS_PLAYER_PLAYING player1
 			flag_interiors_cleanup = 0
 			IF IS_PLAYER_IN_ZONE player1 STARI
-			AND flag_open_mansion > 0
-				IF flag_open_mansion > 1
-					// **************************** DIAZ'S MANSION FRONT DOOR************************************************
-					IF pooz_counter = 1
+			OR flag_player_on_rc_mission = 1
+				IF flag_open_mansion > 0
+					IF flag_open_mansion > 1
+						// **************************** DIAZ'S MANSION FRONT DOOR************************************************
+						IF pooz_counter = 1
+							IF flag_player_in_mansion = 0
+								IF IS_PLAYER_IN_REMOTE_MODE player1
+									GET_REMOTE_CONTROLLED_CAR player1 player_car_interiors
+									IF NOT IS_CAR_DEAD player_car_interiors
+										IF LOCATE_CAR_3D player_car_interiors -378.5 -554.382 18.3 1.5 1.5 3.0 FALSE
+											BLOW_UP_RC_BUGGY
+										ENDIF
+									ENDIF
+								ELSE
+									IF IS_PLAYER_IN_AREA_3D player1 -382.0 -558.5 18.537 -375.0 -554.5 24.537 FALSE
+										IF flag_baron_mission5_passed = 0
+											PRINT_BIG ( MANSION ) 3000 2 //"Diaz's Mansion"
+										ELSE
+											PRINT_BIG ( TMANS ) 3000 2 //"Chez Tommy"
+										ENDIF
+										GOSUB transition_1
+										/*
+										IF IS_PLAYER_PLAYING player1
+											IF IS_PLAYER_IN_ANY_CAR player1
+											AND NOT IS_PLAYER_ON_ANY_BIKE player1
+											AND NOT IS_PLAYER_IN_MODEL player1 CADDY
+												STORE_CAR_PLAYER_IS_IN_NO_SAVE player1 player_car_interiors
+												WARP_PLAYER_FROM_CAR_TO_COORD player1 -378.5 -560.0 19.0
+												DELETE_CAR player_car_interiors
+											ENDIF
+										ENDIF
+										*/
+										IF flag_eject = 0
+											SET_AREA_VISIBLE VIS_MANSION
+											flag_player_in_mansion = 1
+											SWITCH_PED_ROADS_ON -414.0 -597.0 12.0 -332.0 -555.0 30.0 // LOWER FLOOR
+											SWITCH_RUBBISH OFF
+											LOAD_SCENE -378.5 -560.03 19.0
+											SET_PLAYER_COORDINATES player1 -378.5 -560.0 19.0
+											float_heading = 190.0
+											GOSUB vehicle_heading
+											//SET_PLAYER_HEADING player1 190.0
+											SET_EXTRA_COLOURS 8 FALSE
+											//SET_CAMERA_IN_FRONT_OF_PLAYER
+										ELSE
+											GOTO interiors_inner
+										ENDIF
+										GOSUB transition_2
+									ENDIF
+								ENDIF
+							ENDIF
+
+							IF flag_player_in_mansion = 1
+								IF IS_PLAYER_IN_AREA_3D player1 -382.0 -554.5 18.537 -375.0 -550.5 24.537 FALSE	
+									PRINT_BIG ( STARI ) 3000 2
+									GOSUB transition_1
+									IF flag_eject = 0
+										GOSUB outgoing
+										flag_player_in_mansion = 0
+										SWITCH_PED_ROADS_OFF -414.0 -597.0 12.0 -332.0 -555.0 30.0 // LOWER FLOOR
+										CLEAR_AREA -377.06 -545.43 17.0 1.0 FALSE
+										LOAD_SCENE -377.06 -545.43 17.0
+										SET_PLAYER_COORDINATES player1 -377.06 -545.43 16.0
+										SET_PLAYER_HEADING player1 345.0
+										//SET_CAMERA_IN_FRONT_OF_PLAYER
+									ELSE
+										GOTO interiors_inner
+									ENDIF
+									GOSUB transition_2
+								ENDIF
+							ENDIF
+						ENDIF 
+					ENDIF
+					
+					
+					// **************************** DIAZ'S MANSION ROOFTOP ENTRY************************************************
+					IF pooz_counter = 2
 						IF flag_player_in_mansion = 0
 							IF IS_PLAYER_IN_REMOTE_MODE player1
 								GET_REMOTE_CONTROLLED_CAR player1 player_car_interiors
 								IF NOT IS_CAR_DEAD player_car_interiors
-									IF LOCATE_CAR_3D player_car_interiors -378.5 -554.382 18.3 1.5 1.5 3.0 FALSE
+									IF LOCATE_CAR_3D player_car_interiors -331.0 -576.6 36.5 1.5 1.5 3.0 FALSE
 										BLOW_UP_RC_BUGGY
 									ENDIF
 								ENDIF
 							ELSE
-								IF IS_PLAYER_IN_AREA_3D player1 -382.0 -558.5 18.537 -375.0 -554.5 24.537 FALSE
+								//IF IS_PLAYER_IN_AREA_3D	player1 -336.902 -577.589 34.52 -331.269 -569.893 38.113 FALSE
+								IF IS_PLAYER_IN_AREA_3D	player1 -340.402 -579.221 34.52 -331.269 -568.389 38.113 FALSE
+									
+									IF IS_PLAYER_IN_ANY_CAR player1
+									AND NOT IS_PLAYER_ON_ANY_BIKE player1
+										GOTO interiors_inner
+									ENDIF
+									
 									IF flag_baron_mission5_passed = 0
 										PRINT_BIG ( MANSION ) 3000 2 //"Diaz's Mansion"
 									ELSE
@@ -1467,9 +1632,9 @@ interiors_inner:
 									ENDIF
 									GOSUB transition_1
 									IF IS_PLAYER_PLAYING player1
-										IF IS_PLAYER_IN_ANY_CAR player1
+										IF IS_PLAYER_ON_ANY_BIKE player1
 											STORE_CAR_PLAYER_IS_IN_NO_SAVE player1 player_car_interiors
-											WARP_PLAYER_FROM_CAR_TO_COORD player1 -378.5 -560.0 19.0
+											WARP_PLAYER_FROM_CAR_TO_COORD player1 -329.24 -582.5 34.5
 											DELETE_CAR player_car_interiors
 										ENDIF
 									ENDIF
@@ -1478,9 +1643,9 @@ interiors_inner:
 										flag_player_in_mansion = 1
 										SWITCH_PED_ROADS_ON -414.0 -597.0 12.0 -332.0 -555.0 30.0 // LOWER FLOOR
 										SWITCH_RUBBISH OFF
-										LOAD_SCENE -378.5 -560.03 19.0
-										SET_PLAYER_COORDINATES player1 -378.5 -560.0 19.0
-										SET_PLAYER_HEADING player1 190.0
+										LOAD_SCENE -329.24 -582.5 34.5
+										SET_PLAYER_COORDINATES player1 -329.24 -582.5 34.5
+										SET_PLAYER_HEADING player1 270.0
 										SET_EXTRA_COLOURS 8 FALSE
 										//SET_CAMERA_IN_FRONT_OF_PLAYER
 									ELSE
@@ -1492,164 +1657,102 @@ interiors_inner:
 						ENDIF
 
 						IF flag_player_in_mansion = 1
-							IF IS_PLAYER_IN_AREA_3D player1 -382.0 -554.5 18.537 -375.0 -550.5 24.537 FALSE	
+							IF LOCATE_PLAYER_ANY_MEANS_3D player1 -330.1 -578.9 34.5 2.0 2.0 3.0 FALSE
 								PRINT_BIG ( STARI ) 3000 2
 								GOSUB transition_1
 								IF flag_eject = 0
 									GOSUB outgoing
 									flag_player_in_mansion = 0
 									SWITCH_PED_ROADS_OFF -414.0 -597.0 12.0 -332.0 -555.0 30.0 // LOWER FLOOR
-									CLEAR_AREA -377.06 -545.43 17.0 1.0 FALSE
-									LOAD_SCENE -377.06 -545.43 17.0
-									SET_PLAYER_COORDINATES player1 -377.06 -545.43 16.0
-									SET_PLAYER_HEADING player1 345.0
+									CLEAR_AREA -343.3 -572.8 36.0 1.0 FALSE
+									LOAD_SCENE -343.3 -572.8 36.0
+									//SET_PLAYER_COORDINATES player1 -338.738 -573.984 35.305
+									SET_PLAYER_COORDINATES player1 -341.738 -573.984 35.305
+								
+									SET_PLAYER_HEADING player1 90.0
 									//SET_CAMERA_IN_FRONT_OF_PLAYER
 								ELSE
 									GOTO interiors_inner
 								ENDIF
 								GOSUB transition_2
-							ENDIF
+							ENDIF 
 						ENDIF
-					ENDIF 
-				ENDIF
-				
-				
-				// **************************** DIAZ'S MANSION ROOFTOP ENTRY************************************************
-				IF pooz_counter = 2
-					IF flag_player_in_mansion = 0
-						IF IS_PLAYER_IN_REMOTE_MODE player1
-							GET_REMOTE_CONTROLLED_CAR player1 player_car_interiors
-							IF NOT IS_CAR_DEAD player_car_interiors
-								IF LOCATE_CAR_3D player_car_interiors -331.0 -576.6 36.5 1.5 1.5 3.0 FALSE
-									BLOW_UP_RC_BUGGY
-								ENDIF
-							ENDIF
-						ELSE
-							IF IS_PLAYER_IN_AREA_3D	player1 -336.902 -577.589 34.52 -331.269 -569.893 38.113 FALSE
-								
-								IF IS_PLAYER_IN_ANY_CAR player1
-								AND NOT IS_PLAYER_ON_ANY_BIKE player1
-									GOTO interiors_inner
-								ENDIF
-								
-								IF flag_baron_mission5_passed = 0
-									PRINT_BIG ( MANSION ) 3000 2 //"Diaz's Mansion"
-								ELSE
-									PRINT_BIG ( TMANS ) 3000 2 //"Chez Tommy"
-								ENDIF
-								GOSUB transition_1
-								IF IS_PLAYER_PLAYING player1
-									IF IS_PLAYER_ON_ANY_BIKE player1
-										STORE_CAR_PLAYER_IS_IN_NO_SAVE player1 player_car_interiors
-										WARP_PLAYER_FROM_CAR_TO_COORD player1 -329.24 -582.5 34.5
-										DELETE_CAR player_car_interiors
+					ENDIF
+						// **************************** DIAZ'S MANSION POOL SIDE 1************************************************
+					IF pooz_counter = 1
+						IF flag_player_in_mansion = 0
+							IF IS_PLAYER_IN_REMOTE_MODE player1
+								GET_REMOTE_CONTROLLED_CAR player1 player_car_interiors
+								IF NOT IS_CAR_DEAD player_car_interiors
+									IF LOCATE_CAR_3D player_car_interiors -354.0 -580.6 11.0 1.5 1.5 3.0 FALSE
+										BLOW_UP_RC_BUGGY
 									ENDIF
 								ENDIF
-								IF flag_eject = 0
-									SET_AREA_VISIBLE VIS_MANSION
-									flag_player_in_mansion = 1
-									SWITCH_PED_ROADS_ON -414.0 -597.0 12.0 -332.0 -555.0 30.0 // LOWER FLOOR
-									SWITCH_RUBBISH OFF
-									LOAD_SCENE -329.24 -582.5 34.5
-									SET_PLAYER_COORDINATES player1 -329.24 -582.5 34.5
-									SET_PLAYER_HEADING player1 270.0
-									SET_EXTRA_COLOURS 8 FALSE
-									//SET_CAMERA_IN_FRONT_OF_PLAYER
-								ELSE
-									GOTO interiors_inner
-								ENDIF
-								GOSUB transition_2
-							ENDIF
-						ENDIF
-					ENDIF
-
-					IF flag_player_in_mansion = 1
-						IF LOCATE_PLAYER_ANY_MEANS_3D player1 -330.1 -578.9 34.5 2.0 2.0 3.0 FALSE
-							PRINT_BIG ( STARI ) 3000 2
-							GOSUB transition_1
-							IF flag_eject = 0
-								GOSUB outgoing
-								flag_player_in_mansion = 0
-								SWITCH_PED_ROADS_OFF -414.0 -597.0 12.0 -332.0 -555.0 30.0 // LOWER FLOOR
-								CLEAR_AREA -343.3 -572.8 36.0 1.0 FALSE
-								LOAD_SCENE -343.3 -572.8 36.0
-								SET_PLAYER_COORDINATES player1 -338.738 -573.984 35.305
-							
-								SET_PLAYER_HEADING player1 90.0
-								//SET_CAMERA_IN_FRONT_OF_PLAYER
 							ELSE
-								GOTO interiors_inner
-							ENDIF
-							GOSUB transition_2
-						ENDIF 
-					ENDIF
-				ENDIF
-					// **************************** DIAZ'S MANSION POOL SIDE 1************************************************
-				IF pooz_counter = 1
-					IF flag_player_in_mansion = 0
-						IF IS_PLAYER_IN_REMOTE_MODE player1
-							GET_REMOTE_CONTROLLED_CAR player1 player_car_interiors
-							IF NOT IS_CAR_DEAD player_car_interiors
-								IF LOCATE_CAR_3D player_car_interiors -354.0 -580.6 11.0 1.5 1.5 3.0 FALSE
-									BLOW_UP_RC_BUGGY
-								ENDIF
-							ENDIF
-						ELSE
-							IF LOCATE_PLAYER_ANY_MEANS_3D	player1 -354.0 -580.6 11.0 1.5 1.5 3.0 FALSE
-								
-								IF IS_PLAYER_IN_ANY_CAR player1
-								AND NOT IS_PLAYER_ON_ANY_BIKE player1
-									GOTO interiors_inner
-								ENDIF
-								
-								IF flag_baron_mission5_passed = 0
-									PRINT_BIG ( MANSION ) 3000 2 //"Diaz's Mansion"
-								ELSE
-									PRINT_BIG ( TMANS ) 3000 2 //"Chez Tommy"
-								ENDIF
-								GOSUB transition_1
-								IF IS_PLAYER_PLAYING player1
-									IF IS_PLAYER_ON_ANY_BIKE player1
-										STORE_CAR_PLAYER_IS_IN_NO_SAVE player1 player_car_interiors
-										WARP_PLAYER_FROM_CAR_TO_COORD player1 -338.5 -578.8 10.6
-										DELETE_CAR player_car_interiors
+								IF LOCATE_PLAYER_ANY_MEANS_3D	player1 -354.0 -580.6 11.0 1.5 1.5 3.0 FALSE
+									
+									IF IS_PLAYER_IN_ANY_CAR player1
+									AND NOT IS_PLAYER_ON_ANY_BIKE player1
+									AND NOT IS_PLAYER_IN_MODEL player1 CADDY 
+										GOTO interiors_inner
 									ENDIF
+									
+									IF flag_baron_mission5_passed = 0
+										PRINT_BIG ( MANSION ) 3000 2 //"Diaz's Mansion"
+									ELSE
+										PRINT_BIG ( TMANS ) 3000 2 //"Chez Tommy"
+									ENDIF
+									GOSUB transition_1
+									/*
+									IF IS_PLAYER_PLAYING player1
+										IF IS_PLAYER_ON_ANY_BIKE player1
+										OR IS_PLAYER_IN_MODEL player1 CADDY
+											STORE_CAR_PLAYER_IS_IN_NO_SAVE player1 player_car_interiors
+											WARP_PLAYER_FROM_CAR_TO_COORD player1 -338.5 -578.8 10.6
+											DELETE_CAR player_car_interiors
+										ENDIF
+									ENDIF
+									*/
+									IF flag_eject = 0
+										SET_AREA_VISIBLE VIS_MANSION
+										flag_player_in_mansion = 1
+										SWITCH_PED_ROADS_ON -414.0 -597.0 12.0 -332.0 -555.0 30.0 // LOWER FLOOR
+										SWITCH_RUBBISH OFF
+										LOAD_SCENE -338.5 -578.8 10.6
+										SET_PLAYER_COORDINATES player1 -338.5 -578.8 10.6
+										float_heading = 270.0
+										GOSUB vehicle_heading
+										//SET_PLAYER_HEADING player1 270.0
+										SET_EXTRA_COLOURS 8 FALSE
+										//SET_CAMERA_IN_FRONT_OF_PLAYER
+									ELSE
+										GOTO interiors_inner
+									ENDIF
+									GOSUB transition_2
 								ENDIF
+							ENDIF
+						ENDIF
+
+						IF flag_player_in_mansion = 1
+							IF LOCATE_PLAYER_ANY_MEANS_3D	player1 -346.3 -578.8 10.6 1.5 1.5 3.0 FALSE
+								PRINT_BIG ( STARI ) 3000 2 
+								GOSUB transition_1
 								IF flag_eject = 0
-									SET_AREA_VISIBLE VIS_MANSION
-									flag_player_in_mansion = 1
-									SWITCH_PED_ROADS_ON -414.0 -597.0 12.0 -332.0 -555.0 30.0 // LOWER FLOOR
-									SWITCH_RUBBISH OFF
-									LOAD_SCENE -338.5 -578.8 10.6
-									SET_PLAYER_COORDINATES player1 -338.5 -578.8 10.6
-									SET_PLAYER_HEADING player1 270.0
-									SET_EXTRA_COLOURS 8 FALSE
+									GOSUB outgoing
+									flag_player_in_mansion = 0
+									SWITCH_PED_ROADS_OFF -414.0 -597.0 12.0 -332.0 -555.0 30.0 // LOWER FLOOR
+									CLEAR_AREA -354.0 -586.0 10.6 1.0 FALSE
+									LOAD_SCENE -354.0 -586.0 10.6
+									SET_PLAYER_COORDINATES player1 -354.0 -586.0 10.6
+									float_heading = 180.0
+									GOSUB vehicle_heading
+									//SET_PLAYER_HEADING player1 180.0
 									//SET_CAMERA_IN_FRONT_OF_PLAYER
 								ELSE
 									GOTO interiors_inner
 								ENDIF
 								GOSUB transition_2
 							ENDIF
-						ENDIF
-					ENDIF
-
-					IF flag_player_in_mansion = 1
-						IF LOCATE_PLAYER_ANY_MEANS_3D	player1 -346.3 -578.8 10.6 1.5 1.5 3.0 FALSE
-							PRINT_BIG ( STARI ) 3000 2 
-							GOSUB transition_1
-							IF flag_eject = 0
-								GOSUB outgoing
-								flag_player_in_mansion = 0
-								SWITCH_PED_ROADS_OFF -414.0 -597.0 12.0 -332.0 -555.0 30.0 // LOWER FLOOR
-								CLEAR_AREA -354.0 -586.0 10.6 1.0 FALSE
-								LOAD_SCENE -354.0 -586.0 10.6
-								SET_PLAYER_COORDINATES player1 -354.0 -586.0 10.6
-								SET_PLAYER_HEADING player1 180.0
-								//SET_CAMERA_IN_FRONT_OF_PLAYER
-							ELSE
-								GOTO interiors_inner
-							ENDIF
-							GOSUB transition_2
 						ENDIF
 					ENDIF
 				ENDIF
@@ -1663,70 +1766,74 @@ interiors_inner:
 		IF IS_PLAYER_PLAYING player1
 			IF flag_bankjob_mission4_passed = 1	
 				IF IS_PLAYER_IN_ZONE player1 HAVANA
-				AND pooz_counter = 2
-					// ******************** THE BANK ***********************************************************
-					IF IS_PLAYER_IN_REMOTE_MODE player1
-						GET_REMOTE_CONTROLLED_CAR player1 player_car_interiors
-						IF NOT IS_CAR_DEAD player_car_interiors
-							IF LOCATE_CAR_3D player_car_interiors -896.5 -341.0 13.4 1.5 1.5 3.0 FALSE
-								BLOW_UP_RC_BUGGY
+				OR flag_player_on_rc_mission = 1
+					IF pooz_counter = 2
+						// ******************** THE BANK ***********************************************************
+						IF IS_PLAYER_IN_REMOTE_MODE player1
+							GET_REMOTE_CONTROLLED_CAR player1 player_car_interiors
+							IF NOT IS_CAR_DEAD player_car_interiors
+								IF LOCATE_CAR_3D player_car_interiors -896.5 -341.0 13.4 1.5 1.5 3.0 FALSE
+									BLOW_UP_RC_BUGGY
+								ENDIF
+							ENDIF
+						ELSE
+							IF LOCATE_PLAYER_ANY_MEANS_3D	player1 -896.5 -341.0 13.4 1.4 1.4 3.0 FALSE
+								IF IS_PLAYER_IN_ANY_CAR player1
+								AND NOT IS_PLAYER_ON_ANY_BIKE player1
+								AND NOT IS_PLAYER_IN_MODEL player1 CADDY
+									GOTO interiors_inner
+								ENDIF
+								PRINT_BIG ( BANKINT ) 3000 2 
+								GOSUB transition_1
+								IF IS_PLAYER_PLAYING player1
+									IF IS_PLAYER_ON_ANY_BIKE player1
+									OR IS_PLAYER_IN_MODEL player1 CADDY
+										STORE_CAR_PLAYER_IS_IN_NO_SAVE player1 player_car_interiors
+										WARP_PLAYER_FROM_CAR_TO_COORD player1 -903.0 -341.0 12.5
+										DELETE_CAR player_car_interiors
+									ENDIF
+								ENDIF
+								IF flag_eject = 0
+									SET_AREA_VISIBLE VIS_BANK
+									SWITCH_RUBBISH OFF
+									IF flag_player_on_mission = 0
+										SWITCH_PED_ROADS_ON -918.5 -355.0 5.0 -898.0 -328.0 16.0 // LOWER FLOOR
+									ENDIF
+									LOAD_SCENE -903.0 -341.0 13.4
+									SET_PLAYER_COORDINATES player1 -903.0 -341.0 12.5
+									flag_player_in_bank = 1
+									SET_PLAYER_HEADING player1 90.0
+									SET_EXTRA_COLOURS 4 FALSE
+									//SET_CAMERA_IN_FRONT_OF_PLAYER
+								ELSE
+									GOTO interiors_inner
+								ENDIF
+								GOSUB transition_2
 							ENDIF
 						ENDIF
-					ELSE
-						IF LOCATE_PLAYER_ANY_MEANS_3D	player1 -896.5 -341.0 13.4 1.4 1.4 3.0 FALSE
+
+						IF LOCATE_PLAYER_ANY_MEANS_3D	player1 -900.0 -340.9 13.4 1.5 1.5 3.0 FALSE
 							IF IS_PLAYER_IN_ANY_CAR player1
 							AND NOT IS_PLAYER_ON_ANY_BIKE player1
 								GOTO interiors_inner
 							ENDIF
-							PRINT_BIG ( BANKINT ) 3000 2 
+							PRINT_BIG ( HAVANA ) 3000 2 
 							GOSUB transition_1
-							IF IS_PLAYER_PLAYING player1
-								IF IS_PLAYER_ON_ANY_BIKE player1
-									STORE_CAR_PLAYER_IS_IN_NO_SAVE player1 player_car_interiors
-									WARP_PLAYER_FROM_CAR_TO_COORD player1 -903.0 -341.0 12.5
-									DELETE_CAR player_car_interiors
-								ENDIF
-							ENDIF
 							IF flag_eject = 0
-								SET_AREA_VISIBLE VIS_BANK
-								SWITCH_RUBBISH OFF
-								IF flag_player_on_mission = 0
-									SWITCH_PED_ROADS_ON -918.5 -355.0 5.0 -898.0 -328.0 16.0 // LOWER FLOOR
-								ENDIF
-								LOAD_SCENE -903.0 -341.0 13.4
-								SET_PLAYER_COORDINATES player1 -903.0 -341.0 12.5
-								flag_player_in_bank = 1
-								SET_PLAYER_HEADING player1 90.0
-								SET_EXTRA_COLOURS 4 FALSE
-								//SET_CAMERA_IN_FRONT_OF_PLAYER
+								GOSUB outgoing
+								SWITCH_PED_ROADS_OFF -956.0 -355.0 5.0 -898.0 -328.0 25.0
+								CLEAR_AREA -893.0 -341.0 13.5 1.0 FALSE
+								LOAD_SCENE -893.0 -341.0 13.5
+								SET_PLAYER_COORDINATES player1 -893.0 -341.0 12.0
+								flag_player_in_bank = 0
+								SET_PLAYER_HEADING player1 270.0
+								SET_CAMERA_IN_FRONT_OF_PLAYER
 							ELSE
 								GOTO interiors_inner
 							ENDIF
+
 							GOSUB transition_2
 						ENDIF
-					ENDIF
-
-					IF LOCATE_PLAYER_ANY_MEANS_3D	player1 -900.0 -340.9 13.4 1.5 1.5 3.0 FALSE
-						IF IS_PLAYER_IN_ANY_CAR player1
-						AND NOT IS_PLAYER_ON_ANY_BIKE player1
-							GOTO interiors_inner
-						ENDIF
-						PRINT_BIG ( HAVANA ) 3000 2 
-						GOSUB transition_1
-						IF flag_eject = 0
-							GOSUB outgoing
-							SWITCH_PED_ROADS_OFF -956.0 -355.0 5.0 -898.0 -328.0 25.0
-							CLEAR_AREA -893.0 -341.0 13.5 1.0 FALSE
-							LOAD_SCENE -893.0 -341.0 13.5
-							SET_PLAYER_COORDINATES player1 -893.0 -341.0 12.0
-							flag_player_in_bank = 0
-							SET_PLAYER_HEADING player1 270.0
-							SET_CAMERA_IN_FRONT_OF_PLAYER
-						ELSE
-							GOTO interiors_inner
-						ENDIF
-
-						GOSUB transition_2
 					ENDIF
 				ENDIF
 			ENDIF
@@ -1736,7 +1843,7 @@ interiors_inner:
 	
 	GOSUB populate_strip
 	GOSUB populate_malibu
-	IF pooz_counter > 2
+	IF pooz_counter > 1
 		pooz_counter = 0
 	ENDIF
 	//GOSUB populate_shops
@@ -3395,6 +3502,19 @@ RETURN
 
 aussie2:
 	MARK_MODEL_AS_NO_LONGER_NEEDED weapon_strip
+RETURN
+
+
+vehicle_heading:
+IF IS_PLAYER_PLAYING player1
+	IF IS_PLAYER_ON_ANY_BIKE player1
+	OR IS_PLAYER_IN_MODEL player1 CADDY
+		STORE_CAR_PLAYER_IS_IN_NO_SAVE player1 player_car_interiors
+		SET_CAR_HEADING player_car_interiors float_heading
+	ELSE
+		SET_PLAYER_HEADING player1 float_heading
+	ENDIF
+ENDIF
 RETURN
 
 

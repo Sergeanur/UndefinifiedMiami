@@ -1088,6 +1088,15 @@ OR NOT HAS_MODEL_LOADED RUGER
 
 ENDWHILE
 
+CREATE_CAR COMET -1066.072 -55.111 10.262 car3_kent1
+DELETE_CAR car3_kent1
+CREATE_CAR COMET -1066.714 -28.923 10.246 car4_kent1
+DELETE_CAR car4_kent1
+CREATE_CAR COMET -1073.399 77.886 10.239 car5_kent1
+DELETE_CAR car5_kent1
+CREATE_CAR COMET -1072.822 41.816 10.270 car6_kent1
+DELETE_CAR car6_kent1
+
 // this should load the collision and map before they get there
 
 // car by the shed
@@ -1275,7 +1284,9 @@ WHILE flag_buddy_home_kent1 = 0
 
 	IF flag_cheat_blip_on_kent1 = 1
 
-		IF IS_PLAYER_IN_AREA_2D player1 -1236.843 -0.4 -1205.935 22.025 FALSE
+		//IF IS_PLAYER_IN_AREA_2D player1 -1236.843 -0.4 -1205.935 22.025 FALSE
+		IF IS_PLAYER_IN_AREA_2D player1 -1234.15 -1.0 -1367.51 250.33 FALSE
+		OR flag_player_been_spotted_kent1 = 1
 						
 			IF NOT IS_CHAR_DEAD buddy_kent1
 				REMOVE_BLIP radar_blip_cheat_kent1
@@ -1405,6 +1416,7 @@ WHILE flag_buddy_home_kent1 = 0
 							
 						IF flag_mini_cut1_over_kent1 = 0
 							
+							REMOVE_BLIP radar_blip_cheat_kent1
 							SWITCH_WIDESCREEN ON
 							SET_PLAYER_CONTROL player1 OFF
 							SET_EVERYONE_IGNORE_PLAYER player1 ON
@@ -1950,6 +1962,22 @@ REMOVE_BLIP radar_blip_buddy_kent1
 REMOVE_BLIP radar_blip_coord1_kent1
 REMOVE_BLIP radar_blip_cheat_kent1
 UNLOAD_SPECIAL_CHARACTER 3
+
+IF NOT IS_CAR_DEAD car3_kent1
+	SET_CAR_MISSION car3_kent1 MISSION_NONE
+ENDIF
+
+IF NOT IS_CAR_DEAD car4_kent1
+	SET_CAR_MISSION car4_kent1 MISSION_NONE
+ENDIF
+
+IF NOT IS_CAR_DEAD car5_kent1
+	SET_CAR_MISSION car5_kent1 MISSION_NONE
+ENDIF
+
+IF NOT IS_CAR_DEAD car6_kent1
+	SET_CAR_MISSION car6_kent1 MISSION_NONE
+ENDIF 
 
 
 MARK_MODEL_AS_NO_LONGER_NEEDED CLa

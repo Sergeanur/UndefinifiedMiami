@@ -758,6 +758,7 @@ cell_phone_inner:
 
 					//KENT WARNS PLAYER. 'RESCUE BUDDY'------------------------------------------------------------------
 					IF flag_mob_01 = 0
+					AND flag_mob_46 = 1
 					AND flag_baron_mission4_passed = 1
 					AND flag_general_mission4_passed = 1
 					//AND flag_sergio_mission1_passed = 1
@@ -2639,7 +2640,7 @@ loading_and_playing_audio:
 			RETURN
 		ELSE
 			//GOSUB pickup_checker
-			IF IS_CHAR_IN_WATER scplayer
+			IF IS_CHAR_DROWNING_IN_WATER scplayer
 			OR NOT IS_CHAR_ON_FOOT scplayer
 			//OR flag_player_on_mission = 1
 				flag_player_answered_phone = 2
@@ -2669,7 +2670,7 @@ has_audio_finished:
 			RETURN
 		ELSE
 			//GOSUB pickup_checker
-			IF IS_CHAR_IN_WATER scplayer
+			IF IS_CHAR_DROWNING_IN_WATER scplayer
 			OR NOT IS_CHAR_ON_FOOT scplayer
 			//OR flag_player_on_mission = 1
 				flag_player_answered_phone = 2
@@ -2695,7 +2696,7 @@ death_checker:
 		RETURN
 	ELSE
 		//GOSUB pickup_checker
-		IF IS_CHAR_IN_WATER scplayer
+		IF IS_CHAR_DROWNING_IN_WATER scplayer
 		OR NOT IS_CHAR_ON_FOOT scplayer
 		//OR flag_player_on_mission = 1
 			flag_player_answered_phone = 2

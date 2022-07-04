@@ -1111,6 +1111,8 @@ ELSE
 	GOTO mission_bike3_failed
 ENDIF
 
+TIMERA = 0
+
 WHILE NOT IS_CHAR_IN_ANY_CAR bike_driver_bike3
 
 	WAIT 0
@@ -1123,6 +1125,14 @@ WHILE NOT IS_CHAR_IN_ANY_CAR bike_driver_bike3
 	IF IS_CHAR_DEAD bike_driver_bike3 
 		GOTO mission_bike3_failed
 	ENDIF
+
+	IF TIMERA > 20000
+
+		IF NOT IS_CHAR_IN_CAR bike_driver_bike3 bike_bike3
+			WARP_CHAR_INTO_CAR bike_driver_bike3 bike_bike3
+		ENDIF
+		
+	ENDIF 
 	
 ENDWHILE
 

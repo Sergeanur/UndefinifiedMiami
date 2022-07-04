@@ -81,6 +81,7 @@ VAR_INT laps1 laps2 lapstodisplay_rc1
 mission_rc_races_start:
 
 flag_player_on_mission = 1
+flag_player_on_rc_mission = 1 //PC FIX PC FIX PC FIX PC FIX PC FIX PC FIX PC FIX
 
 
 IF playerpassedrcrace = 0
@@ -851,6 +852,7 @@ DELETE_CAR rc_race_car2
 DELETE_CAR rc_race_car3
 CLEAR_ONSCREEN_TIMER rc_race_timer
 flag_player_on_mission = 0
+flag_player_on_rc_mission = 0 //PC FIX PC FIX PC FIX PC FIX PC FIX PC FIX PC FIX
 has_player_just_done_rcrace_mission = 1
 SET_ENABLE_RC_DETONATE_ON_CONTACT TRUE 
 SET_POLICE_IGNORE_PLAYER player1 OFF

@@ -655,50 +655,55 @@ ENDIF
 //waiting for cnady to reach sexpad
 IF NOT IS_CHAR_DEAD slut 
 	IF NOT IS_CAR_DEAD stretch_limo 
-		IF slut_in_car = 0
-			IF IS_CHAR_IN_CAR slut stretch_limo	
-				WARP_CHAR_FROM_CAR_TO_COORD slut -862.0 -607.4 11.1
-				DELETE_CHAR slut   
-				CREATE_CHAR_AS_PASSENGER stretch_limo PEDTYPE_CIVFEMALE SPECIAL01 2 slut
-				SET_CHAR_AS_PLAYER_FRIEND slut player1 TRUE
-				SET_ANIM_GROUP_FOR_CHAR slut ANIM_SEXY_WOMANPED
-				CLEAR_CHAR_THREAT_SEARCH slut
-				SET_CHAR_ONLY_DAMAGED_BY_PLAYER slut TRUE 
-				CAR_GOTO_COORDINATES stretch_limo 485.9 31.3 10.7 
-				SET_CAR_CRUISE_SPEED stretch_limo 20.0
-				REMOVE_BLIP slut_blip
-				ADD_BLIP_FOR_CHAR slut slut_blip
-				timera = 0  
-				slut_in_car = 1
+		IF NOT IS_CHAR_DEAD limo_driver 	
+			IF slut_in_car = 0
+				IF IS_CHAR_IN_CAR slut stretch_limo	
+					WARP_CHAR_FROM_CAR_TO_COORD slut -862.0 -607.4 11.1
+					DELETE_CHAR slut   
+					CREATE_CHAR_AS_PASSENGER stretch_limo PEDTYPE_CIVFEMALE SPECIAL01 2 slut
+					SET_CHAR_AS_PLAYER_FRIEND slut player1 TRUE
+					SET_ANIM_GROUP_FOR_CHAR slut ANIM_SEXY_WOMANPED
+					CLEAR_CHAR_THREAT_SEARCH slut
+					SET_CHAR_ONLY_DAMAGED_BY_PLAYER slut TRUE 
+					CAR_GOTO_COORDINATES stretch_limo 485.9 31.3 10.7 
+					SET_CAR_CRUISE_SPEED stretch_limo 20.0
+					REMOVE_BLIP slut_blip
+					ADD_BLIP_FOR_CHAR slut slut_blip
+					timera = 0  
+					slut_in_car = 1
+				ELSE
+					IF LOCATE_CHAR_ON_FOOT_2D slut 9.2 964.4 1.0 1.0 FALSE
+						SET_CHAR_OBJ_ENTER_CAR_AS_PASSENGER slut stretch_limo
+						SET_CHAR_RUNNING slut TRUE
+					ENDIF
+				ENDIF
 			ELSE
-				IF LOCATE_CHAR_ON_FOOT_2D slut 9.2 964.4 1.0 1.0 FALSE
-					SET_CHAR_OBJ_ENTER_CAR_AS_PASSENGER slut stretch_limo
-					SET_CHAR_RUNNING slut TRUE
+				
+
+
+				
+				//////////////////////TESTJKHFJKHDJFHDJKFHSJKF?/////////////////////////////////////////
+				
+				IF NOT IS_CAR_ON_SCREEN stretch_limo
+				AND NOT LOCATE_PLAYER_ANY_MEANS_CAR_2D player1 stretch_limo 170.0 170.0 FALSE
+					PRINT_NOW ( POR3_21 ) 5000 1 //You lost Candy's Stretch!
+				   	GOTO mission_failed_porn3
+				ENDIF
+				
+				
+				//////////////////////TESTJKHFJKHDJFHDJKFHSJKF?/////////////////////////////////////////
+				
+
+
+
+
+				IF LOCATE_CAR_2D stretch_limo 485.9 31.3 15.0 15.0 FALSE
+					GOTO slut_entering_building_loop		 
 				ENDIF
 			ENDIF
-		ELSE
-			
-
-
-			
-			//////////////////////TESTJKHFJKHDJFHDJKFHSJKF?/////////////////////////////////////////
-			
-			IF NOT IS_CAR_ON_SCREEN stretch_limo
-			AND NOT LOCATE_PLAYER_ANY_MEANS_CAR_2D player1 stretch_limo 170.0 170.0 FALSE
-				PRINT_NOW ( POR3_21 ) 5000 1 //You lost Candy's Stretch!
-				GOTO mission_failed_porn3
-			ENDIF
-			
-			
-			//////////////////////TESTJKHFJKHDJFHDJKFHSJKF?/////////////////////////////////////////
-			
-
-
-
-
-			IF LOCATE_CAR_2D stretch_limo 485.9 31.3 15.0 15.0 FALSE
-				GOTO slut_entering_building_loop		 
-			ENDIF
+   		ELSE
+			PRINT_NOW ( POR3_15 ) 5000 1 //You trashed Candy's ride!
+			GOTO mission_failed_porn3 
 		ENDIF
    	ELSE 
 		PRINT_NOW ( POR3_15 ) 5000 1 //You trashed Candy's ride!
@@ -1291,6 +1296,7 @@ ENDIF
 IF NOT where_alex = 2 
 	IF IS_CHAR_DEAD congressman 
 		PRINT_NOW ( POR3_02 ) 5000 1 //You've killed the Congressman!  There's no way you can blackmail him now.
+		ALTER_WANTED_LEVEL_NO_DROP player1 5
 		GOTO mission_failed_porn3
 	ENDIF
 ENDIF
@@ -1301,6 +1307,9 @@ GOTO getting_away_with_it
 mission_failed_porn3:
 
 PRINT_BIG ( M_FAIL ) 5000 1	//"Mission Failed!"
+	IF deadslut = 2 
+		ALTER_WANTED_LEVEL_NO_DROP player1 5
+	ENDIF
 RETURN
 
    
@@ -1358,7 +1367,19 @@ IF IS_PLAYER_IN_AREA_2D player1 585.7 52.8 555.9 8.1 FALSE
 		CREATE_OBJECT_NO_OFFSET ph_build_dr_closed 569.925 52.00 14.616 photobuilding_closed
 		DONT_REMOVE_OBJECT photobuilding_closed
 		ROTATE_OBJECT photobuilding_closed 270.0 270.0 FALSE 
-	DO_FADE 400 FADE_IN 
+	DO_FADE 400 FADE_IN
+ELSE
+	IF NOT flag_porn_mission3_passed = 1 
+		DELETE_OBJECT photobuilding_open
+		CREATE_OBJECT_NO_OFFSET ph_build_dr_closed 569.925 52.00 14.616 photobuilding_closed
+		DONT_REMOVE_OBJECT photobuilding_closed
+		ROTATE_OBJECT photobuilding_closed 270.0 270.0 FALSE
+	ELSE
+		DELETE_OBJECT photobuilding_closed
+		CREATE_OBJECT_NO_OFFSET ph_build_dr_open 569.33 52.737 14.616 photobuilding_open
+		DONT_REMOVE_OBJECT photobuilding_open
+		ROTATE_OBJECT photobuilding_open 350.0 350.0 FALSE 
+	ENDIF	 
 ENDIF
 
 IF IS_PLAYER_IN_AREA_3D player1 465.1 32.8 29.9 454.5 27.2 32.6 FALSE

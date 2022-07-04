@@ -614,11 +614,11 @@ IF shit_counter = 7
 
 					bonus_weapons_created3 = 1
 				ENDIF
-			ELSE	
-				IF bonus_weapons_created3 = 1
-					GOSUB remove_bonus_pickups
-					bonus_weapons_created3 = 0
-				ENDIF
+			ENDIF
+		ELSE	
+			IF bonus_weapons_created3 = 1
+				GOSUB remove_bonus_pickups
+				bonus_weapons_created3 = 0
 			ENDIF
 		ENDIF
 	ENDIF

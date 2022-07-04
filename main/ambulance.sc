@@ -629,6 +629,27 @@ AND ped_coord_y	> -307.5092
 AND ped_coord_y	< -84.3105 
 	GOTO generate_random_coord
 ENDIF
+//PIZZA SHOP DOWNTOWN
+IF ped_coord_x >  -903.6972 
+AND ped_coord_x < -882.7946 
+AND ped_coord_y	> 791.7817
+AND ped_coord_y	< 808.3229
+	GOTO generate_random_coord
+ENDIF
+//PIZZA SHOP HAITI
+IF ped_coord_x >  -1059.2343 
+AND ped_coord_x < -1040.1482 
+AND ped_coord_y	> 73.3646 
+AND ped_coord_y	< 89.7497
+	GOTO generate_random_coord
+ENDIF
+//HAITIAN BASE
+IF ped_coord_x >  -1235.7916
+AND ped_coord_x < -1110.9315
+AND ped_coord_y	> 32.1217 
+AND ped_coord_y	< 126.1341
+	GOTO generate_random_coord
+ENDIF
  
  
   

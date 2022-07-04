@@ -421,6 +421,7 @@ WHILE NOT LOCATE_PLAYER_ON_FOOT_3D player1 -725.4 -1166.8 9.7 1.0 1.0 2.0 TRUE
 ENDWHILE 
 
 // ******************************************START OF PLAYER GETTING INTO BOAT*******************************************
+CLEAR_AREA -725.4 -1166.8 9.7 5.0 1 
 SET_PLAYER_CONTROL player1 OFF
 SWITCH_WIDESCREEN ON
 

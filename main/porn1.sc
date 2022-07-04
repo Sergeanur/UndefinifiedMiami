@@ -1055,7 +1055,9 @@ WHILE NOT LOCATE_PLAYER_ON_FOOT_3D player1 -900.8 796.0 10.3 1.0 1.0 2.0 flag_ca
 				PRINT POR1_25 4000 1 //You have left Candy behind, go and get her.
 		        REMOVE_BLIP mercedes_blip
 		        REMOVE_BLIP candy_sexxx_blip
-		        ADD_BLIP_FOR_CHAR candy_sexxx candy_sexxx_blip
+				IF NOT IS_CHAR_DEAD candy_sexxx
+		        	ADD_BLIP_FOR_CHAR candy_sexxx candy_sexxx_blip
+				ENDIF
 		        flag_candy_sexxx_in_group = 0
 		    ENDIF
 		ENDIF
@@ -1339,7 +1341,9 @@ IF NOT IS_CHAR_DEAD candy_sexxx
 			PRINT POR1_25 4000 1 //You have left Candy behind, go and get her.
 	        REMOVE_BLIP candy_sexxx_blip
 	        REMOVE_BLIP pron_studio
-	        ADD_BLIP_FOR_CHAR candy_sexxx candy_sexxx_blip
+			IF NOT IS_CHAR_DEAD candy_sexxx
+	        	ADD_BLIP_FOR_CHAR candy_sexxx candy_sexxx_blip
+			ENDIF
 	        flag_candy_sexxx_in_group = 0
 	    ENDIF
 	ENDIF
@@ -1393,7 +1397,9 @@ IF NOT IS_CHAR_DEAD mercedes
 	        PRINT_NOW TAXW3_1 4000 1// Go and pick up Mercedes.
 	        REMOVE_BLIP mercedes_blip
 	        REMOVE_BLIP pron_studio
-	        ADD_BLIP_FOR_CHAR mercedes mercedes_blip
+			IF NOT IS_CHAR_DEAD mercedes
+	        	ADD_BLIP_FOR_CHAR mercedes mercedes_blip
+			ENDIF
 	        flag_mercedes_in_group = 0
 	    ENDIF
 	ENDIF

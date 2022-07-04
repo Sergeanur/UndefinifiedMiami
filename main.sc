@@ -1830,7 +1830,7 @@ WAIT mission_trigger_wait_time
 	ENDIF
 	
 	IF IS_PLAYER_PLAYING player1
-		IF LOCATE_PLAYER_ON_FOOT_3D player1 491.0 -77.7 10.4 1.5 2.0 2.0 FALSE
+		IF LOCATE_PLAYER_ON_FOOT_3D player1 491.0 -77.7 10.4 2.5 2.5 2.5 FALSE
 			IF flag_player_on_mission = 0
 				IF CAN_PLAYER_START_MISSION player1
 					GOSUB kent_script_cut
@@ -4137,7 +4137,10 @@ WAIT mission_trigger_wait_time
 					been_in_a_taxi_before = 1
 					GOSUB taxiwar_script_cut
 					PRINT_BIG ( TAXI_1 ) 15000 2 //"taxiwar mission 1"
-					LOAD_AND_LAUNCH_MISSION taxiwar1.sc
+					IF flag_taxi1_mission_launched = 0	 
+						LOAD_AND_LAUNCH_MISSION taxiwar1.sc
+						flag_taxi1_mission_launched = 1
+					ENDIF
 				ENDIF
 
 				IF NOT IS_PLAYER_PLAYING player1
@@ -4190,7 +4193,10 @@ WAIT mission_trigger_wait_time
 					been_in_a_taxi_before = 1
 					GOSUB taxiwar_script_cut
 					PRINT_BIG ( TAXI_2 ) 15000 2 //"taxiwar mission 2"
-					LOAD_AND_LAUNCH_MISSION taxiwar2.sc
+					IF flag_taxi1_mission_launched = 0	 
+						LOAD_AND_LAUNCH_MISSION taxiwar2.sc
+						flag_taxi1_mission_launched = 1
+					ENDIF
 				ENDIF
 
 				IF NOT IS_PLAYER_PLAYING player1
@@ -4241,7 +4247,10 @@ WAIT mission_trigger_wait_time
 					GOSUB taxiwar_script_cut
 
 					PRINT_BIG ( TAXI_3 ) 15000 2 //"taxiwar mission 3"	 
- 					LOAD_AND_LAUNCH_MISSION taxiwar3.sc
+ 					IF flag_taxi1_mission_launched = 0
+ 						LOAD_AND_LAUNCH_MISSION taxiwar3.sc
+						flag_taxi1_mission_launched = 1
+					ENDIF
 				ENDIF
 
 				IF NOT IS_PLAYER_PLAYING player1
@@ -4289,7 +4298,6 @@ SCRIPT_NAME	taxi_l
 			IF IS_PLAYER_IN_TAXI player1
 
 				IF flag_player_on_mission = 0
-				AND flag_taxi1_mission_launched = 0
 					GET_CONTROLLER_MODE controlmode
 					IF car_help_played = 1
 						IF been_in_a_taxi_before = 0
@@ -4314,8 +4322,10 @@ SCRIPT_NAME	taxi_l
 
 							PRINT_BIG ( TAXI_M ) 6000 5
 							WAIT 0
-							LOAD_AND_LAUNCH_MISSION taxi1.sc	//	this doesn't have a fade - maybe should always be loaded?
-							flag_taxi1_mission_launched = 1
+							IF flag_taxi1_mission_launched = 0
+								LOAD_AND_LAUNCH_MISSION taxi1.sc	//	this doesn't have a fade - maybe should always be loaded?
+								flag_taxi1_mission_launched = 1
+							ENDIF
 						ENDIF
 					ELSE
 						IF IS_BUTTON_PRESSED PAD1 SQUARE
@@ -4329,8 +4339,10 @@ SCRIPT_NAME	taxi_l
 
 							PRINT_BIG ( TAXI_M ) 6000 5
 							WAIT 0
-							LOAD_AND_LAUNCH_MISSION taxi1.sc	//	this doesn't have a fade - maybe should always be loaded?
-							flag_taxi1_mission_launched = 1
+							IF flag_taxi1_mission_launched = 0
+								LOAD_AND_LAUNCH_MISSION taxi1.sc	//	this doesn't have a fade - maybe should always be loaded?
+								flag_taxi1_mission_launched = 1
+							ENDIF
 						ENDIF
 					ENDIF
 					
@@ -6310,7 +6322,9 @@ game_help_loop_inner:
 							RESTORE_CAMERA_JUMPCUT
 							SET_CAMERA_BEHIND_PLAYER
 							REMOVE_BLIP	goto_hotel_contact_blip
-							ADD_BLIP_FOR_CONTACT_POINT hotelX hotelY hotelZ goto_hotel_contact_blip
+							IF flag_hotel_mission1_passed = 0
+								ADD_BLIP_FOR_CONTACT_POINT hotelX hotelY hotelZ goto_hotel_contact_blip
+							ENDIF
 							view_of_ocean_view = 1
 						ENDIF
 					ENDIF
@@ -6324,7 +6338,9 @@ game_help_loop_inner:
 						  
 							IF LOCATE_PLAYER_ANY_MEANS_3D player1 225.0 -1277.3 11.5 2.5 2.5 3.0 FALSE
 								REMOVE_BLIP	goto_hotel_contact_blip
-								ADD_BLIP_FOR_CONTACT_POINT hotelX hotelY hotelZ goto_hotel_contact_blip
+								IF flag_hotel_mission1_passed = 0
+									ADD_BLIP_FOR_CONTACT_POINT hotelX hotelY hotelZ goto_hotel_contact_blip
+								ENDIF
 								SET_PLAYER_CONTROL player1 OFF
 								SET_FIXED_CAMERA_POSITION 223.301 -1277.655 13.822 0.0 0.0 0.0
 								POINT_CAMERA_AT_POINT 222.578 -1277.013 13.565 JUMP_CUT

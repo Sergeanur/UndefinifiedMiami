@@ -59,6 +59,7 @@ VAR_FLOAT cuban_jetmax_heading cuban_speeder_heading cuban_coastg_heading headin
 mission_start_haitian2:
 
 flag_player_on_mission = 1
+flag_player_on_rc_mission = 1
 
 REGISTER_MISSION_GIVEN
 SCRIPT_NAME HAIT2
@@ -326,6 +327,7 @@ PRINT_NOW HAT2_B1 15000 1//"Get to the van that contains the flying bombs."
 CREATE_CAR TOPFUN -808.9448 -162.9215 10.0458 plane_carrier
 SET_CAR_HEADING plane_carrier 0.0
 ADD_BLIP_FOR_CAR plane_carrier plane_carrier_blip
+FREEZE_CAR_POSITION	plane_carrier TRUE
 
 WHILE NOT IS_PLAYER_SITTING_IN_CAR player1 plane_carrier
 	WAIT 0
@@ -2799,6 +2801,7 @@ GET_GAME_TIMER timer_mobile_start
 //CLEAR_AREA -817.3 -245.0 11.1 150.0 TRUE
 
 CLEAR_ONSCREEN_COUNTER no_of_rc_planes_left
+flag_player_on_rc_mission = 0
 
 MISSION_HAS_FINISHED
 RETURN

@@ -597,6 +597,10 @@ WHILE NOT counter_number_drugs_collected = 1
 					IF NOT IS_CAR_DEAD cutcar_rock1 
 						LOCK_CAR_DOORS cutcar_rock1 CARLOCK_LOCKED_PLAYER_INSIDE
 					ENDIF
+
+					SET_PLAYER_CONTROL player1 OFF
+					SET_POLICE_IGNORE_PLAYER player1 ON
+					SET_EVERYONE_IGNORE_PLAYER player1 ON
 																				
 					WAIT 500
 					GOSUB dealer_cutscene
@@ -1372,7 +1376,9 @@ ENDIF
 
 IF IS_PLAYER_PLAYING player1
 
-	SET_CHAR_ANSWERING_MOBILE scplayer FALSE
+	IF NOT IS_PLAYER_IN_ANY_CAR player1
+		SET_CHAR_ANSWERING_MOBILE scplayer FALSE
+	ENDIF
 
 ENDIF
 
@@ -1399,12 +1405,9 @@ RETURN
 dealer_cutscene:
 
 SWITCH_WIDESCREEN ON
-SET_PLAYER_CONTROL player1 OFF
+STORE_CAR_PLAYER_IS_IN player1 cutcar_rock1
 CLEAR_THIS_PRINT ( HORN ) // Removes the horn message to stop it being displayed in cutscene
 GET_PLAYER_CHAR player1 scplayer
-SET_POLICE_IGNORE_PLAYER player1 ON
-SET_EVERYONE_IGNORE_PLAYER player1 ON
-STORE_CAR_PLAYER_IS_IN player1 cutcar_rock1
 FREEZE_ONSCREEN_TIMER TRUE
 REMOVE_BLIP radar_blip_deal_rock1
 

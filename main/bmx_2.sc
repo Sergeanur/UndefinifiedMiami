@@ -576,7 +576,7 @@ ENDIF
 mission_bmx_2_failed:
 
 
-PRINT_BIG ( M_FAIL ) 2000 1
+PRINT_BIG ( M_FAIL ) 5000 1
 PRINT_NOW ( BMXFAIL ) 5000 1
 
 

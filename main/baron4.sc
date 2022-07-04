@@ -340,6 +340,7 @@ WHILE NOT LOCATE_PLAYER_ANY_MEANS_3D player1 -378.5 -660.0 5.6 16.5 11.5 8.0 FAL
 	WAIT 0
 
 	IF IS_CAR_DEAD fastest_boat
+		PRINT_NOW ( COK4_33 ) 5000 2 //You destoyed the boat!
 		GOTO mission_baron4_failed
 	ENDIF
 
@@ -543,6 +544,7 @@ WHILE NOT IS_PLAYER_IN_CAR player1 fastest_boat
 	WAIT 0
 
 	IF IS_CAR_DEAD fastest_boat
+		PRINT_NOW ( COK4_33 ) 5000 2 //You destoyed the boat!
 		GOTO mission_baron4_failed
 	ENDIF
 	

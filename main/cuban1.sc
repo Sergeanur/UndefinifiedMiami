@@ -1615,10 +1615,12 @@ IF NOT IS_CAR_DEAD pred_boat
 		ENDIF
 	ELSE
 		PRINT_NOW ( CUB1_11 ) 5000 1 //You Killed Rico!
+		DELETE_CHAR rico_passenger
 		GOTO mission_failed_cuban1 
 	ENDIF
 ELSE
 	PRINT_NOW ( CUB1_11 ) 5000 1 //You Killed Rico!
+	DELETE_CHAR rico_passenger
 	GOTO mission_failed_cuban1
 ENDIF
 

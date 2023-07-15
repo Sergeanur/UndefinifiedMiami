@@ -176,9 +176,10 @@ mission_start_interiors:
 
 
 interiors:
+{
 
 flag_eject = 0
-{
+
 SCRIPT_NAME SHIT
 
 

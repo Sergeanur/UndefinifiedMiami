@@ -216,19 +216,21 @@ START_CUTSCENE
 
 GET_CUTSCENE_TIME cs_time
 
-WHILE cs_time < 1888  //FIRST CUTSCENE TIME GOES HERE
+WHILE cs_time < 2640  //FIRST CUTSCENE TIME GOES HERE
 	WAIT 0
 	GET_CUTSCENE_TIME cs_time
 ENDWHILE
- 
+
+PRINT_NOW CUB4_AA 10000 1
+//PRINT_NOW CUB4_A 10000 1 // Hey, ladies. You know what I'm gonna do?
+
+WHILE cs_time < 4551
+	WAIT 0
+	GET_CUTSCENE_TIME cs_time
+ENDWHILE
+
 PRINT_NOW CUB4_A 10000 1 // Hey, ladies. You know what I'm gonna do?
-
-WHILE cs_time < 5073
-	WAIT 0
-	GET_CUTSCENE_TIME cs_time
-ENDWHILE
-
-PRINT_NOW CUB4_B 10000 1 // I'm gonna kill me a Haitian. And then?  
+//PRINT_NOW CUB4_B 10000 1 // I'm gonna kill me a Haitian. And then?  
 
 WHILE cs_time < 7958
 	WAIT 0
@@ -293,14 +295,14 @@ ENDWHILE
 
 PRINT_NOW CUB4_K 10000 1 // No time for coffee! Besides, I just had one.
 
-WHILE cs_time < 36208
+WHILE cs_time < 36000
 	WAIT 0
 	GET_CUTSCENE_TIME cs_time
 ENDWHILE
 
 PRINT_NOW CUB4_L 10000 1 // We gonna go take out the Haitians.
 
-WHILE cs_time < 38251
+WHILE cs_time < 38232
 	WAIT 0
 	GET_CUTSCENE_TIME cs_time
 ENDWHILE
@@ -314,63 +316,71 @@ ENDWHILE
 
 PRINT_NOW CUB4_N 10000 1 // You bite him in the ass! Hahaha!
 
-WHILE cs_time < 43148
-	WAIT 0
-	GET_CUTSCENE_TIME cs_time
-ENDWHILE
-
-PRINT_NOW CUB4_O 10000 1 // Whatever you say, Umberto.
-
-WHILE cs_time < 44248
+WHILE cs_time < 44646
 	WAIT 0
 	GET_CUTSCENE_TIME cs_time
 ENDWHILE
 
 PRINT_NOW CUB4_P 10000 1 // Tommy, Go and get us a little car.
+//PRINT_NOW CUB4_O 10000 1 // Whatever you say, Umberto.
 
-WHILE cs_time < 46776
+WHILE cs_time < 46720
 	WAIT 0
 	GET_CUTSCENE_TIME cs_time
 ENDWHILE
 
 PRINT_NOW CUB4_Q 10000 1 // When you get it, come back and pick up my boy Pepe, 
 
-WHILE cs_time < 49338
+WHILE cs_time < 49640
 	WAIT 0
 	GET_CUTSCENE_TIME cs_time
 ENDWHILE
 
 PRINT_NOW CUB4_R 10000 1 // and take him out to such and such...
 
-WHILE cs_time < 53344
+WHILE cs_time < 52441
+	WAIT 0
+	GET_CUTSCENE_TIME cs_time
+ENDWHILE
+
+PRINT_NOW CUB4_Z 10000 1
+
+WHILE cs_time < 53565
+	WAIT 0
+	GET_CUTSCENE_TIME cs_time
+ENDWHILE
+
+PRINT_NOW CUB4_O 10000 1
+
+WHILE cs_time < 54720
 	WAIT 0
 	GET_CUTSCENE_TIME cs_time
 ENDWHILE
 
 PRINT_NOW CUB4_S 10000 1 // Hey Tommy! Tommy! Use their solvent as an explosive.
 
-WHILE cs_time < 59927
+WHILE cs_time < 58896
 	WAIT 0
 	GET_CUTSCENE_TIME cs_time
 ENDWHILE
 
 PRINT_NOW CUB4_T 10000 1 // Boom! Bye bye!.
 
-WHILE cs_time < 62394
+WHILE cs_time < 62343
 	WAIT 0
 	GET_CUTSCENE_TIME cs_time
 ENDWHILE
 
 PRINT_NOW CUB4_U 10000 1 // Umberto, what about you?
 
-WHILE cs_time < 64830
+WHILE cs_time < 63731
 	WAIT 0
 	GET_CUTSCENE_TIME cs_time
 ENDWHILE
 
 PRINT_NOW CUB4_V 10000 1 // Oh, I'm going to stay behind, and watch over the cafe with poppa.
 
-WHILE cs_time < 68153
+WHILE cs_time < 67839
 	WAIT 0
 	GET_CUTSCENE_TIME cs_time
 ENDWHILE

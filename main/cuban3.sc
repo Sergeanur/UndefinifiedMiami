@@ -214,14 +214,16 @@ WHILE cs_time < 10024
 	GET_CUTSCENE_TIME cs_time
 ENDWHILE
 
-PRINT_NOW CUB3_E 10000 1 // The Haitians! Man, they laughing at me.
+PRINT_NOW CUB3_Z 10000 1
+//PRINT_NOW CUB3_E 10000 1 // The Haitians! Man, they laughing at me.
 
 WHILE cs_time < 12109
 	WAIT 0
 	GET_CUTSCENE_TIME cs_time
 ENDWHILE
 
-PRINT_NOW CUB3_F 10000 1 // Easy, easy. What's the problem?
+PRINT_NOW CUB3_Y 10000 1
+//PRINT_NOW CUB3_F 10000 1 // Easy, easy. What's the problem?
 
 WHILE cs_time < 13963
 	WAIT 0

@@ -285,33 +285,37 @@ ENDWHILE
 
 PRINT_NOW CUB2_O 10000 1 // Umberto my son, what happened?  
 
-WHILE cs_time < 5642
+WHILE cs_time < 6209
 	WAIT 0
 	GET_CUTSCENE_TIME cs_time
 ENDWHILE
 
-PRINT_NOW CUB2_C 10000 1 // The Haitians! I hate these Haitians!
+PRINT_NOW CUB2_Z 10000 1 // Un gran problema! 
+//PRINT_NOW CUB2_C 10000 1 // The Haitians! I hate these Haitians!
 
-WHILE cs_time < 9437
+WHILE cs_time < 8072
 	WAIT 0
 	GET_CUTSCENE_TIME cs_time
 ENDWHILE
 
-PRINT_NOW CUB2_D 10000 1 // They mess with me, they mess with me for the last time!
+PRINT_NOW CUB2_Y 10000 1
+//PRINT_NOW CUB2_D 10000 1 // They mess with me, they mess with me for the last time!
 
-WHILE cs_time < 11602
+WHILE cs_time < 11294
 	WAIT 0
 	GET_CUTSCENE_TIME cs_time
 ENDWHILE
 
-PRINT_NOW CUB2_E 10000 1 // We take them out! 
+PRINT_NOW CUB2_X 10000 1
+//PRINT_NOW CUB2_E 10000 1 // We take them out! 
 
-WHILE cs_time < 13786
+WHILE cs_time < 12584
 	WAIT 0
 	GET_CUTSCENE_TIME cs_time
 ENDWHILE
 
-PRINT_NOW CUB2_F 10000 1 // Only we need some backup. 
+PRINT_NOW CUB2_W 10000 1
+//PRINT_NOW CUB2_F 10000 1 // Only we need some backup. 
 
 WHILE cs_time < 15750
 	WAIT 0
@@ -348,12 +352,13 @@ ENDWHILE
 
 PRINT_NOW CUB2_K 10000 1 //Come on, drive for me again!
 
-WHILE cs_time < 24770
+WHILE cs_time < 24940
 	WAIT 0
 	GET_CUTSCENE_TIME cs_time
 ENDWHILE
 
-PRINT_NOW CUB2_L 10000 1 //Take my boys over there, and then we'll take those Haitians down!
+PRINT_NOW CUB2_V 10000 1
+//PRINT_NOW CUB2_L 10000 1 //Take my boys over there, and then we'll take those Haitians down!
 
 WHILE cs_time < 27856
 	WAIT 0
@@ -774,10 +779,10 @@ PRINT ( CUB2_04 ) 5000 1 //Go and drop the Cubans off at the fight.
 PRINT ( CUB2_23 ) 5000 1 //Little Haiti will be swarming with Haitians trying to even the score with the Cubans.  Watch your back. 
 
 LOAD_MISSION_AUDIO 1 CUB2_3a
-LOAD_MISSION_AUDIO 2 CUB2_3b
+//LOAD_MISSION_AUDIO 2 CUB2_3b
 
 WHILE NOT HAS_MISSION_AUDIO_LOADED 1
-OR NOT HAS_MISSION_AUDIO_LOADED 2
+//OR NOT HAS_MISSION_AUDIO_LOADED 2
 	WAIT 0
 ENDWHILE 
 
@@ -1020,18 +1025,18 @@ ENDWHILE
 CLEAR_MISSION_AUDIO 1
 CLEAR_THIS_PRINT CUB2_12 
 
-IF NOT IS_CHAR_DEAD cuban_attacker2 
-	SET_CHAR_WAIT_STATE cuban_attacker2 WAITSTATE_PLAYANIM_CHAT 10000
-ENDIF
-
-PRINT_NOW CUB2_13 4000 1//Stinking nest of Haitians, we gonna kill them all!
-PLAY_MISSION_AUDIO 2
-WHILE NOT HAS_MISSION_AUDIO_FINISHED 2
-AND NOT IS_CHAR_DEAD cuban_attacker2 
-	WAIT 0
-ENDWHILE
-CLEAR_MISSION_AUDIO 2
-CLEAR_THIS_PRINT CUB2_13 
+//IF NOT IS_CHAR_DEAD cuban_attacker2 
+//	SET_CHAR_WAIT_STATE cuban_attacker2 WAITSTATE_PLAYANIM_CHAT 10000
+//ENDIF
+//
+//PRINT_NOW CUB2_13 4000 1//Stinking nest of Haitians, we gonna kill them all!
+//PLAY_MISSION_AUDIO 2
+//WHILE NOT HAS_MISSION_AUDIO_FINISHED 2
+//AND NOT IS_CHAR_DEAD cuban_attacker2 
+//	WAIT 0
+//ENDWHILE
+//CLEAR_MISSION_AUDIO 2
+//CLEAR_THIS_PRINT CUB2_13 
 
 LOAD_MISSION_AUDIO 1 CUB2_3c
 LOAD_MISSION_AUDIO 2 CUB2_9

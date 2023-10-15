@@ -1019,7 +1019,7 @@ ENDWHILE
 
 PRINT_NOW ( HAM3_E ) 10000 1 //"One more ting an den I can let you go Tommy."
 
-WHILE cs_time < 15894 
+WHILE cs_time < 17022 
 	WAIT 0
 	GET_CUTSCENE_TIME cs_time
 ENDWHILE
@@ -1032,22 +1032,23 @@ WHILE cs_time < 19040
 ENDWHILE
 
 PRINT_NOW ( HAM3_G ) 10000 1 //"But no guns"
-
+/*
 WHILE cs_time < 20758 
 	WAIT 0
 	GET_CUTSCENE_TIME cs_time
 ENDWHILE
 
 PRINT_NOW ( HAM3_H ) 10000 1 //"Hmm, but de Cubans have a surprise a comin'."
-
-WHILE cs_time < 23591 
+*/
+WHILE cs_time < 23578 
 	WAIT 0
 	GET_CUTSCENE_TIME cs_time
 ENDWHILE
 
-PRINT_NOW ( HAM3_I ) 10000 1 //"While they fight in de streets, you take this rifle."
+PRINT_NOW ( HAM3_Z ) 10000 1 
+//PRINT_NOW ( HAM3_I ) 10000 1 //"While they fight in de streets, you take this rifle."
 
-WHILE cs_time < 28128 
+WHILE cs_time < 27163 
 	WAIT 0
 	GET_CUTSCENE_TIME cs_time
 ENDWHILE

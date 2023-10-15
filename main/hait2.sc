@@ -222,7 +222,7 @@ WHILE cs_time < 28339
 ENDWHILE
 PRINT_NOW HAT2_7 10000 1 //You look like someone I...
  
-WHILE cs_time < 30139
+WHILE cs_time < 30676
 	WAIT 0
 	GET_CUTSCENE_TIME cs_time
 ENDWHILE

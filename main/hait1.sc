@@ -815,42 +815,42 @@ ENDWHILE
 
 PRINT_NOW ( HAM1_P ) 10000 1 //"Do me these things Tommy......
 
-WHILE cs_time < 53234 
+WHILE cs_time < 54256 
 	WAIT 0
 	GET_CUTSCENE_TIME cs_time
 ENDWHILE
 
 PRINT_NOW ( HAM1_Q ) 10000 1 //"The Cubans, nasty proud foofoos, hmmm.
 
-WHILE cs_time < 57817 
+WHILE cs_time < 58587 
 	WAIT 0
 	GET_CUTSCENE_TIME cs_time
 ENDWHILE
 
 PRINT_NOW ( HAM1_R ) 10000 1 //"been making my lovely Haitian boys shake de heads.
 
-WHILE cs_time < 61451 
+WHILE cs_time < 61440 
 	WAIT 0
 	GET_CUTSCENE_TIME cs_time
 ENDWHILE
 
 PRINT_NOW ( HAM1_S ) 10000 1 //"Now they told the policemen where I been stashing my powders.
 
-WHILE cs_time < 64655 
+WHILE cs_time < 64648 
 	WAIT 0
 	GET_CUTSCENE_TIME cs_time
 ENDWHILE
 
 PRINT_NOW ( HAM1_T ) 10000 1 //"Dey tink it's drugs, dey stupid.
 
-WHILE cs_time < 68336 
+WHILE cs_time < 68333 
 	WAIT 0
 	GET_CUTSCENE_TIME cs_time
 ENDWHILE
 
 PRINT_NOW ( HAM1_U ) 10000 1 //Now be a good boy Tommy and go and get me powders for Auntie Poulet.
 
-WHILE cs_time < 74373 
+WHILE cs_time < 74205 
 	WAIT 0
 	GET_CUTSCENE_TIME cs_time
 ENDWHILE

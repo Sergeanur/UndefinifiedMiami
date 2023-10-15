@@ -604,7 +604,7 @@ IF counter_laps = 2
 
 	IF flag_new_bmx_record_set = 1
 		//set_record_bmx_1 = record_bmx_1 * 1000
-		REGISTER_FASTEST_TIME 17 record_bmx_2
+		REGISTER_FASTEST_TIME 17 record_bmx_1
 		GOTO mission_bmx_1_passed
 	ENDIF
 ENDIF 

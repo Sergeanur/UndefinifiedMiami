@@ -3744,7 +3744,7 @@ WAIT mission_trigger_wait_time
 					ENDIF
 				ENDIF
 			ELSE
-				PRINT_NOW ( GOAWAY2 ) 1000 2
+				PRINT_NOW ( GOAWAY2 ) 4000 2
 				WHILE LOCATE_PLAYER_ON_FOOT_3D Player1 rockX rockY rockZ 1.5 2.0 2.0 FALSE
 					WAIT 0
 					IF NOT IS_PLAYER_PLAYING player1

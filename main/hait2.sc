@@ -2761,6 +2761,7 @@ IF NOT rc_plane = -1
 ENDIF
 
 IF NOT IS_CAR_DEAD plane_carrier
+	FREEZE_CAR_POSITION plane_carrier FALSE
 	LOCK_CAR_DOORS plane_carrier CARLOCK_UNLOCKED
 ENDIF
 

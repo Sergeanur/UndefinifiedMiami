@@ -869,11 +869,6 @@ OR player_in_correct_vehicle_rock1 = 0
 
 	IF IS_PLAYER_IN_ANY_CAR player1
 		STORE_CAR_PLAYER_IS_IN player1 car2_rock1
-		
-		IF NOT IS_CAR_DEAD car2_rock1
-			GET_MAXIMUM_NUMBER_OF_PASSENGERS car2_rock1 no_of_passengers_rock1
-		ENDIF
-
 	ENDIF
 		
 
@@ -881,19 +876,34 @@ OR player_in_correct_vehicle_rock1 = 0
 	OR IS_PLAYER_IN_FLYING_VEHICLE player1
 	OR IS_PLAYER_IN_MODEL player1 PIZZABOY
 	OR IS_PLAYER_IN_MODEL player1 BAGGAGE
-	OR no_of_passengers_rock1 < 1
 		player_in_correct_vehicle_rock1 = 0
 	ELSE
 		player_in_correct_vehicle_rock1 = 1
 	ENDIF	
-		
+
+	IF NOT IS_CAR_DEAD car2_rock1
+		IF NOT IS_CAR_PASSENGER_SEAT_FREE car2_rock1 0
+			player_in_correct_vehicle_rock1 = 0
+		ELSE
+			player_in_correct_vehicle_rock1 = 1
+		ENDIF
+	ENDIF
+
 	IF LOCATE_PLAYER_ANY_MEANS_3D player1 304.747 291.581 15.238 3.0 3.0 4.0 FALSE
+
+		IF NOT IS_CAR_DEAD car2_rock1
+			IF NOT IS_CAR_PASSENGER_SEAT_FREE car2_rock1 0
+				IF flag_had_car2_message_rock1 = 0
+					PRINT_NOW ( RBM1_14 ) 5000 1  //"You need a car!
+					flag_had_car2_message_rock1 = 1
+				ENDIF
+			ENDIF
+		ENDIF
 
 		IF IS_PLAYER_IN_ANY_BOAT player1
  		OR IS_PLAYER_IN_MODEL player1 PIZZABOY
  		OR IS_PLAYER_IN_MODEL player1 BAGGAGE
  		OR IS_PLAYER_IN_FLYING_VEHICLE player1
- 		OR no_of_passengers_rock1 < 1	
 
 			IF flag_had_car2_message_rock1 = 0
 				PRINT_NOW ( RBM1_14 ) 5000 1 //"You need a car!

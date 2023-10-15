@@ -1061,8 +1061,14 @@ IF player_in_van_for_first_time = 1
 ENDIF
 IF player_in_van_for_first_time = 1
 	IF print_help_s3 = 4
-		IF TIMERA > 9500
-			PRINT_HELP TEX3_26
+		GET_CONTROLLER_MODE controlmode
+		IF NOT controlmode = 3
+			IF TIMERA > 9500
+				PRINT_HELP TEX3_26
+				TIMERA = 0
+				print_help_s3 = 5
+			ENDIF
+		ELSE
 			TIMERA = 0
 			print_help_s3 = 5
 		ENDIF

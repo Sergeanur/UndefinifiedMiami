@@ -37,6 +37,10 @@ VAR_INT radar_blip_coord2_rock1
 
 VAR_INT car_rock1
 
+VAR_INT car2_rock1
+
+VAR_INT no_of_passengers_rock1
+
 // Dealer1
 
 VAR_INT dealer1_rock1
@@ -189,6 +193,8 @@ flag_dealer_car_rock1 = 0
 flag_dealer_foot_rock1 = 0
 
 dealer_doing_stuff_rock1 = 0
+
+no_of_passengers_rock1 = 0
 		
 WAIT 0
 
@@ -858,10 +864,24 @@ OR player_in_correct_vehicle_rock1 = 0
 		 blob_flag = 0
 		GOTO mission_rock1_failed
 	ENDIF
+
+	no_of_passengers_rock1 = 0
+
+	IF IS_PLAYER_IN_ANY_CAR player1
+		STORE_CAR_PLAYER_IS_IN player1 car2_rock1
+		
+		IF NOT IS_CAR_DEAD car2_rock1
+			GET_MAXIMUM_NUMBER_OF_PASSENGERS car2_rock1 no_of_passengers_rock1
+		ENDIF
+
+	ENDIF
 		
 
 	IF IS_PLAYER_IN_ANY_BOAT player1
-	OR IS_PLAYER_IN_MODEL player1 HUNTER
+	OR IS_PLAYER_IN_FLYING_VEHICLE player1
+	OR IS_PLAYER_IN_MODEL player1 PIZZABOY
+	OR IS_PLAYER_IN_MODEL player1 BAGGAGE
+	OR no_of_passengers_rock1 < 1
 		player_in_correct_vehicle_rock1 = 0
 	ELSE
 		player_in_correct_vehicle_rock1 = 1
@@ -870,7 +890,10 @@ OR player_in_correct_vehicle_rock1 = 0
 	IF LOCATE_PLAYER_ANY_MEANS_3D player1 304.747 291.581 15.238 3.0 3.0 4.0 FALSE
 
 		IF IS_PLAYER_IN_ANY_BOAT player1
- 		OR IS_PLAYER_IN_MODEL player1 HUNTER
+ 		OR IS_PLAYER_IN_MODEL player1 PIZZABOY
+ 		OR IS_PLAYER_IN_MODEL player1 BAGGAGE
+ 		OR IS_PLAYER_IN_FLYING_VEHICLE player1
+ 		OR no_of_passengers_rock1 < 1	
 
 			IF flag_had_car2_message_rock1 = 0
 				PRINT_NOW ( RBM1_14 ) 5000 1 //"You need a car!

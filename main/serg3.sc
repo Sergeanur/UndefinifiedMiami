@@ -235,6 +235,7 @@ mission_start_serg2:
 REGISTER_MISSION_GIVEN
 
 flag_player_on_mission = 1
+flag_player_on_rc_mission = 1 //PC FIX PC FIX PC FIX PC FIX PC FIX PC FIX PC FIX
 
 WAIT 0
 
@@ -3224,6 +3225,8 @@ flag_player_on_mission = 0
 SWITCH_WIDESCREEN OFF
 SET_PLAYER_CONTROL player1 ON
 REMOVE_RC_BUGGY
+
+flag_player_on_rc_mission = 0 //PC FIX PC FIX PC FIX PC FIX PC FIX PC FIX PC FIX
 
 REMOVE_BLIP vanblip_s3
 

@@ -75,6 +75,7 @@ VAR_INT race_timer_mins_plane1
 mission_start_rcplane:
 
 flag_player_on_mission = 1
+flag_player_on_rc_mission = 1 //PC FIX PC FIX PC FIX PC FIX PC FIX PC FIX PC FIX
 
 
 IF playerpassedrcplane1 = 0
@@ -1060,6 +1061,7 @@ RETURN
 mission_cleanup_rcplane:
 
 flag_player_on_mission = 0
+flag_player_on_rc_mission = 0 //PC FIX PC FIX PC FIX PC FIX PC FIX PC FIX PC FIX
 
 CLEAR_ONSCREEN_TIMER rcp_race_timer
 REMOVE_BLIP rcp_blip_chase 

@@ -420,12 +420,33 @@ TIMERB = 0
 TIMERA = 0
 
 steel_boat_loop:
-IF NOT IS_PLAYER_IN_CAR player1 fastest_boat
+
 	WAIT 0
 
+	IF NOT IS_CAR_DEAD fastest_boat
+		IF IS_PLAYER_IN_CAR player1 fastest_boat
+			GOTO get_boat_to_mansion
+		ENDIF
+	ENDIF
+
+	IF NOT IS_PLAYER_IN_ANGLED_AREA_3D Player1 -643.2 -1495.3 12.0 -679.1 -1481.3 18.0 -19.5 FALSE
+
+	ENDIF
+
 	IF IS_CAR_DEAD fastest_boat
-		PRINT_NOW ( COK3_7 ) 5000 1 // You destroyed the boat!
-		GOTO mission_baron3_failed
+		IF IS_PLAYER_IN_ANGLED_AREA_3D Player1 -643.2 -1495.3 12.0 -679.1 -1481.3 18.0 -19.5 FALSE
+			REMOVE_SPHERE Sphere_cok3
+			REMOVE_BLIP fastest_boat_blip
+			WHILE IS_PLAYER_IN_ANGLED_AREA_3D Player1 -643.2 -1495.3 12.0 -679.1 -1481.3 18.0 -19.5 FALSE
+				WAIT 0
+
+			ENDWHILE
+			PRINT_NOW ( COK3_7 ) 5000 1 // You destroyed the boat!
+			GOTO mission_baron3_failed
+		ELSE
+			PRINT_NOW ( COK3_7 ) 5000 1 // You destroyed the boat!
+			GOTO mission_baron3_failed
+		ENDIF
 	ENDIF
 
 	IF boat_button_pressed = 0
@@ -859,12 +880,23 @@ IF NOT IS_PLAYER_IN_CAR player1 fastest_boat
 	GOSUB chars_attack_player
 	
 	IF IS_CAR_DEAD fastest_boat
-		PRINT_NOW ( COK3_7 ) 5000 1 // You destroyed the boat!
-		GOTO mission_baron3_failed
+		IF IS_PLAYER_IN_ANGLED_AREA_3D Player1 -643.2 -1495.3 12.0 -679.1 -1481.3 18.0 -19.5 FALSE
+			REMOVE_SPHERE Sphere_cok3
+			REMOVE_BLIP fastest_boat_blip
+			WHILE IS_PLAYER_IN_ANGLED_AREA_3D Player1 -643.2 -1495.3 12.0 -679.1 -1481.3 18.0 -19.5 FALSE
+				WAIT 0
+
+			ENDWHILE
+			PRINT_NOW ( COK3_7 ) 5000 1 // You destroyed the boat!
+			GOTO mission_baron3_failed
+		ELSE
+			PRINT_NOW ( COK3_7 ) 5000 1 // You destroyed the boat!
+			GOTO mission_baron3_failed
+		ENDIF
 	ENDIF
 
 GOTO steel_boat_loop
-ENDIF
+
 
 get_boat_to_mansion:
 
@@ -881,8 +913,19 @@ OR NOT IS_PLAYER_IN_CAR player1 fastest_boat
 	WAIT 0
 
 	IF IS_CAR_DEAD fastest_boat
-		PRINT_NOW ( COK3_7 ) 5000 1 // You destroyed the boat!
-		GOTO mission_baron3_failed
+		IF IS_PLAYER_IN_ANGLED_AREA_3D Player1 -643.2 -1495.3 12.0 -679.1 -1481.3 18.0 -19.5 FALSE
+			REMOVE_SPHERE Sphere_cok3
+			REMOVE_BLIP fastest_boat_blip
+			WHILE IS_PLAYER_IN_ANGLED_AREA_3D Player1 -643.2 -1495.3 12.0 -679.1 -1481.3 18.0 -19.5 FALSE
+				WAIT 0
+
+			ENDWHILE
+			PRINT_NOW ( COK3_7 ) 5000 1 // You destroyed the boat!
+			GOTO mission_baron3_failed
+		ELSE
+			PRINT_NOW ( COK3_7 ) 5000 1 // You destroyed the boat!
+			GOTO mission_baron3_failed
+		ENDIF
 	ENDIF
 
 	GOSUB chars_attack_player
@@ -1058,8 +1101,10 @@ RETURN
 
 boat_cut_scenes:
 
-	SET_CAR_COORDINATES fastest_boat -597.6 -1507.7 11.5
-	SET_CAR_HEADING fastest_boat 256.0
+	IF NOT IS_CAR_DEAD fastest_boat
+		SET_CAR_COORDINATES fastest_boat -597.6 -1507.7 11.5
+		SET_CAR_HEADING fastest_boat 256.0
+	ENDIF
 
 	IF played_show_boat_cut = 0
 		IF NOT IS_CAR_DEAD fastest_boat
@@ -1109,6 +1154,7 @@ boat_cut_scenes:
 
 				SET_PLAYER_CONTROL player1 ON
 				SWITCH_WIDESCREEN OFF
+				SET_CAMERA_BEHIND_PLAYER
 				RESTORE_CAMERA_JUMPCUT
 				played_show_boat_cut = 1
 			ENDIF

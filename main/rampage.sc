@@ -623,7 +623,7 @@ WHILE total_rampages_passed < 35
 		ENDIF
 	ENDIF
 
-//624.26 -230.158 23.915
+//593.315 -352.826 13.711
 
 
 	IF rampage_frame_counter = 15
@@ -633,9 +633,9 @@ WHILE total_rampages_passed < 35
 			rampage_weapon_model = SHOTGSPA
 			rampage_weapontype = WEAPONTYPE_SPAS12_SHOTGUN
 			rampage_kills = rampage_31_kills
-			rampage_pickup_x = 624.26  
-			rampage_pickup_y = -230.158
-			rampage_pickup_z = 23.915  // TOP OF OCEAN DRIVE NXT TO BUILDING BHD BUSHES
+			rampage_pickup_x = 593.315  
+			rampage_pickup_y = -352.826
+			rampage_pickup_z = 13.711  // TOP OF OCEAN DRIVE NXT TO BUILDING BHD BUSHES
 			GOSUB rampage_gosub
 			rampage_31_flag	= rampage_flag
 			rampage_31 = rampage_pickup

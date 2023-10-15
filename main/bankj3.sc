@@ -1009,6 +1009,11 @@ WHILE player1_cpcounter_bankjob3 < total_checkpoints_bankjob3
 	ENDIF
 
 // Chase car 1
+
+	IF IS_CHAR_DEAD driver_bankjob3
+		PRINT_NOW ( BJM3_2 ) 5000 1 //"Shit Hilary has been wasted!"
+		GOTO mission_bankjob3_failed
+	ENDIF
 			
 	IF NOT IS_CAR_DEAD racer1_bankjob3
 						
@@ -1055,12 +1060,6 @@ WHILE player1_cpcounter_bankjob3 < total_checkpoints_bankjob3
 			ENDIF
 
 		ENDIF
-
-	ELSE
-
-		IF NOT IS_CAR_IN_WATER racer1_bankjob3
-			racer1_cpcounter_bankjob3	= 0
-		ENDIF
 		
 		IF IS_CAR_IN_WATER racer1_bankjob3
 
@@ -1080,6 +1079,12 @@ WHILE player1_cpcounter_bankjob3 < total_checkpoints_bankjob3
 
 			ENDIF
 
+		ENDIF
+
+	ELSE
+
+		IF NOT IS_CAR_IN_WATER racer1_bankjob3
+			racer1_cpcounter_bankjob3	= 0
 		ENDIF
 		
    	ENDIF
@@ -1363,6 +1368,13 @@ RETURN
 mission_cleanup_bankjob3:
 
 REMOVE_CHAR_ELEGANTLY driver_bankjob3
+
+IF NOT IS_CAR_DEAD racer1_bankjob3
+	SET_CAR_PROOFS racer1_bankjob3 FALSE FALSE FALSE FALSE FALSE
+	SET_CAR_WATERTIGHT racer1_bankjob3 FALSE
+	SET_CAR_STRONG racer1_bankjob3 FALSE 
+	SET_UPSIDEDOWN_CAR_NOT_DAMAGED racer1_bankjob3 FALSE
+ENDIF 
 
 SWITCH_ROADS_ON 439.691 -319.016 8.0 533.378 139.155 14.0 // switches on road outside of Malibu
 SET_CAR_DENSITY_MULTIPLIER 1.0

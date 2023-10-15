@@ -1196,8 +1196,11 @@ WHILE cutscene_over_rock2 = 0
 				
 				IF flag_groupie1_in_local1_rock2 = 0
 
-					CLEAR_AREA ped_location1_x_rock2 ped_location1_y_rock2 ped_location1_z_rock2 1.0 FALSE
-					CLEAR_AREA ped_location2_x_rock2 ped_location2_y_rock2 ped_location2_z_rock2 1.0 FALSE
+					CLEAR_AREA ped_location1_x_rock2 ped_location1_y_rock2 ped_location1_z_rock2 2.0 FALSE
+					CLEAR_AREA ped_location2_x_rock2 ped_location2_y_rock2 ped_location2_z_rock2 2.0 FALSE
+					CLEAR_AREA -877.13 751.69 10.08 2.0 FALSE // ped 1 location
+					CLEAR_AREA -879.13 751.69 10.08	2.0	FALSE // ped 2 location
+					CLEAR_AREA -881.13 751.69 10.08	2.0 FALSE // nutter location
 										
 					IF NOT IS_CHAR_DEAD security1_rock2
 						SET_CHAR_WAIT_STATE security1_rock2 WAITSTATE_PLAYANIM_CHAT 2000
@@ -1210,22 +1213,41 @@ WHILE cutscene_over_rock2 = 0
 					CLEAR_ALL_CHAR_ANIMS groupie1_rock2
 					SET_CHAR_OBJ_GOTO_COORD_ON_FOOT groupie1_rock2 ped_location1_x_rock2 ped_location1_y_rock2
 					timera = 0
+					timerb = 0
 					flag_groupie1_in_local1_rock2 = 1
 				ENDIF
 
 				IF flag_groupie1_in_local1_rock2 = 1
+
+					IF timerb >= 6000
+
+						IF NOT LOCATE_CHAR_ON_FOOT_2D groupie1_rock2 ped_location1_x_rock2 ped_location1_y_rock2 0.5 0.5 FALSE 
+							SET_CHAR_COORDINATES groupie1_rock2 ped_location1_x_rock2 ped_location1_y_rock2 ped_location1_z_rock2
+						ENDIF
+
+					ENDIF 
 										
 					IF LOCATE_CHAR_ON_FOOT_2D groupie1_rock2 ped_location1_x_rock2 ped_location1_y_rock2 0.5 0.5 FALSE
 						SET_CHAR_OBJ_GOTO_COORD_ON_FOOT groupie1_rock2 ped_location2_x_rock2 ped_location2_y_rock2
+						timerb = 0
 						flag_groupie1_in_local1_rock2 = 2
 					ENDIF
 
 				ENDIF
 
 				IF flag_groupie1_in_local1_rock2 = 2
+
+					IF timerb >= 6000
+
+						IF NOT LOCATE_CHAR_ON_FOOT_2D groupie1_rock2 ped_location2_x_rock2 ped_location2_y_rock2 0.5 0.5 FALSE 
+							SET_CHAR_COORDINATES groupie1_rock2 ped_location2_x_rock2 ped_location2_y_rock2 ped_location2_z_rock2
+						ENDIF
+
+					ENDIF 
 					
 					IF LOCATE_CHAR_ON_FOOT_2D groupie1_rock2 ped_location2_x_rock2 ped_location2_y_rock2 0.5 0.5 FALSE
 					   	CHAR_SET_IDLE groupie1_rock2
+					   	timerb = 0  		  
 						flag_groupie1_in_local1_rock2 = 3
 					ENDIF
 
@@ -1266,23 +1288,42 @@ WHILE cutscene_over_rock2 = 0
 								CLEAR_ALL_CHAR_ANIMS groupie2_rock2 
 								SET_CHAR_OBJ_GOTO_COORD_ON_FOOT groupie2_rock2 ped_location1_x_rock2 ped_location1_y_rock2
 								timera = 0
+								timerb = 0
 								flag_groupie2_in_local1_rock2 = 1
 							ENDIF
 
 						ENDIF
 
 						IF flag_groupie2_in_local1_rock2 = 1
+
+							IF timerb >= 6000
+
+								IF NOT LOCATE_CHAR_ON_FOOT_2D groupie2_rock2 ped_location1_x_rock2 ped_location1_y_rock2 0.5 0.5 FALSE 
+									SET_CHAR_COORDINATES groupie2_rock2 ped_location1_x_rock2 ped_location1_y_rock2 ped_location1_z_rock2
+								ENDIF
+
+							ENDIF
 						
 							IF LOCATE_CHAR_ON_FOOT_2D groupie2_rock2 ped_location1_x_rock2 ped_location1_y_rock2 0.5 0.5 FALSE
 								SET_CHAR_OBJ_GOTO_COORD_ON_FOOT groupie2_rock2 ped_location2_x_rock2 ped_location2_y_rock2
+								timerb = 0
 								flag_groupie2_in_local1_rock2 = 2
 							ENDIF
 
 						ENDIF
 
 						IF flag_groupie2_in_local1_rock2 = 2
+
+							IF timerb >= 6000
+								
+								IF NOT LOCATE_CHAR_ON_FOOT_2D groupie2_rock2 ped_location2_x_rock2 ped_location2_y_rock2 0.5 0.5 FALSE
+									SET_CHAR_COORDINATES groupie2_rock2 ped_location2_x_rock2 ped_location2_y_rock2 ped_location2_z_rock2
+								ENDIF
+								
+							ENDIF  
 						
 							IF LOCATE_CHAR_ON_FOOT_2D groupie2_rock2 ped_location2_x_rock2 ped_location2_y_rock2 0.5 0.5 FALSE 		  
+								timerb = 0
 								flag_groupie2_in_local1_rock2 = 3
 							ENDIF
 
@@ -1322,6 +1363,7 @@ WHILE cutscene_over_rock2 = 0
 						CLEAR_ALL_CHAR_ANIMS nutter_rock2
 						SET_CHAR_OBJ_GOTO_COORD_ON_FOOT nutter_rock2 ped_location1_x_rock2 ped_location1_y_rock2
 						timera = 0
+						timerb = 0
 						flag_nutter_in_local1_rock2 = 1
 					   //	SET_FIXED_CAMERA_POSITION -871.706 752.216 10.415 0.0 0.0 0.0
 					   //	POINT_CAMERA_AT_POINT -872.667 752.154 10.683 JUMP_CUT
@@ -1330,6 +1372,14 @@ WHILE cutscene_over_rock2 = 0
 				ENDIF
 
 				IF flag_nutter_in_local1_rock2 = 1
+
+					IF timerb >= 6000
+
+						IF NOT LOCATE_CHAR_ON_FOOT_2D nutter_rock2 ped_location1_x_rock2 ped_location1_y_rock2 1.0 1.0 FALSE
+							SET_CHAR_COORDINATES nutter_rock2 ped_location1_x_rock2 ped_location1_y_rock2 ped_location1_z_rock2
+						ENDIF
+					
+					ENDIF  
 				
 					IF LOCATE_CHAR_ON_FOOT_2D nutter_rock2 ped_location1_x_rock2 ped_location1_y_rock2 1.0 1.0 FALSE
 						CHAR_SET_IDLE nutter_rock2

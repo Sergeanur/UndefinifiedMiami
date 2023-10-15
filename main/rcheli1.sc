@@ -125,6 +125,7 @@ IF playerpassedrcheli = 0
 ENDIF
 
 flag_player_on_mission = 1
+flag_player_on_rc_mission = 1 //PC FIX PC FIX PC FIX PC FIX PC FIX PC FIX PC FIX
 
 
 WAIT 0
@@ -846,6 +847,7 @@ flag_player_on_mission = 0
 //MARK_CAR_AS_NO_LONGER_NEEDED newcar
 //BLOW_UP_RC_BUGGY
 //LOCK_CAR_DOORS vanforrc CARLOCK_UNLOCKED
+flag_player_on_rc_mission = 0 //PC FIX PC FIX PC FIX PC FIX PC FIX PC FIX PC FIX
 CLEAR_ONSCREEN_TIMER timer_for_rcraider_coronas
 CLEAR_ONSCREEN_COUNTER pack_counter
 REMOVE_RC_BUGGY

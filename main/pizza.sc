@@ -268,8 +268,8 @@ IF NOT IS_CAR_DEAD pizza_moped
 			IF timera > 14000
 				IF total_pizzas_thrown > 0 
 					CLEAR_PRINTS
-					GOSUB no_longer_needed_pizzas
 					total_pizzas_thrown = 6
+					GOSUB no_longer_needed_pizzas
 					blob_flag = 0
 					timera = 0
 				ENDIF
@@ -402,8 +402,8 @@ IF go_back_to_pizza_hut_flag = 0
 					ENDIF
 			  		REMOVE_BLIP pizza_hut_blip
 					pizza_speech_played = 0
-					GOSUB no_longer_needed_pizzas
 					total_pizzas_thrown = 6
+					GOSUB no_longer_needed_pizzas
 					blob_flag = 0
 				ENDIF
 			ENDIF
@@ -421,8 +421,8 @@ ELSE
 			REMOVE_BLIP pizza_hut_blip
 			customer_complaint_time = 301000 //5 mins
 			pizza_speech_played = 0
-			GOSUB no_longer_needed_pizzas
 			total_pizzas_thrown = 6
+			GOSUB no_longer_needed_pizzas
 			blob_flag = 0 
 			customers_created = 0
 			pizza_goals ++
@@ -1937,6 +1937,7 @@ plyr_quit_game:///////////////////////////////////////////////////////
 
 IF flag_player_not_in_pizza_moped = 0
 	IF IS_BUTTON_PRESSED PAD1 RIGHTSHOCK
+		CLEAR_PRINTS 
 		mission_failed_flag = 3
 	ENDIF
 ENDIF

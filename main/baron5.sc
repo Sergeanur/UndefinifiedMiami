@@ -30,7 +30,7 @@ VAR_INT chatting_gaurd1 chatting_gaurd2	grounds_gaurd7 diaz_hiding_behind_chair	
 VAR_INT maze_chat_gaurd1 maze_chat_gaurd2 front_door2 buddys_health	grounds_gaurd9 grounds_gaurd10 grounds_gaurd11
 VAR_INT grounds_gaurd6 grounds_gaurd8 door_chat_gaurd1 door_chat_gaurd2 grounds_gaurd12 grounds_gaurd13	grounds_gaurd14 grounds_gaurd15
 VAR_FLOAT baron_World_X baron_World_Y baron_World_Z 
-VAR_INT room_with_a_view nice_border bastards_lance
+VAR_INT room_with_a_view nice_border bastards_lance stored_baron1_bike
 
 // ***************************************Mission Start*************************************
 
@@ -289,6 +289,7 @@ IF NOT IS_CHAR_DEAD	buddy
 	GIVE_WEAPON_TO_CHAR buddy WEAPONTYPE_M4 9999
 	SET_CHAR_THREAT_SEARCH buddy THREAT_GANG_DIAZ
 	SET_CHAR_HEALTH buddy 200
+	SET_CHAR_RUNNING buddy TRUE
 	SET_CHAR_AS_PLAYER_FRIEND buddy Player1 TRUE
 	SET_CHAR_NEVER_TARGETTED buddy TRUE
 	SET_CHAR_CEASE_ATTACK_TIMER buddy 1500
@@ -1359,6 +1360,14 @@ DELETE_CHAR	maze_gaurd2
 DELETE_CHAR maze_chat_gaurd1
 DELETE_CHAR maze_chat_gaurd2
 
+IF IS_CHAR_ON_ANY_BIKE scplayer
+	STORE_CAR_PLAYER_IS_IN player1 stored_baron1_bike
+	IF NOT IS_CAR_DEAD stored_baron1_bike
+		WARP_CHAR_FROM_CAR_TO_COORD scplayer -378.3 -592.4 24.8
+		DELETE_CAR stored_baron1_bike
+	ENDIF
+ENDIF
+
 CREATE_CHAR PEDTYPE_GANG_DIAZ CLb -392.0 -559.5 27.5 balcony_front1 
 SET_CHAR_HEADING balcony_front1	286.0
 SET_CHAR_SUFFERS_CRITICAL_HITS balcony_front1 FALSE
@@ -1630,14 +1639,12 @@ GOTO mission_baron5_passed
 
 mission_baron5_failed:
 
-flag_open_mansion = 0
-CREATE_OBJECT_NO_OFFSET mansion_new_doors -391.19 -575.906 24.071 mansion_doors
-DONT_REMOVE_OBJECT mansion_doors
-
 PRINT_BIG ( M_FAIL ) 5000 1 //"Mission Failed"
 
 IF IS_PLAYER_PLAYING player1
 	IF flag_player_in_mansion = 1
+	OR IS_PLAYER_IN_AREA_3D	player1 -350.93 -574.95 10.0 -369.20 -598.84 13.5 FALSE
+	OR IS_PLAYER_IN_AREA_3D	player1 -387.75 -598.51 10.0 -443.60 -571.64 13.5 FALSE
 		IF IS_CHAR_DEAD buddy
 			DO_FADE 1000 FADE_OUT
 				WHILE GET_FADING_STATUS
@@ -1657,6 +1664,9 @@ IF IS_PLAYER_PLAYING player1
 	ENDIF
 ENDIF
 
+CREATE_OBJECT_NO_OFFSET mansion_new_doors -391.19 -575.906 24.071 mansion_doors
+DONT_REMOVE_OBJECT mansion_doors
+flag_open_mansion = 0
 
 RETURN
 

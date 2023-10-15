@@ -881,34 +881,22 @@ IF NOT IS_CHAR_DEAD phil
 	SET_PLAYER_AS_LEADER phil player1 
 ENDIF
 
-timera = 0
-WHILE NOT LOCATE_PLAYER_ON_FOOT_3D player1 -894.0 -331.2 12.45 2.0 2.0 3.0 TRUE	
+//timera = 0
+WHILE NOT LOCATE_PLAYER_ON_FOOT_3D player1 -894.0 -331.2 12.45 2.0 2.0 3.0 TRUE
 	WAIT 0
-	GOSUB car_check
+	//GOSUB car_check
 	GOSUB phil_death_check
 	GOSUB cam_death_check
 	GOSUB hilary_car_check
 	IF flag_bank_mission_failed = 1
 		GOTO mission_bankjob4_failed
 	ENDIF
+ENDWHILE
 
 
 // OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO CHANGE OF CLOTHES 000000000000000000000000000000000000
 // 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 
-	IF NOT IS_CAR_DEAD getaway_car
-	AND timera > 5000
-	AND flag_car_warp = 0
-		IF NOT IS_CAR_ON_SCREEN	getaway_car
-			SET_CAR_COORDINATES getaway_car -903.6 -376.6 56.7
-			SET_CAR_HEADING getaway_car 270.0
-			SET_CAR_CRUISE_SPEED getaway_car 0.0
-			SET_CAR_HEALTH getaway_car 1000
-			FREEZE_CAR_POSITION getaway_car TRUE
-			flag_car_warp = 1
-		ENDIF
-	ENDIF
-ENDWHILE
 
 CLEAR_PRINTS
 
@@ -924,6 +912,20 @@ DO_FADE 750 FADE_OUT
 
 WHILE GET_FADING_STATUS
 	WAIT 0
+	IF NOT IS_CAR_DEAD getaway_car
+	AND flag_car_warp = 0
+	//AND timera > 5000
+		IF NOT IS_CAR_ON_SCREEN	getaway_car
+			DISARM_CAR_BOMB getaway_car
+			SET_CAR_COORDINATES getaway_car -903.6 -376.6 56.7
+			SET_CAR_HEADING getaway_car 270.0
+			SET_CAR_CRUISE_SPEED getaway_car 0.0
+			SET_CAR_HEALTH getaway_car 1000
+			FREEZE_CAR_POSITION getaway_car TRUE
+			flag_car_warp = 1
+		ENDIF
+	ENDIF
+
 ENDWHILE
 
 CLEAR_AREA -894.0 -331.2 12.45 10.0 TRUE
@@ -1233,10 +1235,12 @@ tha_inner:
 		ENDIF
 		IF NOT IS_CHAR_DEAD phil
 			SET_CHAR_COORDINATES phil -909.8 -339.0 12.5
+			SET_CHAR_HEALTH phil 100
 			CHAR_SET_IDLE phil
 		ENDIF
 		IF NOT IS_CHAR_DEAD cam
 			SET_CHAR_COORDINATES cam -909.55 -341.6 12.5
+			SET_CHAR_HEALTH cam 100
 			CHAR_SET_IDLE cam
 		ENDIF
 		SET_FIXED_CAMERA_POSITION -914.5 -341.1 12.7 0.0 0.0 0.0
@@ -1246,6 +1250,12 @@ tha_inner:
 	ENDIF
 
 	GOSUB bank_job_timer	
+	
+	GOSUB phil_death_check
+	GOSUB cam_death_check
+	IF flag_bank_mission_failed = 1
+		GOTO botty_head
+	ENDIF
 	
 	IF intro_time_lapsed > 1000	   
 	AND flag_intro = 1
@@ -1573,6 +1583,10 @@ IF NOT IS_CHAR_DEAD cam
 	SET_PLAYER_AS_LEADER cam player1
 	//SET_CHAR_THREAT_SEARCH cam THREAT_GANG_SECURITY
 ENDIF
+botty_head:
+IF flag_bank_mission_failed = 1
+	GOTO mission_bankjob4_failed
+ENDIF
 
 REMOVE_BLIP mission_blip
 ADD_BLIP_FOR_COORD -938.56 -351.5 16.8 mission_blip
@@ -1737,12 +1751,10 @@ IF NOT IS_CHAR_DEAD cam
 		WAIT 0
 		IF timera > 2500
 			IF NOT IS_CHAR_DEAD cam
-				IF NOT IS_CHAR_ON_SCREEN cam
-					SET_CHAR_COORDINATES cam -932.9 -351.3 16.8
-					SET_CHAR_HEADING cam 90.0
-					CHAR_FOLLOW_PATH cam -938.56 -351.5 16.8 0.5 RUN
-					//SET_CHAR_OBJ_RUN_TO_COORD cam -938.56 -351.5
-				ENDIF
+				SET_CHAR_COORDINATES cam -932.9 -351.3 16.8
+				SET_CHAR_HEADING cam 90.0
+				CHAR_FOLLOW_PATH cam -938.56 -351.5 16.8 0.5 RUN
+				//SET_CHAR_OBJ_RUN_TO_COORD cam -938.56 -351.5
 			ENDIF
 			timera = 0
 		ENDIF
@@ -1837,11 +1849,11 @@ IF NOT IS_CHAR_DEAD cam
 		WAIT 0
 		IF timera > 2000
 			IF NOT IS_CHAR_DEAD cam
-				IF NOT IS_CHAR_ON_SCREEN cam
+//				IF NOT IS_CHAR_ON_SCREEN cam
 					SET_CHAR_COORDINATES cam -937.0 -343.6 7.0
 					SET_CHAR_HEADING cam 90.0
 					SET_CHAR_OBJ_RUN_TO_COORD cam -944.5 -344.12
-				ENDIF
+//				ENDIF
 			ENDIF
 			timera = 0
 		ENDIF
@@ -2008,6 +2020,10 @@ WHILE NOT LOCATE_PLAYER_ON_FOOT_3D player1 -938.56 -351.5 16.8 1.5 1.5 1.5 TRUE
 	GOSUB phil_death_check
 	GOSUB banK_manager_death_check
 	GOSUB hostage_checker
+
+	IF flag_bank_mission_failed = 1
+		GOTO mission_bankjob4_failed
+	ENDIF
 	
 	IF LOCATE_PLAYER_ON_FOOT_3D player1 -922.3 -348.3 17.8 3.0 3.0 3.0 FALSE
 	AND flag_dialogue = 0
@@ -2037,12 +2053,12 @@ IF NOT IS_CHAR_DEAD bank_manager
 		WAIT 0
 		IF timera > 2500
 			IF NOT IS_CHAR_DEAD bank_manager
-				IF NOT IS_CHAR_ON_SCREEN bank_manager
+//				IF NOT IS_CHAR_ON_SCREEN bank_manager
 					SET_CHAR_COORDINATES bank_manager -932.9 -351.3 16.8
 					SET_CHAR_HEADING bank_manager 90.0
 					CHAR_FOLLOW_PATH bank_manager -938.56 -351.5 16.8 0.5 RUN
 					//SET_CHAR_OBJ_RUN_TO_COORD bank_manager -938.56 -351.5
-				ENDIF
+//				ENDIF
 			ENDIF
 			timera = 0
 		ENDIF
@@ -2122,11 +2138,11 @@ IF NOT IS_CHAR_DEAD bank_manager
 		WAIT 0
 		IF timera > 2500
 			IF NOT IS_CHAR_DEAD bank_manager
-				IF NOT IS_CHAR_ON_SCREEN bank_manager
+//				IF NOT IS_CHAR_ON_SCREEN bank_manager
 					SET_CHAR_COORDINATES bank_manager -937.0 -343.5 6.2
 					SET_CHAR_HEADING bank_manager 90.0
 					SET_CHAR_OBJ_RUN_TO_COORD bank_manager -943.68 -343.47
-				ENDIF
+//				ENDIF
 			ENDIF
 			timera = 0
 		ENDIF
@@ -2775,7 +2791,7 @@ WHILE IS_PLAYER_PLAYING player1
 	ENDIF
 	IF flag_cam_dead = 1
 		IF HAS_PICKUP_BEEN_COLLECTED retirement
-		AND flag_cam_at_target = 0
+		AND flag_cam_at_target < 2
 			flag_cam_at_target = 1
 		ENDIF
 	ENDIF
@@ -3283,6 +3299,10 @@ PRINT_BIG ( M_FAIL ) 5000 1 //"Mission Failed"
 
 SET_FADING_COLOUR 0 0 1
 SWITCH_PED_ROADS_OFF -414.0 -597.0 12.0 -332.0 -555.0 30.0
+
+WHILE IS_PLAYER_IN_AREA_3D player1 -852.8 -915.0 10.0 -837.5 -897.2 13.0 FALSE // CHECKS IF PLAYER HAS FAILED BY STANDING IN GARAGE AND SHOOTING PHIL - STOPS PLAYER GETTING STUCK IN GARAGE.
+	WAIT 0
+ENDWHILE
 
 IF IS_PLAYER_PLAYING player1
 AND flag_player_in_bank = 1
@@ -3899,6 +3919,7 @@ MARK_MODEL_AS_NO_LONGER_NEEDED veg_palmbig14
 REMOVE_CHAR_ELEGANTLY phil
 REMOVE_CHAR_ELEGANTLY cam
 REMOVE_CHAR_ELEGANTLY hilary
+REMOVE_CHAR_ELEGANTLY bank_manager
 
 REMOVE_PICKUP retirement
 

@@ -93,6 +93,9 @@ VAR_INT flag_conversation1_rock3 // Used to trigger each conversation message
 VAR_INT flag_car_blip_added_rock3
 flag_car_blip_added_rock3 = 0
 
+VAR_INT flag_concert_visible_rock3 // used to solve a bug that was involved wiht the interiors
+flag_concert_visible_rock3 = 0
+
 // ****************************************Mission Start************************************
 
 mission_start_rock3:
@@ -789,6 +792,7 @@ OR band_in_car_rock3 = 0
 			IF IS_CHAR_IN_CAR jezz_rock3 limo_rock3 
 			AND IS_CHAR_IN_CAR dick_rock3 limo_rock3 
 			AND IS_CHAR_IN_CAR percy_rock3 limo_rock3
+			AND IS_PLAYER_IN_CAR player1 limo_rock3
 				band_in_car_rock3 = 1
 			ELSE
 				band_in_car_rock3 = 0
@@ -955,6 +959,7 @@ ENDWHILE
 
 RESTORE_CAMERA_JUMPCUT
 SET_AREA_VISIBLE VIS_CONCERT_HALL
+flag_concert_visible_rock3 = 1
 LOAD_SCENE -928.915 1056.264 12.28
 SET_EXTRA_COLOURS 12 FALSE // TRY THIS AARON WILL HAVE A LOOK AND DECIDE IF ITS OK 
 SET_PLAYER_COORDINATES player1 -924.115 1054.524 12.28
@@ -1553,6 +1558,7 @@ DELETE_CHAR percy_rock3
 
 CLEAR_EXTRA_COLOURS FALSE
 SET_AREA_VISIBLE VIS_MAIN_MAP
+flag_concert_visible_rock3 = 0
 LOAD_SCENE -885.396 1054.467 12.583 
 
 SET_FIXED_CAMERA_POSITION -887.965 1054.653 14.846 0.0 0.0 0.0
@@ -1627,7 +1633,18 @@ RELEASE_WEATHER
 CLEAR_MISSION_AUDIO 1
 CLEAR_MISSION_AUDIO 2
 CLEAR_EXTRA_COLOURS FALSE
-SET_AREA_VISIBLE VIS_MAIN_MAP
+
+IF flag_concert_visible_rock3 = 1
+	SET_AREA_VISIBLE VIS_MAIN_MAP
+	LOAD_SCENE -885.396 1054.467 12.583 
+	SET_FIXED_CAMERA_POSITION -887.965 1054.653 14.846 0.0 0.0 0.0
+	POINT_CAMERA_AT_POINT -887.016 1054.583 14.538 JUMP_CUT
+	SET_PLAYER_COORDINATES player1 -885.396 1054.467 12.583 
+	SET_PLAYER_HEADING player1 280.871 
+	RESTORE_CAMERA_JUMPCUT
+	SET_CAMERA_IN_FRONT_OF_PLAYER
+ENDIF
+
 REMOVE_BLIP limo_blip_rock3
 REMOVE_BLIP venue_blip_rock3
 CLEAR_ONSCREEN_COUNTER speed_bar_rock3

@@ -449,6 +449,16 @@ shop_ammu1_inner:
 																		ADD_SCORE player1 -200
 																		ADD_MONEY_SPENT_ON_WEAPONS 200
 																		WAIT 300
+																	ELSE
+																   		IF done_copcar_progress = 1
+																			IF players_armour < 200
+																				ADD_ARMOUR_TO_PLAYER Player1 200
+																				GOSUB buy_noise
+																				ADD_SCORE player1 -200
+																				ADD_MONEY_SPENT_ON_WEAPONS 200
+																				WAIT 300
+																			ENDIF
+																		ENDIF 
 																	ENDIF
 
 																ELSE
@@ -959,6 +969,16 @@ shop_ammu2_inner:
 																		ADD_SCORE player1 -200
 																		ADD_MONEY_SPENT_ON_WEAPONS 200
 																		WAIT 300
+																	ELSE
+																   		IF done_copcar_progress = 1
+																			IF players_armour < 200
+																				ADD_ARMOUR_TO_PLAYER Player1 200
+																				GOSUB buy_noise
+																				ADD_SCORE player1 -200
+																				ADD_MONEY_SPENT_ON_WEAPONS 200
+																				WAIT 300
+																			ENDIF
+																		ENDIF
 		   															ENDIF
 																ELSE
 																	GOSUB denied_noise
@@ -1500,6 +1520,16 @@ shop_ammu3_inner:
 																		ADD_SCORE player1 -200
 																		ADD_MONEY_SPENT_ON_WEAPONS 200
 																		WAIT 300
+																	ELSE
+																   		IF done_copcar_progress = 1
+																			IF players_armour < 200
+																				ADD_ARMOUR_TO_PLAYER Player1 200
+																				GOSUB buy_noise
+																				ADD_SCORE player1 -200
+																				ADD_MONEY_SPENT_ON_WEAPONS 200
+																				WAIT 300
+																			ENDIF
+																		ENDIF
 																	ENDIF
 																ELSE
 																	GOSUB denied_noise
@@ -2734,8 +2764,8 @@ shop_hardware3_inner:
 ammu_bloke_goes_radge:
 
 	IF NOT IS_CHAR_DEAD ammu_shop_bloke1
+
 		IF IS_PLAYER_SHOOTING player1
-		OR IS_PLAYER_TARGETTING_CHAR player1 ammu_shop_bloke1
 		OR HAS_CHAR_BEEN_DAMAGED_BY_WEAPON ammu_shop_bloke1 WEAPONTYPE_ANYWEAPON
 			IF ammu_bloke_kill_player = 0
 				IF IS_PLAYER_PLAYING player1

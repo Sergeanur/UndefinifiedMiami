@@ -1016,7 +1016,12 @@ ENDIF
 IF player_in_van_for_first_time = 1
 	IF print_help_s3 = 0
 		TIMERA = 0
-		PRINT_HELP TEX3_22
+		GET_CONTROLLER_MODE controlmode
+		IF controlmode = 3
+			PRINT_HELP PLANE_4
+		ELSE
+			PRINT_HELP PLANE_H
+		ENDIF
 		print_help_s3 = 1
 	ENDIF
 ENDIF

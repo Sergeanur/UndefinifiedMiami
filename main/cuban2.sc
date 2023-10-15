@@ -873,7 +873,7 @@ awaiting_player_arrival_loop1:
 	WAIT 0
     
     IF NOT IS_CAR_DEAD cuban_carry_car 
-		IF NOT LOCATE_PLAYER_IN_CAR_3D player1 -1072.6 70.3 10.2 4.0 4.0 4.0 TRUE
+		IF NOT LOCATE_PLAYER_IN_CAR_3D player1 -1070.1 70.3 10.2 3.5 4.0 4.0 TRUE
 			GOSUB checking_car_is_in_one_piece
 		ELSE
 			IF NOT IS_CAR_DEAD cuban_carry_car 
@@ -931,6 +931,11 @@ IF NOT IS_CAR_DEAD cuban_carry_car
 	ENDWHILE 
 ENDIF
 
+SET_CHAR_OBJ_LEAVE_CAR scplayer cuban_carry_car
+SET_CHAR_OBJ_RUN_TO_COORD scplayer -1077.2 73.3 
+
+WAIT 200
+
 //getting chars to leave car and enter the battle
 IF NOT IS_CAR_DEAD cuban_carry_car 
 	IF NOT IS_CHAR_DEAD cuban_pickup1 
@@ -951,9 +956,6 @@ IF NOT IS_CAR_DEAD cuban_carry_car
 		SET_CHAR_OBJ_RUN_TO_COORD cuban_pickup3 -1075.8 68.6 
 	ENDIF
 ENDIF
-
-SET_CHAR_OBJ_LEAVE_CAR scplayer cuban_carry_car
-SET_CHAR_OBJ_RUN_TO_COORD scplayer -1077.2 73.3 
 
 MARK_CAR_AS_NO_LONGER_NEEDED cuban_carry_car 
 

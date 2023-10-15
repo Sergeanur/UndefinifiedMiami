@@ -449,6 +449,7 @@ CREATE_CAR stretch -492.4 1335.8 10.4 candy_stretch_limo
 SET_CAR_DRIVING_STYLE candy_stretch_limo 2 
 SET_CAR_HEADING candy_stretch_limo 276.1 
 CREATE_CHAR_INSIDE_CAR candy_stretch_limo PEDTYPE_CIVMALE HMYRI candy_limo_driver 
+SET_CHAR_CAN_BE_SHOT_IN_VEHICLE candy_limo_driver FALSE
 CHANGE_CAR_COLOUR candy_stretch_limo CARCOLOUR_YELLOW5 CARCOLOUR_YELLOW5
 CREATE_CHAR_AS_PASSENGER candy_stretch_limo PEDTYPE_CIVFEMALE SPECIAL01 2 candy_sexxx
 SET_CHAR_AS_PLAYER_FRIEND candy_sexxx player1 TRUE

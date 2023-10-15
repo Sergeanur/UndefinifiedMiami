@@ -255,7 +255,12 @@ WAIT 0
 IF pizza_goals = 1 
 	IF pizza_help_text_played = 0
 		IF timera > 13999
-			PRINT_HELP ( PIZ1_06 ) //Press the~h~ R3 button~w~ when on the bike to cancel the mission.
+			GET_CONTROLLER_MODE controlmode
+			IF NOT controlmode = 3
+				PRINT_HELP ( PIZ1_06 ) //Press the~h~ R3 button~w~ when on the bike to cancel the mission.
+			ELSE
+				PRINT_HELP ( PIZ1_0 )
+			ENDIF
 			pizza_help_text_played = 1
 		ENDIF
 	ENDIF
@@ -941,68 +946,133 @@ IF NOT IS_CAR_DEAD pizza_moped
 	IF IS_PLAYER_IN_CAR player1 pizza_moped
 		
 //firing pizza right
-
-		IF IS_BUTTON_PRESSED PAD1 RIGHTSHOULDER2 
-			IF IS_BUTTON_PRESSED PAD1 CIRCLE 
-				IF total_pizzas_thrown = 6 
-					GOSUB pizza_throw_right 
-					pizza_box11 = pizza_box_var
-				ENDIF		   
-				IF total_pizzas_thrown = 5 
-					GOSUB pizza_throw_right  
-					pizza_box2 = pizza_box_var
-				ENDIF		   
-				IF total_pizzas_thrown = 4 
-					GOSUB pizza_throw_right  
-					pizza_box3 = pizza_box_var
-				ENDIF		   
-				IF total_pizzas_thrown = 3 
-					GOSUB pizza_throw_right  
-					pizza_box4 = pizza_box_var
-				ENDIF		   
-				IF total_pizzas_thrown = 2 
-					GOSUB pizza_throw_right  
-					pizza_box5 = pizza_box_var
-				ENDIF		   
-				IF total_pizzas_thrown = 1 
-					GOSUB pizza_throw_right  
-					pizza_box6 = pizza_box_var
-				ENDIF	
-			ELSE
-				pizza_has_been_thrown = 0
+		GET_CONTROLLER_MODE controlmode
+		IF NOT controlmode = 3
+			IF IS_BUTTON_PRESSED PAD1 RIGHTSHOULDER2 
+				IF IS_BUTTON_PRESSED PAD1 CIRCLE 
+					IF total_pizzas_thrown = 6 
+						GOSUB pizza_throw_right 
+						pizza_box11 = pizza_box_var
+					ENDIF		   
+					IF total_pizzas_thrown = 5 
+						GOSUB pizza_throw_right  
+						pizza_box2 = pizza_box_var
+					ENDIF		   
+					IF total_pizzas_thrown = 4 
+						GOSUB pizza_throw_right  
+						pizza_box3 = pizza_box_var
+					ENDIF		   
+					IF total_pizzas_thrown = 3 
+						GOSUB pizza_throw_right  
+						pizza_box4 = pizza_box_var
+					ENDIF		   
+					IF total_pizzas_thrown = 2 
+						GOSUB pizza_throw_right  
+						pizza_box5 = pizza_box_var
+					ENDIF		   
+					IF total_pizzas_thrown = 1 
+						GOSUB pizza_throw_right  
+						pizza_box6 = pizza_box_var
+					ENDIF	
+				ELSE
+					pizza_has_been_thrown = 0
+				ENDIF
+			ENDIF
+		ELSE
+			IF IS_BUTTON_PRESSED PAD1 RIGHTSHOULDER2 
+				IF IS_BUTTON_PRESSED PAD1 RIGHTSHOULDER1 
+					IF total_pizzas_thrown = 6 
+						GOSUB pizza_throw_right 
+						pizza_box11 = pizza_box_var
+					ENDIF		   
+					IF total_pizzas_thrown = 5 
+						GOSUB pizza_throw_right  
+						pizza_box2 = pizza_box_var
+					ENDIF		   
+					IF total_pizzas_thrown = 4 
+						GOSUB pizza_throw_right  
+						pizza_box3 = pizza_box_var
+					ENDIF		   
+					IF total_pizzas_thrown = 3 
+						GOSUB pizza_throw_right  
+						pizza_box4 = pizza_box_var
+					ENDIF		   
+					IF total_pizzas_thrown = 2 
+						GOSUB pizza_throw_right  
+						pizza_box5 = pizza_box_var
+					ENDIF		   
+					IF total_pizzas_thrown = 1 
+						GOSUB pizza_throw_right  
+						pizza_box6 = pizza_box_var
+					ENDIF	
+				ELSE
+					pizza_has_been_thrown = 0
+				ENDIF
 			ENDIF
 		ENDIF
 							   
 //firing pizza left
-		
-		IF IS_BUTTON_PRESSED PAD1 LEFTSHOULDER2 
-			IF IS_BUTTON_PRESSED PAD1 CIRCLE
-				IF total_pizzas_thrown = 6 
-					GOSUB pizza_throw_left
-					pizza_box11 = pizza_box_var
-				ENDIF		   
-				IF total_pizzas_thrown = 5 
-					GOSUB pizza_throw_left  
-					pizza_box2 = pizza_box_var
-				ENDIF		   
-				IF total_pizzas_thrown = 4 
-					GOSUB pizza_throw_left  
-					pizza_box3 = pizza_box_var
-				ENDIF		   
-				IF total_pizzas_thrown = 3 
-					GOSUB pizza_throw_left  
-					pizza_box4 = pizza_box_var
-				ENDIF		   
-				IF total_pizzas_thrown = 2 
-					GOSUB pizza_throw_left  
-					pizza_box5 = pizza_box_var
-				ENDIF		   
-				IF total_pizzas_thrown = 1 
-					GOSUB pizza_throw_left  
-					pizza_box6 = pizza_box_var
-				ENDIF		
-			ELSE
-				pizza_has_been_thrown = 0   
+		IF NOT controlmode = 3
+			IF IS_BUTTON_PRESSED PAD1 LEFTSHOULDER2 
+				IF IS_BUTTON_PRESSED PAD1 CIRCLE
+					IF total_pizzas_thrown = 6 
+						GOSUB pizza_throw_left
+						pizza_box11 = pizza_box_var
+					ENDIF		   
+					IF total_pizzas_thrown = 5 
+						GOSUB pizza_throw_left  
+						pizza_box2 = pizza_box_var
+					ENDIF		   
+					IF total_pizzas_thrown = 4 
+						GOSUB pizza_throw_left  
+						pizza_box3 = pizza_box_var
+					ENDIF		   
+					IF total_pizzas_thrown = 3 
+						GOSUB pizza_throw_left  
+						pizza_box4 = pizza_box_var
+					ENDIF		   
+					IF total_pizzas_thrown = 2 
+						GOSUB pizza_throw_left  
+						pizza_box5 = pizza_box_var
+					ENDIF		   
+					IF total_pizzas_thrown = 1 
+						GOSUB pizza_throw_left  
+						pizza_box6 = pizza_box_var
+					ENDIF		
+				ELSE
+					pizza_has_been_thrown = 0   
+				ENDIF
+			ENDIF
+		ELSE
+			IF IS_BUTTON_PRESSED PAD1 LEFTSHOULDER2 
+				IF IS_BUTTON_PRESSED PAD1 RIGHTSHOULDER1
+					IF total_pizzas_thrown = 6 
+						GOSUB pizza_throw_left
+						pizza_box11 = pizza_box_var
+					ENDIF		   
+					IF total_pizzas_thrown = 5 
+						GOSUB pizza_throw_left  
+						pizza_box2 = pizza_box_var
+					ENDIF		   
+					IF total_pizzas_thrown = 4 
+						GOSUB pizza_throw_left  
+						pizza_box3 = pizza_box_var
+					ENDIF		   
+					IF total_pizzas_thrown = 3 
+						GOSUB pizza_throw_left  
+						pizza_box4 = pizza_box_var
+					ENDIF		   
+					IF total_pizzas_thrown = 2 
+						GOSUB pizza_throw_left  
+						pizza_box5 = pizza_box_var
+					ENDIF		   
+					IF total_pizzas_thrown = 1 
+						GOSUB pizza_throw_left  
+						pizza_box6 = pizza_box_var
+					ENDIF		
+				ELSE
+					pizza_has_been_thrown = 0   
+				ENDIF
 			ENDIF
 		ENDIF
 	ENDIF
@@ -1936,9 +2006,17 @@ plyr_quit_game:///////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 
 IF flag_player_not_in_pizza_moped = 0
-	IF IS_BUTTON_PRESSED PAD1 RIGHTSHOCK
-		CLEAR_PRINTS 
-		mission_failed_flag = 3
+	GET_CONTROLLER_MODE controlmode
+	IF NOT controlmode = 3
+		IF IS_BUTTON_PRESSED PAD1 RIGHTSHOCK
+			CLEAR_PRINTS 
+			mission_failed_flag = 3
+		ENDIF
+	ELSE
+		IF IS_BUTTON_PRESSED PAD1 SQUARE
+			CLEAR_PRINTS 
+			mission_failed_flag = 3
+		ENDIF
 	ENDIF
 ENDIF
 //////////////////////////////////////////////////////////////////////

@@ -665,11 +665,15 @@ ENDIF
 
 IF got_siren_help_before = 1
 	GET_CONTROLLER_MODE controlmode
-	IF controlmode = 0
-		PRINT_HELP SIREN_1
-	ENDIF
-	IF controlmode > 0
+	IF controlmode = 1
 		PRINT_HELP SIREN_2
+	ENDIF
+	IF controlmode = 2
+		PRINT_HELP SIREN_3
+	ENDIF
+	IF controlmode = 0
+	OR controlmode = 3
+		PRINT_HELP SIREN_1
 	ENDIF
 	got_siren_help_before = 2
 ENDIF

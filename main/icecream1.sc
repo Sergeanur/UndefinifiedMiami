@@ -151,7 +151,18 @@ WHILE TIMERA < 5000
 			   
 	WAIT 0
 
-	PRINT_NOW ( ICC1_8 ) 5000 2 
+	GET_CONTROLLER_MODE controlmode
+	IF controlmode = 1
+		PRINT_NOW ( ICC1_8B ) 5000 2 
+	ENDIF
+	IF controlmode = 2
+		PRINT_NOW ( ICC1_8C ) 5000 2 
+	ENDIF
+
+	IF controlmode = 0
+	OR controlmode = 3
+		PRINT_NOW ( ICC1_8 ) 5000 2 
+	ENDIF
 		
 	IF IS_BUTTON_PRESSED PAD1 cross
 		GOTO end_of_icecream_cutscene

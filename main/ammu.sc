@@ -3065,7 +3065,7 @@ RETURN
 
 
 ammu_shop_keeper_setup:
-	WAIT 1000
+	WAIT 1500
 
 	IF IS_PLAYER_PLAYING player1
 		IF NOT IS_CHAR_DEAD ammu_shop_bloke1

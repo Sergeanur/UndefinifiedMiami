@@ -46,7 +46,6 @@ VAR_INT criminal1_blip criminal2_blip criminal3_blip
 //COORDS MATHS
 VAR_FLOAT car1_x car1_y	car1_z car2_x car2_y car2_z	car3_x car3_y car3_z random_heading
 VAR_FLOAT player_dist_from_crim
-VAR_FLOAT unk_ps2_1 unk_ps2_2 unk_ps2_3
 VAR_FLOAT distance_from_player
 VAR_FLOAT criminal1_x criminal1_y 
 VAR_FLOAT gosub_car_to_slow_x gosub_car_to_slow_y temp_float_x temp_float_y 
@@ -1585,19 +1584,20 @@ AND NOT IS_PLAYER_IN_MODEL player1 FBICAR
 	copcar_timer -= game_time_difference
 	game_timer_start = game_time_present
 	timer_in_secs = copcar_timer / 1000
-	PRINT_WITH_NUMBER_NOW COPCART timer_in_secs 200 1	//You have ~1~ seconds to return to the car before the mission ends.
 	IF timer_in_secs < 1
-		IF in_copcar_nice_timer < game_timer
+		timer_in_secs = 0
+		IF in_copcar_nice_timer < game_time_present
 			PRINT_NOW C_TIME 3000 1//"Your time as a law enforcer is over!"
 			copcar_cancelled_flag = 1
 			GOTO copcar_failed
 		ENDIF
 	ELSE
-		in_copcar_nice_timer = game_timer + 1000
+		in_copcar_nice_timer = game_time_present + 1000
 	ENDIF
+	PRINT_WITH_NUMBER_NOW COPCART timer_in_secs 200 1	//You have ~1~ seconds to return to the car before the mission ends.
 
 	WAIT 0
-	GET_GAME_TIMER game_timer
+
 ENDWHILE
 
 FREEZE_ONSCREEN_TIMER TRUE
@@ -2327,16 +2327,17 @@ AND NOT IS_PLAYER_IN_MODEL player1 FBICAR
 	copcar_timer -= game_time_difference
 	game_timer_start = game_time_present
 	timer_in_secs = copcar_timer / 1000
-	PRINT_WITH_NUMBER_NOW COPCART timer_in_secs 200 1	//You have ~1~ seconds to return to a squad car before the mission ends.
 	IF timer_in_secs < 1
-		IF in_copcar_nice_timer < game_timer
+		timer_in_secs = 0
+		IF in_copcar_nice_timer < game_time_present
 			PRINT_NOW C_TIME 3000 1//"Your time as a law enforcer is over!"
 			copcar_cancelled_flag = 1
 			RETURN
 		ENDIF
 	ELSE
-		in_copcar_nice_timer = game_timer + 1000
+		in_copcar_nice_timer = game_time_present + 1000
 	ENDIF
+	PRINT_WITH_NUMBER_NOW COPCART timer_in_secs 200 1	//You have ~1~ seconds to return to a squad car before the mission ends.
 ENDIF
 
 GET_CONTROLLER_MODE controlmode

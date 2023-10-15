@@ -44,6 +44,7 @@ VAR_FLOAT cam_4x4_z
 */
 
 VAR_INT flag_cone_smashed
+VAR_INT cp_seconds
 
 VAR_INT cone_1 cone_2 cone_3 cone_4
 VAR_INT cone_5 cone_6 cone_7 cone_8
@@ -1187,20 +1188,21 @@ RETURN
 
 car_park_record:
 	cp_minutes = 0
+	cp_seconds = record_carpark1
 	womble:
-	IF record_carpark1 > 59
-		record_carpark1 = record_carpark1 - 60
+	IF cp_seconds > 59
+		cp_seconds = cp_seconds - 60
 		++ cp_minutes
 		GOTO womble
 	ENDIF
-	PRINT_WITH_2_NUMBERS_NOW NEW_REC cp_minutes record_carpark1 5000 1
-	timer_bonus = timer_bonus - 1
-	IF timer_bonus < 0
-		timer_bonus = 0
+	PRINT_WITH_2_NUMBERS_NOW NEW_REC cp_minutes cp_seconds 5000 1
+	timer_bonus = timer_bonus - 1000
+	IF timer_bonus < 6000
+		timer_bonus = 6000
 	ENDIF 
 	-- print_bonus
-	IF print_bonus < 0
-		print_bonus = 0
+	IF print_bonus < 6
+		print_bonus = 6
 	ENDIF 
 	PRINT_WITH_NUMBER_BIG ( M_PASS ) car_park_reward 5000 1 //"Mission Passed!"
 	ADD_SCORE player1 car_park_reward

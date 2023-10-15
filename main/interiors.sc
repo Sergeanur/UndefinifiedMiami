@@ -53,6 +53,10 @@ VAR_INT dancer_29 dancer_30
 VAR_INT club_owner
 VAR_INT flag_arm_dancer2
 
+VAR_INT jobby_1 jobby_2 jobby_3 jobby_4
+VAR_INT jobby_5 jobby_6 jobby_7 jobby_8
+VAR_INT jobby_9 stroop weapon_strip
+
 //VAR_INT testblip_1 testblip_2 testblip_3 testblip_4
 //VAR_INT testblip_5 testblip_6 testblip_7 testblip_8
 
@@ -236,7 +240,21 @@ interiors_inner:
 												WARP_PLAYER_FROM_CAR_TO_COORD player1 91.2 -1460.9 10.0
 												DELETE_CAR player_car_interiors
 											ENDIF
-										ENDIF	
+										ENDIF
+										IF IS_AUSTRALIAN_GAME
+											GET_CHAR_WEAPON_IN_SLOT scplayer 1 jobby_1 ammo_slot_1 weapon_model_slot_1
+											GET_CHAR_WEAPON_IN_SLOT scplayer 2 jobby_2 ammo_slot_2 weapon_model_slot_2
+											GET_CHAR_WEAPON_IN_SLOT scplayer 3 jobby_3 ammo_slot_3 weapon_model_slot_3
+											GET_CHAR_WEAPON_IN_SLOT scplayer 4 jobby_4 ammo_slot_4 weapon_model_slot_4
+											GET_CHAR_WEAPON_IN_SLOT scplayer 5 jobby_5 ammo_slot_5 weapon_model_slot_5
+											GET_CHAR_WEAPON_IN_SLOT scplayer 6 jobby_6 ammo_slot_6 weapon_model_slot_6
+											GET_CHAR_WEAPON_IN_SLOT scplayer 7 jobby_7 ammo_slot_7 weapon_model_slot_7
+											GET_CHAR_WEAPON_IN_SLOT scplayer 8 jobby_8 ammo_slot_8 weapon_model_slot_8
+											GET_CHAR_WEAPON_IN_SLOT scplayer 9 jobby_9 ammo_slot_9 weapon_model_slot_9
+
+											REMOVE_ALL_PLAYER_WEAPONS player1
+										ENDIF
+	
 
 										IF flag_eject = 0
 											SET_AREA_VISIBLE VIS_STRIP_CLUB
@@ -271,6 +289,90 @@ interiors_inner:
 										SET_PLAYER_COORDINATES player1 97.7  -1472.2 9.7
 										SET_PLAYER_HEADING player1 280.0
 										SET_CAMERA_IN_FRONT_OF_PLAYER
+										
+										IF IS_AUSTRALIAN_GAME
+											GET_CHAR_WEAPON_IN_SLOT scplayer 1 stroop stroop weapon_strip
+											IF NOT weapon_strip = WEAPONTYPE_UNARMED
+												weapon_strip = weapon_model_slot_1
+												GOSUB aussie
+												IF IS_PLAYER_PLAYING player1
+													GIVE_WEAPON_TO_PLAYER player1 jobby_1 ammo_slot_1
+												ENDIF
+												GOSUB aussie2
+											ENDIF
+											GET_CHAR_WEAPON_IN_SLOT scplayer 2 stroop stroop weapon_strip
+											IF NOT weapon_strip = WEAPONTYPE_UNARMED
+												weapon_strip = weapon_model_slot_2
+												GOSUB aussie
+												IF IS_PLAYER_PLAYING player1
+													GIVE_WEAPON_TO_PLAYER player1 jobby_2 ammo_slot_2
+												ENDIF
+												GOSUB aussie2
+											ENDIF
+											GET_CHAR_WEAPON_IN_SLOT scplayer 3 stroop stroop weapon_strip
+											IF NOT weapon_strip = WEAPONTYPE_UNARMED
+												weapon_strip = weapon_model_slot_3
+												GOSUB aussie
+												IF IS_PLAYER_PLAYING player1
+													GIVE_WEAPON_TO_PLAYER player1 jobby_3 ammo_slot_3
+												ENDIF
+												GOSUB aussie2
+											ENDIF
+											GET_CHAR_WEAPON_IN_SLOT scplayer 4 stroop stroop weapon_strip
+											IF NOT weapon_strip = WEAPONTYPE_UNARMED
+												weapon_strip = weapon_model_slot_4
+												GOSUB aussie
+												IF IS_PLAYER_PLAYING player1
+													GIVE_WEAPON_TO_PLAYER player1 jobby_4 ammo_slot_4
+												ENDIF
+												GOSUB aussie2
+											ENDIF
+											GET_CHAR_WEAPON_IN_SLOT scplayer 5 stroop stroop weapon_strip
+											IF NOT weapon_strip = WEAPONTYPE_UNARMED
+												weapon_strip = weapon_model_slot_5
+												GOSUB aussie
+												IF IS_PLAYER_PLAYING player1
+													GIVE_WEAPON_TO_PLAYER player1 jobby_5 ammo_slot_5
+												ENDIF
+												GOSUB aussie2
+											ENDIF
+											GET_CHAR_WEAPON_IN_SLOT scplayer 6 stroop stroop weapon_strip
+											IF NOT weapon_strip = WEAPONTYPE_UNARMED
+												weapon_strip = weapon_model_slot_6
+												GOSUB aussie
+												IF IS_PLAYER_PLAYING player1
+													GIVE_WEAPON_TO_PLAYER player1 jobby_6 ammo_slot_6
+												ENDIF
+												GOSUB aussie2
+											ENDIF
+											GET_CHAR_WEAPON_IN_SLOT scplayer 7 stroop stroop weapon_strip
+											IF NOT weapon_strip = WEAPONTYPE_UNARMED
+												weapon_strip = weapon_model_slot_7
+												GOSUB aussie
+												IF IS_PLAYER_PLAYING player1
+													GIVE_WEAPON_TO_PLAYER player1 jobby_7 ammo_slot_7
+												ENDIF
+												GOSUB aussie2
+											ENDIF
+											GET_CHAR_WEAPON_IN_SLOT scplayer 8 stroop stroop weapon_strip
+											IF NOT weapon_strip = WEAPONTYPE_UNARMED
+												weapon_strip = weapon_model_slot_8
+												GOSUB aussie
+												IF IS_PLAYER_PLAYING player1
+													GIVE_WEAPON_TO_PLAYER player1 jobby_8 ammo_slot_8
+												ENDIF
+												GOSUB aussie2
+											ENDIF
+											GET_CHAR_WEAPON_IN_SLOT scplayer 9 stroop stroop weapon_strip
+											IF NOT weapon_strip = WEAPONTYPE_UNARMED
+												weapon_strip = weapon_model_slot_9
+												GOSUB aussie
+												IF IS_PLAYER_PLAYING player1
+													GIVE_WEAPON_TO_PLAYER player1 jobby_9 ammo_slot_9
+												ENDIF
+												GOSUB aussie2
+											ENDIF
+										ENDIF
 										
 									ELSE
 										GOTO interiors_inner
@@ -2252,10 +2354,14 @@ bouncers:
 		flag_arm_bouncers = 1
 	ENDIF
 	ped_rumble = bouncer_1
-	GOSUB battage
+	IF NOT IS_AUSTRALIAN_GAME
+		GOSUB battage
+	ENDIF
 	GOSUB rumble
 	ped_rumble = bouncer_2
-	GOSUB battage
+	IF NOT IS_AUSTRALIAN_GAME
+		GOSUB battage
+	ENDIF
 	GOSUB rumble
 
 RETURN
@@ -2273,13 +2379,17 @@ geeble:
 	ped_flee = s_punter_6
 	GOSUB flee
 	IF flag_arm_dancer2 = 0
-		REQUEST_MODEL knifecur
-		WHILE NOT HAS_MODEL_LOADED knifecur
+		IF NOT IS_AUSTRALIAN_GAME
 			REQUEST_MODEL knifecur
-			WAIT 0
-		ENDWHILE
+			WHILE NOT HAS_MODEL_LOADED knifecur
+				REQUEST_MODEL knifecur
+				WAIT 0
+			ENDWHILE
+		ENDIF
 		IF NOT IS_CHAR_DEAD dancer_2
-			GIVE_WEAPON_TO_CHAR dancer_2 WEAPONTYPE_KNIFE 0
+			IF NOT IS_AUSTRALIAN_GAME
+				GIVE_WEAPON_TO_CHAR dancer_2 WEAPONTYPE_KNIFE 0
+			ENDIF
 			ped_rumble = dancer_2
 			GOSUB rumble
 		ENDIF
@@ -2318,13 +2428,17 @@ RETURN
 
 gabble:
 	IF flag_arm_barstaff = 0
-		REQUEST_MODEL machete
-		WHILE NOT HAS_MODEL_LOADED machete
+		IF NOT IS_AUSTRALIAN_GAME
 			REQUEST_MODEL machete
-			WAIT 0
-		ENDWHILE
+			WHILE NOT HAS_MODEL_LOADED machete
+				REQUEST_MODEL machete
+				WAIT 0
+			ENDWHILE
+		ENDIF
 		IF NOT IS_CHAR_DEAD bar_staff1
-			GIVE_WEAPON_TO_CHAR bar_staff1 WEAPONTYPE_MACHETE 0
+			IF NOT IS_AUSTRALIAN_GAME
+				GIVE_WEAPON_TO_CHAR bar_staff1 WEAPONTYPE_MACHETE 0
+			ENDIF
 			ped_rumble = bar_staff1
 			GOSUB rumble
 		ENDIF
@@ -3269,6 +3383,18 @@ IF IS_PLAYER_PLAYING player1
 		SET_CHAR_OBJ_KILL_PLAYER_ON_FOOT bouncer_4 player1
 	ENDIF
 ENDIF
+RETURN
+
+
+aussie:
+	REQUEST_MODEL weapon_strip
+	WHILE NOT HAS_MODEL_LOADED weapon_strip
+		WAIT 0
+	ENDWHILE
+RETURN
+
+aussie2:
+	MARK_MODEL_AS_NO_LONGER_NEEDED weapon_strip
 RETURN
 
 

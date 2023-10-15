@@ -22,6 +22,7 @@ MISSION_END
 // ********************************* EXCLUSIVE ********************************************
 //VAR_INT set_record_4x4
 //VAR_INT blip_truck_1 blip_truck_2
+VAR_INT pcj_seconds
 // ****************************************Mission Start************************************
 
 mission_start_4x4one:
@@ -804,13 +805,14 @@ RETURN
 time_calc:
 	//set_record_4x4 = record_4x4_one * 1000
 	REGISTER_FASTEST_TIME 16 record_4x4_one
+	pcj_seconds = record_4x4_one 
 	pcj_minutes = 0
 	time_cactus:
-	IF record_4x4_one > 59
-		record_4x4_one = record_4x4_one - 60
+	IF pcj_seconds > 59
+		pcj_seconds = pcj_seconds - 60
 		++ pcj_minutes
 		GOTO time_cactus
 	ENDIF
-	PRINT_WITH_2_NUMBERS_NOW NEW_REC pcj_minutes record_4x4_one 5000 1
+	PRINT_WITH_2_NUMBERS_NOW NEW_REC pcj_minutes pcj_seconds 5000 1
 	pcj_reward = 1000
 RETURN

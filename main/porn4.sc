@@ -134,9 +134,9 @@ SET_CUTSCENE_ANIM cs_camera cs_cam
 CREATE_CUTSCENE_OBJECT CUTOBJ02 cs_drchair
 SET_CUTSCENE_ANIM cs_drchair drchair 
 
-CLEAR_AREA -67.0 939.297 10.94 1.0 TRUE
-SET_PLAYER_COORDINATES player1 -67.0 939.297 10.94
-SET_PLAYER_HEADING player1 286.6
+CLEAR_AREA -66.0 933.04 10.2 1.0 TRUE
+SET_PLAYER_COORDINATES player1 -66.0 933.04 10.2
+SET_PLAYER_HEADING player1 275.6
 
 DO_FADE 1500 FADE_IN
 
@@ -148,159 +148,255 @@ START_CUTSCENE
 
 GET_CUTSCENE_TIME cs_time
 
-WHILE cs_time < 47  //FIRST CUTSCENE TIME GOES HERE
-	WAIT 0
-	GET_CUTSCENE_TIME cs_time
-ENDWHILE
-	
-PRINT_NOW POR4_A 10000 1 // I'm sorry, but I just can't swallow this right now.
+IF NOT IS_AUSTRALIAN_GAME
+	WHILE cs_time < 47  //FIRST CUTSCENE TIME GOES HERE
+		WAIT 0
+		GET_CUTSCENE_TIME cs_time
+	ENDWHILE
+	 
+	PRINT_NOW POR4_A 10000 1 // I'm sorry, but I just can't swallow this right now.
 
-WHILE cs_time < 1741
-	WAIT 0
-	GET_CUTSCENE_TIME cs_time
-ENDWHILE
+	WHILE cs_time < 1741
+		WAIT 0
+		GET_CUTSCENE_TIME cs_time
+	ENDWHILE
 
-PRINT_NOW POR4_B 10000 1 // Oh COME ON darling!  
+	PRINT_NOW POR4_B 10000 1 // Oh COME ON darling!  
 
-WHILE cs_time < 3291
-	WAIT 0
-	GET_CUTSCENE_TIME cs_time
-ENDWHILE
+	WHILE cs_time < 3291
+		WAIT 0
+		GET_CUTSCENE_TIME cs_time
+	ENDWHILE
 
-PRINT_NOW POR4_C 10000 1 // He's hung like a sperm whale for pity's sake,
+	PRINT_NOW POR4_C 10000 1 // He's hung like a sperm whale for pity's sake,
 
-WHILE cs_time < 5700
-	WAIT 0
-	GET_CUTSCENE_TIME cs_time
-ENDWHILE
+	WHILE cs_time < 5700
+		WAIT 0
+		GET_CUTSCENE_TIME cs_time
+	ENDWHILE
 
-PRINT_NOW POR4_D 10000 1 // how can you not feel the part?!
+	PRINT_NOW POR4_D 10000 1 // how can you not feel the part?!
 
-WHILE cs_time < 7244
-	WAIT 0
-	GET_CUTSCENE_TIME cs_time
-ENDWHILE
+	WHILE cs_time < 7244
+		WAIT 0
+		GET_CUTSCENE_TIME cs_time
+	ENDWHILE
 
-PRINT_NOW POR4_E 10000 1 // But Stevie... 
+	PRINT_NOW POR4_E 10000 1 // But Stevie... 
 
-WHILE cs_time < 9917
-	WAIT 0
-	GET_CUTSCENE_TIME cs_time
-ENDWHILE
+	WHILE cs_time < 9917
+		WAIT 0
+		GET_CUTSCENE_TIME cs_time
+	ENDWHILE
 
-PRINT_NOW POR4_F 10000 1 // How's my star director?
+	PRINT_NOW POR4_F 10000 1 // How's my star director?
 
-WHILE cs_time < 10414
-	WAIT 0
-	GET_CUTSCENE_TIME cs_time
-ENDWHILE
+	WHILE cs_time < 10414
+		WAIT 0
+		GET_CUTSCENE_TIME cs_time
+	ENDWHILE
 
-PRINT_NOW POR4_G 10000 1 // Oh man. The struggle between artistic integrity and
+	PRINT_NOW POR4_G 10000 1 // Oh man. The struggle between artistic integrity and
 
-WHILE cs_time < 13409
-	WAIT 0
-	GET_CUTSCENE_TIME cs_time
-ENDWHILE
+	WHILE cs_time < 13409
+		WAIT 0
+		GET_CUTSCENE_TIME cs_time
+	ENDWHILE
 
-PRINT_NOW POR4_H 10000 1 // humping, pumping action continues unabated.
+	PRINT_NOW POR4_H 10000 1 // humping, pumping action continues unabated.
 
-WHILE cs_time < 16161
-	WAIT 0
-	GET_CUTSCENE_TIME cs_time
-ENDWHILE
+	WHILE cs_time < 16161
+		WAIT 0
+		GET_CUTSCENE_TIME cs_time
+	ENDWHILE
 
-PRINT_NOW POR4_I 10000 1 //And before you ask, yes, all four videos will be released by their...
+	PRINT_NOW POR4_I 10000 1 //And before you ask, yes, all four videos will be released by their...
 
-WHILE cs_time < 19667
-	WAIT 0
-	GET_CUTSCENE_TIME cs_time
-ENDWHILE
+	WHILE cs_time < 19667
+		WAIT 0
+		GET_CUTSCENE_TIME cs_time
+	ENDWHILE
 
-PRINT_NOW POR4_J 10000 1 //Honey, can you PLEASE keep the anaconda in the shot,
+	PRINT_NOW POR4_J 10000 1 //Honey, can you PLEASE keep the anaconda in the shot,
 
-WHILE cs_time < 22706
-	WAIT 0
-	GET_CUTSCENE_TIME cs_time
-ENDWHILE
+	WHILE cs_time < 22706
+		WAIT 0
+		GET_CUTSCENE_TIME cs_time
+	ENDWHILE
 
-PRINT_NOW POR4_K 10000 1 //he costs more per hour than you do!
+	PRINT_NOW POR4_K 10000 1 //he costs more per hour than you do!
 
-WHILE cs_time < 24572
-	WAIT 0
-	GET_CUTSCENE_TIME cs_time
-ENDWHILE
+	WHILE cs_time < 24572
+		WAIT 0
+		GET_CUTSCENE_TIME cs_time
+	ENDWHILE
 
-PRINT_NOW POR4_L 10000 1 //Oh, sorry Steve.
+	PRINT_NOW POR4_L 10000 1 //Oh, sorry Steve.
 
-WHILE cs_time < 25843
-	WAIT 0
-	GET_CUTSCENE_TIME cs_time
-ENDWHILE
+	WHILE cs_time < 25843
+		WAIT 0
+		GET_CUTSCENE_TIME cs_time
+	ENDWHILE
 
-PRINT_NOW POR4_M 10000 1 //I was thinking, we need some kind of big stunt to really promote the launch.
+	PRINT_NOW POR4_M 10000 1 //I was thinking, we need some kind of big stunt to really promote the launch.
 
-WHILE cs_time < 29291
-	WAIT 0
-	GET_CUTSCENE_TIME cs_time
-ENDWHILE
+	WHILE cs_time < 29291
+		WAIT 0
+		GET_CUTSCENE_TIME cs_time
+	ENDWHILE
 
-PRINT_NOW POR4_N 10000 1 //Something that will make a real impact on the City - any ideas?
+	PRINT_NOW POR4_N 10000 1 //Something that will make a real impact on the City - any ideas?
 
-WHILE cs_time < 34272
-	WAIT 0
-	GET_CUTSCENE_TIME cs_time
-ENDWHILE
+	WHILE cs_time < 34272
+		WAIT 0
+		GET_CUTSCENE_TIME cs_time
+	ENDWHILE
 
-PRINT_NOW POR4_O 10000 1 //In the old days a film launch used to have a gala events,
+	PRINT_NOW POR4_O 10000 1 //In the old days a film launch used to have a gala events,
 
-WHILE cs_time < 37360
-	WAIT 0
-	GET_CUTSCENE_TIME cs_time
-ENDWHILE
+	WHILE cs_time < 37360
+		WAIT 0
+		GET_CUTSCENE_TIME cs_time
+	ENDWHILE
 
-PRINT_NOW POR4_P 10000 1 //stars, limos, the night sky crisscrossed with search lights...
+	PRINT_NOW POR4_P 10000 1 //stars, limos, the night sky crisscrossed with search lights...
 
-WHILE cs_time < 42492
-	WAIT 0
-	GET_CUTSCENE_TIME cs_time
-ENDWHILE
+	WHILE cs_time < 42492
+		WAIT 0
+		GET_CUTSCENE_TIME cs_time
+	ENDWHILE
 
-PRINT_NOW POR4_Q 10000 1 //Search lights?  I've got an idea...
+	PRINT_NOW POR4_Q 10000 1 //Search lights?  I've got an idea...
 
-WHILE cs_time < 45162
-	WAIT 0
-	GET_CUTSCENE_TIME cs_time
-ENDWHILE
+	WHILE cs_time < 45162
+		WAIT 0
+		GET_CUTSCENE_TIME cs_time
+	ENDWHILE
 
-PRINT_NOW POR4_R 10000 1 //...yeah, yeah, yeah. little sequined numbers, and limos, the premiers
+	PRINT_NOW POR4_R 10000 1 //...yeah, yeah, yeah. little sequined numbers, and limos, the premiers
 
-WHILE cs_time < 50224
-	WAIT 0
-	GET_CUTSCENE_TIME cs_time
-ENDWHILE
+	WHILE cs_time < 50224
+		WAIT 0
+		GET_CUTSCENE_TIME cs_time
+	ENDWHILE
 
-PRINT_NOW POR4_S 10000 1 //Oh, yes ma'am, of course ma'am,
+	PRINT_NOW POR4_S 10000 1 //Oh, yes ma'am, of course ma'am,
 
-WHILE cs_time < 53220
-	WAIT 0
-	GET_CUTSCENE_TIME cs_time
-ENDWHILE
+	WHILE cs_time < 53220
+		WAIT 0
+		GET_CUTSCENE_TIME cs_time
+	ENDWHILE
 
-DO_FADE 3000 FADE_OUT
+	DO_FADE 3000 FADE_OUT
 
-PRINT_NOW POR4_T 10000 1 //and the press, and the barrage of lights...
+	PRINT_NOW POR4_T 10000 1 //and the press, and the barrage of lights...
 
-WHILE cs_time < 54220
-	WAIT 0
-	GET_CUTSCENE_TIME cs_time
-ENDWHILE
+	WHILE cs_time < 54220
+		WAIT 0
+		GET_CUTSCENE_TIME cs_time
+	ENDWHILE
 
-CLEAR_PRINTS
+	CLEAR_PRINTS
 
-WHILE cs_time < 56064
-	WAIT 0
-	GET_CUTSCENE_TIME cs_time
-ENDWHILE
+	WHILE cs_time < 56064
+		WAIT 0
+		GET_CUTSCENE_TIME cs_time
+	ENDWHILE
+
+ELSE
+
+	WHILE cs_time < 194
+		WAIT 0
+		GET_CUTSCENE_TIME cs_time
+	ENDWHILE
+
+	PRINT_NOW POR4_F 10000 1 // How's my star director?
+
+	WHILE cs_time < 1394
+		WAIT 0
+		GET_CUTSCENE_TIME cs_time
+	ENDWHILE
+
+	PRINT_NOW POR4_G 10000 1 // Oh man. The struggle between artistic integrity and
+
+	WHILE cs_time < 4344
+		WAIT 0
+		GET_CUTSCENE_TIME cs_time
+	ENDWHILE
+
+	PRINT_NOW POR4_H 10000 1 // humping, pumping action continues unabated.
+
+	WHILE cs_time < 7178
+		WAIT 0
+		GET_CUTSCENE_TIME cs_time
+	ENDWHILE
+
+	PRINT_NOW POR4_I 10000 1 //And before you ask, yes, all four videos will be released by their...
+
+	WHILE cs_time < 10656
+		WAIT 0
+		GET_CUTSCENE_TIME cs_time
+	ENDWHILE
+
+	PRINT_NOW POR4_J 10000 1 //Honey, can you PLEASE keep the anaconda in the shot,
+
+	WHILE cs_time < 13704
+		WAIT 0
+		GET_CUTSCENE_TIME cs_time
+	ENDWHILE
+
+	PRINT_NOW POR4_K 10000 1 //he costs more per hour than you do!
+
+	WHILE cs_time < 15550
+		WAIT 0
+		GET_CUTSCENE_TIME cs_time
+	ENDWHILE
+
+	PRINT_NOW POR4_L 10000 1 //Oh, sorry Steve.
+
+	WHILE cs_time < 16828
+		WAIT 0
+		GET_CUTSCENE_TIME cs_time
+	ENDWHILE
+
+	PRINT_NOW POR4_M 10000 1 //I was thinking, we need some kind of big stunt to really promote the launch.
+
+	WHILE cs_time < 20256 
+		WAIT 0
+		GET_CUTSCENE_TIME cs_time
+	ENDWHILE
+
+	PRINT_NOW POR4_N 10000 1 //Something that will make a real impact on the City - any ideas?
+
+	WHILE cs_time < 25295
+		WAIT 0
+		GET_CUTSCENE_TIME cs_time
+	ENDWHILE
+
+	PRINT_NOW POR4_O 10000 1 //In the old days a film launch used to have a gala events,
+
+	WHILE cs_time < 28750
+		WAIT 0
+		GET_CUTSCENE_TIME cs_time
+	ENDWHILE
+
+	PRINT_NOW POR4_P 10000 1 //stars, limos, the night sky crisscrossed with search lights...
+
+	WHILE cs_time < 33584
+		WAIT 0
+		GET_CUTSCENE_TIME cs_time
+	ENDWHILE
+
+	PRINT_NOW POR4_Q 10000 1 //Search lights?  I've got an idea...
+
+	WHILE cs_time < 36184
+		WAIT 0
+		GET_CUTSCENE_TIME cs_time
+	ENDWHILE
+
+	DO_FADE 3000 FADE_OUT
+
+ENDIF
 
 CLEAR_PRINTS
 

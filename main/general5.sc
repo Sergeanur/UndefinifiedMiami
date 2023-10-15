@@ -196,6 +196,7 @@ the_yacht_z_start = the_yacht_z
 SET_THREAT_REACTION_RANGE_MULTIPLIER 6.0
 SET_TIME_OF_DAY 06 00
 FORCE_WEATHER_NOW WEATHER_SUNNY
+SWITCH_CAR_GENERATOR gen_car20 0
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 //CUTSCENE START////////////////////////////////////////////////////////////////////////////
@@ -3767,6 +3768,8 @@ UNLOAD_SPECIAL_CHARACTER 3
 UNLOAD_SPECIAL_CHARACTER 4
 
 RELEASE_WEATHER
+
+SWITCH_CAR_GENERATOR gen_car20 101
 
 MARK_MODEL_AS_NO_LONGER_NEEDED UZI
 MARK_MODEL_AS_NO_LONGER_NEEDED COLT45

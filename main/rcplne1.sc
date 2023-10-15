@@ -1041,15 +1041,15 @@ ELSE
 	PRINT_WITH_2_NUMBERS_NOW ( RCH1_10 ) race_timer_mins_plane1 race_timer_seconds_plane1 7000 1
 ENDIF
 
-
-PRINT_WITH_NUMBER_BIG ( M_PASS ) 100 5000 1 //"Mission Passed!"
-CLEAR_WANTED_LEVEL player1
-ADD_SCORE player1 100
 IF playerpassedrcplane1 = 0
 	PLAYER_MADE_PROGRESS 1
 	REGISTER_ODDJOB_MISSION_PASSED
 	playerpassedrcplane1 = 1
 ENDIF
+
+ADD_SCORE player1 100
+PRINT_WITH_NUMBER_BIG ( M_PASS ) 100 5000 1 //"Mission Passed!"
+CLEAR_WANTED_LEVEL player1
 
 PLAY_MISSION_PASSED_TUNE 1
 RETURN
@@ -1081,7 +1081,6 @@ MARK_CAR_AS_NO_LONGER_NEEDED rcp_race_plane3
 DELETE_CAR rcp_race_plane1
 DELETE_CAR rcp_race_plane2
 DELETE_CAR rcp_race_plane3
-REGISTER_FASTEST_TIME 3 rcp_race_timer 
 SET_POLICE_IGNORE_PLAYER player1 OFF
 has_player_just_done_rcplane_mission = 1
 GET_GAME_TIMER timer_mobile_start

@@ -343,49 +343,49 @@ ENDWHILE
 
 PRINT_NOW ( TEX2_H ) 10000 1 //You getting this down, you four-eyed prick? 
 
-WHILE cs_time < 23672
+WHILE cs_time < 23680
 	WAIT 0
 	GET_CUTSCENE_TIME cs_time
 ENDWHILE
 
 PRINT_NOW ( TEX2_I ) 10000 1 //Now recently a Haitian gang lord died. Apparently a rival gang did it, nobody's certain.
 
-WHILE cs_time < 26028
+WHILE cs_time < 28473
 	WAIT 0
 	GET_CUTSCENE_TIME cs_time
 ENDWHILE
 
 PRINT_NOW ( TEX2_J ) 10000 1 //But let's make them certain! You disguise yourself as a Cuban hombre,
   
-WHILE cs_time < 29028
+WHILE cs_time < 31827
 	WAIT 0
 	GET_CUTSCENE_TIME cs_time
 ENDWHILE
 
 PRINT_NOW ( TEX2_K ) 10000 1 //and head on down to crash that funeral. Mix it up, and then high tail it.
 
-WHILE cs_time < 31870
+WHILE cs_time < 35494
 	WAIT 0
 	GET_CUTSCENE_TIME cs_time
 ENDWHILE
 
 PRINT_NOW ( TEX2_L ) 10000 1 //You getting this down, Donald? 
 
-WHILE cs_time < 33496
+WHILE cs_time < 37278
 	WAIT 0
 	GET_CUTSCENE_TIME cs_time
 ENDWHILE
 
 PRINT_NOW ( TEX2_M ) 10000 1 //Well, that ought to put the coyote in the chicken coop, huh? 
 
-WHILE cs_time < 36450
+WHILE cs_time < 40242
 	WAIT 0
 	GET_CUTSCENE_TIME cs_time
 ENDWHILE
 
 PRINT_NOW ( TEX2_N ) 10000 1 //And then we'll just sit back, and watch the prices tumble. 
    
-WHILE cs_time < 40000
+WHILE cs_time < 43214
 	WAIT 0
 	GET_CUTSCENE_TIME cs_time
 ENDWHILE
